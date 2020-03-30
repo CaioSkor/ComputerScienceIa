@@ -1,6 +1,6 @@
 package Scene;
 
-import Tools.FontDesign;
+import controllers.FontDesign;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -118,6 +118,7 @@ public class DesignPerf {
         
       
         ENTRANCE = new Scene(layout, 700, 500);
+        ENTRANCE.getStylesheets().add("CAIOSTYLE.css");        
     }
 
 

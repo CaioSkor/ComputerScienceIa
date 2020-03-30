@@ -1,5 +1,4 @@
-
-package Tools;
+package controllers;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

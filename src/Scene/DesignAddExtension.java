@@ -1,38 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Scene;
 
-import Scene.DesignAdd;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-
 
 public class DesignAddExtension {
-    DesignAdd designADD;
-    GridPane mid;
-    RadioButton btn1, btn2;
+    DesignAdd DSADD;
+    ToggleGroup GROUP;
+    RadioButton BTN1, BTN2;
     
-    public void anotherInvestment() {
-        mid = new GridPane();
-        mid.setHgap(15);
-        mid.setVgap(10);
+    public GridPane anotherInvestment(GridPane MID) {
+        MID.setHgap(15);
+        MID.setVgap(10);
 
-        mid.setAlignment(Pos.CENTER);
-        btn1 = new RadioButton();
-        btn2 = new RadioButton();
-        mid.add(btn1, 0, 0);
-        mid.add(btn2, 0, 0);
+        MID.setAlignment(Pos.CENTER);
+        GROUP = new ToggleGroup();
+        BTN1 = new RadioButton();
+        BTN1.setText("Continue to investment");
+        BTN1.setToggleGroup(GROUP);        
+        
+        BTN2 = new RadioButton();
+        BTN2.setText("Add new investment");
+        BTN2.setToggleGroup(GROUP);
+        
+        MID.add(BTN1, 0, 0);
+        MID.add(BTN2, 0, 1);
+        return MID;
     }
-    
-    public GridPane getDesignAddExtension(){
-        return mid;
-    }
-    
 }
-
