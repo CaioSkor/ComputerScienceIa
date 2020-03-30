@@ -1,38 +1,65 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Scene;
 
-import Scene.DesignAdd;
+import java.util.StringJoiner;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-
+import javafx.scene.text.Text;
 
 public class DesignAddExtension {
-    DesignAdd designADD;
-    GridPane mid;
-    RadioButton btn1, btn2;
+    Integer INDEX, INDEXA;
+    StringJoiner JOINER;
+    String[] MISSING;
+    Integer[] POS;
+    DesignAdd DSADD;
+    ToggleGroup GROUP;
+    RadioButton BTN1, BTN2;
+    Text MESSAGE;
     
-    public void anotherInvestment() {
-        mid = new GridPane();
-        mid.setHgap(15);
-        mid.setVgap(10);
+    public GridPane anotherInvestment(GridPane MID) {
+        MID.setHgap(15);
+        MID.setVgap(10);
 
-        mid.setAlignment(Pos.CENTER);
-        btn1 = new RadioButton();
-        btn2 = new RadioButton();
-        mid.add(btn1, 0, 0);
-        mid.add(btn2, 0, 0);
+        MID.setAlignment(Pos.CENTER);
+        GROUP = new ToggleGroup();
+        BTN1 = new RadioButton();
+        BTN1.setText("Continue to investment");
+        BTN1.setToggleGroup(GROUP);        
+        
+        BTN2 = new RadioButton();
+        BTN2.setText("Add new investment");
+        BTN2.setToggleGroup(GROUP);
+        
+        MID.add(BTN1, 0, 0);
+        MID.add(BTN2, 0, 1);
+        return MID;
     }
     
-    public GridPane getDesignAddExtension(){
-        return mid;
+    public GridPane missingFields(GridPane MID) {
+        INDEXA = 0;
+        for(INDEX=0;INDEX<5;INDEX++){
+            if(DSADD.getMSG()[INDEX] !=  null && !DSADD.getMSG()[INDEX].trim().isEmpty()){
+               INDEXA++;
+            }
+        }
+        MISSING = new String[INDEXA];
+        for(INDEX=0;INDEX<5;INDEX++){
+            if(DSADD.getMSG()[INDEX] !=  null && !DSADD.getMSG()[INDEX].trim().isEmpty()){
+               MISSING[INDEX] = DSADD.getMSG()[INDEX];
+            }
+        }
+        MESSAGE = new Text();
+        JOINER = new StringJoiner(System.lineSeparator());
+        for(INDEX=0;INDEX<=INDEXA;INDEX++){
+            JOINER.add(MISSING[INDEX]);
+        }
+        MESSAGE.setText(JOINER.toString());
+       
+        MID.setHgap(15);
+        MID.setVgap(10);
+        MID.setAlignment(Pos.CENTER);
+        MID.add(MESSAGE, 0, 0);
+        return MID;
     }
-    
 }
-

@@ -1,0 +1,43 @@
+.button{
+    -fx-background-color:  #cc0000;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;  
+    -fx-background-radius: 18px;
+}
+.button:hover {
+    -fx-background-color:  #FF087F;
+    -fx-text-fill: yellow;
+}
+/*COMBOBOX*/
+.combo-box-base  
+{
+    -fx-background-color: #cc0000;
+}
+.combo-box-base > .arrow-button {
+   -fx-background-color: pink;
+}
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: blue;
+}
+.combo-box .list-cell{
+    -fx-text-fill:red;
+    -fx-font-weight: bold;    
+}
+.combo-box-popup > .list-view {
+    -fx-border-width: 2;
+    -fx-border-color: #cc0000;
+    -fx-background-color: pink;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background: pink;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: red !important;
+}
+.text-input{
+    -fx-control-inner-background: #FFFF00;
+    -fx-alignment: center ;    
+}
+.text-input:focused {
+    -fx-control-inner-background: #cc0000;    
+}
