@@ -4,6 +4,8 @@ import controllers.InvestmentController;
 import controllers.ToolsUse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,9 +22,9 @@ import javafx.stage.Stage;
 public class DesignAdd {
     Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
-    String[] MSG, TXTFIELDS, INFO;
+    private String[] MSG, TXTFIELDS, INFO;
     Integer INDEX, INDEXA;
-    Button SUBBTN, BCKBTN;
+    Button SUBBTN, BCKBTN, DELETEBTN;
     HBox BOTTOM;
     GridPane MID,TOP;
     BorderPane LAYOUT;
@@ -135,12 +137,12 @@ public class DesignAdd {
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
-                        EXTENSION.anotherInvestment(MID);
+                        EXTENSION.DesignAddExtension(MID);
                     }else{
                         MID.getChildren().clear();
                         System.out.println("Empty fields");
                         System.out.println(Arrays.toString(MSG));
-                        EXTENSION.missingFields(MID, MSG);
+                        EXTENSION.DesignAddExtension(MID, MSG);
                 }
             });
         }else{
@@ -148,6 +150,17 @@ public class DesignAdd {
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]); 
+            
+            DELETEBTN = new Button();
+            DELETEBTN.setText("Delete");
+            DELETEBTN.setOnAction(e ->{
+            try {
+                InvestmentController investmentcontroller = new InvestmentController();
+                investmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]);
+            } catch (IOException ex) {
+                Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         }
         BCKBTN = new Button();
         BCKBTN.setText("BACK");
@@ -185,7 +198,8 @@ public class DesignAdd {
             MID.add(OPT0, 1, 2 );
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
-            MID.add(OPT3, 1, 5);            
+            MID.add(OPT3, 1, 5);  
+            MID.add(DELETEBTN, 5, 5);
         }
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);

@@ -1,7 +1,5 @@
 package Scene;
 
-import com.sun.deploy.util.StringUtils;
-import java.util.StringJoiner;
 import javafx.geometry.Pos;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -21,7 +19,7 @@ public class DesignAddExtension {
     
     FontMeUp MYFONT;
     
-    public GridPane anotherInvestment(GridPane MID) {
+    public GridPane DesignAddExtension(GridPane MID) {
         MYFONT = new FontMeUp();
                 
         MID.setHgap(15);
@@ -31,10 +29,12 @@ public class DesignAddExtension {
         GROUP = new ToggleGroup();
         BTN1 = new RadioButton();
         BTN1.setText("Continue to investment");
+        BTN1.setFont(MYFONT.OSWALDBUTTON);
         BTN1.setToggleGroup(GROUP);        
         
         BTN2 = new RadioButton();
         BTN2.setText("Add new investment");
+        BTN1.setFont(MYFONT.OSWALDBUTTON);
         BTN2.setToggleGroup(GROUP);
         
         MID.add(BTN1, 0, 0);
@@ -42,7 +42,7 @@ public class DesignAddExtension {
         return MID;
     }
     
-    public GridPane missingFields(GridPane MID, String[] MSG) {
+    public GridPane DesignAddExtension(GridPane MID, String[] MSG) {
         MYFONT = new FontMeUp();
         
         INDEXA = 0;
@@ -61,7 +61,7 @@ public class DesignAddExtension {
             }
         }   
         DEMAND = new Text();
-        DEMAND.setText("Please input the following missing fields:");
+        DEMAND.setText("Please input the following missing field(s):");
         DEMAND.setFont(MYFONT.OSWALDREGULAR);
         DEMAND.setTextAlignment(TextAlignment.CENTER);
         
@@ -79,4 +79,9 @@ public class DesignAddExtension {
         MID.add(MESSAGE, 0, 1);
         return MID;
     }
+    
+    public GridPane DesignAddExtension(GridPane MID, String INVESTNAME){
+        return MID;
+    }
+    
 }

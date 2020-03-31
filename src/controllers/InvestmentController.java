@@ -46,4 +46,23 @@ public class InvestmentController {
         System.out.println("Investment " + INVESTMENT.getCode() + " created.");
     }
     
+    // CRUD - Delete INVESTMENT
+    public void deleteInvestment(String code, String price, String amount, String date, String reason) throws IOException{
+        FileWriter fileWriter = new FileWriter("data/investment.txt");
+        fileWriter.flush();
+        for(int i = 0; i < INVESTIMENTS.size(); i++) {
+            if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason)){
+                INVESTIMENTS.set(i, null);
+            }else{
+                String fileContent = INVESTIMENTS.get(i).getCode() + "," + INVESTIMENTS.get(i).getPrice() + "," + INVESTIMENTS.get(i).getAmount() + "," + INVESTIMENTS.get(i).getDate() + "," + INVESTIMENTS.get(i).getReason();
+        
+                fileWriter.write(fileContent);
+                fileWriter.write(System.lineSeparator());
+            }
+        }
+        fileWriter.close();
+
+        System.out.println("Investment" + code + " deleted.");
+    }
+    
 }
