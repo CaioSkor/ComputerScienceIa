@@ -5,31 +5,28 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 import modules.Investment;
 
 /**
  *
  * @author caio
  */
-public class InvestmentController {
-    FileReader FILEREADER;   
-    BufferedReader BUFFEREDREADER;
-    String FILECONTENT;
-    String[] FILEDATA;    
+public class InvestmentController { 
     private Investment INVESTMENT;
     private LinkedList<Investment> INVESTIMENTS;
     
     public InvestmentController() throws IOException{
-        FILEREADER = new FileReader("data/investment.txt");
-        BUFFEREDREADER = new BufferedReader(FILEREADER);
+        FileReader TEXTFILEPATH = new FileReader("data/investment.txt");
+        Scanner TEXTFILE = new Scanner(TEXTFILEPATH);
         INVESTIMENTS = new LinkedList<Investment>();
- 
-        while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
-            FILEDATA = FILECONTENT.split(",");
-            INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4]);
+        while(TEXTFILE.hasNext()) {
+            String[] DATA = TEXTFILE.nextLine().split(",");
+            INVESTMENT = new Investment(DATA[0], DATA[1], DATA[2], DATA[3], DATA[4]);
             INVESTIMENTS.add(INVESTMENT);
         }
-        FILEREADER.close();
+        TEXTFILE.close();
+        TEXTFILEPATH.close();
     }
     
     // CRUD - Create INVESTMENT
@@ -44,6 +41,20 @@ public class InvestmentController {
         FILEWRITER.close();
         
         System.out.println("Investment " + INVESTMENT.getCode() + " created.");
+    }
+    
+    public LinkedList<String> readTickers() throws IOException{
+        LinkedList<String> TICKERS = new LinkedList<String>();
+        FileReader TEXTFILEPATH = new FileReader("./data/nasdaqlisted.txt");
+        Scanner TEXTFILE = new Scanner(TEXTFILEPATH);
+        while(TEXTFILE.hasNext()) {
+            String[] DATA = TEXTFILE.nextLine().split("\\|");
+            TICKERS.add(DATA[0]);
+        }
+        TEXTFILE.close();
+        TEXTFILEPATH.close();
+        
+        return TICKERS;
     }
     
 }

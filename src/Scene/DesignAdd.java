@@ -4,11 +4,13 @@ import controllers.InvestmentController;
 import controllers.ToolsUse;
 import java.io.IOException;
 import java.util.Arrays;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
 
 public class DesignAdd {
     Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPT0,OPT1,OPT2,OPT3;
-    TextField STKCODE, PRC, AMNT, MYDATE, REASON;
+    TextField PRC, AMNT, MYDATE, REASON;
     String[] MSG, TXTFIELDS, INFO;
     Integer INDEX, INDEXA;
     Boolean isMSG;
@@ -47,7 +49,6 @@ public class DesignAdd {
             TITLE.setText("Check investment"); 
             FILLMEUP = new ToolsUse();
             FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME);
-            System.out.println(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
         }
         TITLE.setFont(MYFONT.OSWALDBOLD);
         TITLE.setFill(MYFONT.TITLECOLOR);
@@ -76,10 +77,13 @@ public class DesignAdd {
         REATXT.setText("Reason");
         REATXT.setFont(MYFONT.OSWALDREGULAR);
         REATXT.setFill(Color.GRAY);
-
+        
+        ComboBox comboBox = new ComboBox();
+        INVESTCONTROL = new InvestmentController();
+        comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readTickers()));
         /* All TextFields */
         if (!BOOL){
-            STKCODE = new TextField();
+            //STKCODE = new TextField();
         }else{
             if(POS>-1) {
                 NAMEINVEST = new Text(INVESTNAME);            
@@ -105,22 +109,19 @@ public class DesignAdd {
             SUBBTN.setFont(MYFONT.OSWALDBUTTON);
             SUBBTN.setOnAction((ActionEvent e) -> {
                 EXTENSION = new DesignAddExtension();
-                INFO[0] = STKCODE.getText();
+                INFO[0] = comboBox.getSelectionModel().getSelectedItem().toString();
                 INFO[1] = PRC.getText();             
                 INFO[2] = AMNT.getText();
                 INFO[3] = MYDATE.getText();
                 INFO[4] = REASON.getText();
-                System.out.println(INFO[4]);
                 INDEX=0;
                 INDEXA=0;   
                 MSG = new String[5];
                 for(INDEX=0;INDEX<5;INDEX++){
                     if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
                         MSG[INDEX] = null;
-                        System.out.println("hi");
                     }else{
                         MSG[INDEX] = TXTFIELDS[INDEX];
-                        System.out.println("hii");
                     }
                     if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
                         INDEXA++;  
@@ -129,26 +130,20 @@ public class DesignAdd {
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
-                        INVESTCONTROL = new InvestmentController();
+                        System.out.println("flag");
+                        INVESTCONTROL.createInvestment(comboBox.getSelectionModel().getSelectedItem().toString(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
-                    try {
-                        INVESTCONTROL.createInvestment(STKCODE.getText(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
-                    } catch (IOException ex) {
-                        System.out.println("PROBLEMS");
-                    }
-                        EXTENSION.anotherInvestment(MID);
-                    }else{
-                        MID.getChildren().clear();
-                        System.out.println("Empty fields");
-                        System.out.println(Arrays.toString(MSG));
-                        EXTENSION.missingFields(MID, MSG);
-                        isMSG = false;
+                    EXTENSION.anotherInvestment(MID);
+                }else{
+                    MID.getChildren().clear();
+                    System.out.println("Empty fields");
+                    System.out.println(Arrays.toString(MSG));
+                    EXTENSION.missingFields(MID, MSG);
+                    isMSG = false;
                 }
             });
-            System.out.println("hello");
-            System.out.println(Arrays.toString(MSG));
         }else{
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
@@ -176,7 +171,7 @@ public class DesignAdd {
         MID.setVgap(10);
         MID.setAlignment(Pos.CENTER);
         if (!BOOL){
-            MID.add(STKCODE, 1, 1);
+            MID.add(comboBox, 1, 1);
         }else{
             if(POS>-1){
                 MID.add(NAMEINVEST, 1, 1);            
