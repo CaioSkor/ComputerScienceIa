@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 import modules.Investment;
 
 /**
@@ -63,6 +64,20 @@ public class InvestmentController {
         fileWriter.close();
 
         System.out.println("Investment" + code + " deleted.");
+    }
+    
+    public LinkedList<String> readTickers() throws IOException{
+        LinkedList<String> TICKERS = new LinkedList<String>();
+        FileReader TEXTFILEPATH = new FileReader("./data/nasdaqlisted.txt");
+        Scanner TEXTFILE = new Scanner(TEXTFILEPATH);
+        while(TEXTFILE.hasNext()) {
+            String[] DATA = TEXTFILE.nextLine().split("\\|");
+            TICKERS.add(DATA[0]);
+        }
+        TEXTFILE.close();
+        TEXTFILEPATH.close();
+        
+        return TICKERS;
     }
     
 }

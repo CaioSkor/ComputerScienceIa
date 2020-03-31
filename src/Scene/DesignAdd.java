@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -78,9 +80,13 @@ public class DesignAdd {
         REATXT.setFont(MYFONT.OSWALDREGULAR);
         REATXT.setFill(Color.GRAY);
 
+        
+        ComboBox comboBox = new ComboBox();
+        INVESTCONTROL = new InvestmentController();
+        comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readTickers()));
         /* All TextFields */
         if (!BOOL){
-            STKCODE = new TextField();
+            //STKCODE = new TextField();
         }else{
             if(POS>-1) {
                 NAMEINVEST = new Text(INVESTNAME);            
@@ -106,7 +112,7 @@ public class DesignAdd {
             SUBBTN.setFont(MYFONT.OSWALDBUTTON);
             SUBBTN.setOnAction((ActionEvent e) -> {
                 EXTENSION = new DesignAddExtension();
-                INFO[0] = STKCODE.getText();
+                INFO[0] = comboBox.getSelectionModel().getSelectedItem().toString();
                 INFO[1] = PRC.getText();             
                 INFO[2] = AMNT.getText();
                 INFO[3] = MYDATE.getText();
@@ -128,7 +134,7 @@ public class DesignAdd {
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
-                        INVESTCONTROL = new InvestmentController();
+                        INVESTCONTROL.createInvestment(comboBox.getSelectionModel().getSelectedItem().toString(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
@@ -183,7 +189,7 @@ public class DesignAdd {
         MID.setVgap(10);
         MID.setAlignment(Pos.CENTER);
         if (!BOOL){
-            MID.add(STKCODE, 1, 1);
+            MID.add(comboBox, 1, 1);
         }else{
             if(POS>-1){
                 MID.add(NAMEINVEST, 1, 1);            
