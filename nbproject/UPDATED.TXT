@@ -1,11 +1,21 @@
+<<<<<<< HEAD
 ==============================================
 Project ComputerScienceIa build script updated
 ==============================================
+=======
+==============================================
+Project ComputerScienceIa build script updated
+==============================================
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
 
 Project build script file jfx-impl.xml in nbproject sub-directory has not been recognized
 as compliant with this version of NetBeans JavaFX support module. To ensure correct
 and complete functionality within this NetBeans installation the script file has been
+<<<<<<< HEAD
 backed up to jfx-impl_backup.xml and then updated to the currently supported state.
+=======
+backed up to jfx-impl_backup_1.xml and then updated to the currently supported state.
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
 
 FX Project build script auto-update may be triggered on project open either after
 NetBeans installation update or by manual changes in jfx-impl.xml. Please note that
@@ -20,4 +30,8 @@ javafx.disable.autoupdate.notification=true
 
 Remark: Files nbproject/jfx-impl_backup*.xml and this file nbproject/UPDATED.TXT
 are not used when building the project and can be freely deleted.
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79

@@ -21,7 +21,11 @@ public class DesignAdd {
     Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     String[] MSG, TXTFIELDS, INFO;
+<<<<<<< HEAD
     Integer INDEX, INDEXA;
+=======
+    Integer INDEX;
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
     Boolean isMSG;
     Button SUBBTN, BCKBTN;
     HBox BOTTOM;
@@ -100,10 +104,20 @@ public class DesignAdd {
             TXTFIELDS[3] = "date";
             TXTFIELDS[4] = "reason";
             INFO = new String[5];
+<<<<<<< HEAD
+=======
+            INFO[0] = STKCODE.getText();
+            INFO[1] = PRC.getText();             
+            INFO[2] = AMNT.getText();
+            INFO[3] = MYDATE.getText();
+            INFO[4] = REASON.getText();
+            MSG = new String[5];
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
             SUBBTN = new Button();
             SUBBTN.setText("Submit");
             SUBBTN.setFont(MYFONT.OSWALDBUTTON);
             SUBBTN.setOnAction((ActionEvent e) -> {
+<<<<<<< HEAD
                 EXTENSION = new DesignAddExtension();
                 INFO[0] = STKCODE.getText();
                 INFO[1] = PRC.getText();             
@@ -127,6 +141,24 @@ public class DesignAdd {
                     }
                 } 
                 if(INDEXA<=0){
+=======
+                INDEX=0;
+                for(INDEX=0;INDEX<5;INDEX++){
+                    if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
+                        MSG[INDEX] = TXTFIELDS[INDEX];
+                        System.out.println("hii");
+                    }else{
+                        MSG[INDEX] = "";
+                        System.out.println("hi");
+                    }
+                    if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
+                           isMSG = true;       
+                    }else{
+                           isMSG = false;
+                        }  
+                }
+                if(!isMSG){
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
                     MID.getChildren().clear();
                     try {
                         INVESTCONTROL = new InvestmentController();
@@ -138,6 +170,7 @@ public class DesignAdd {
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
+<<<<<<< HEAD
                         EXTENSION.anotherInvestment(MID);
                     }else{
                         MID.getChildren().clear();
@@ -149,6 +182,15 @@ public class DesignAdd {
             });
             System.out.println("hello");
             System.out.println(Arrays.toString(MSG));
+=======
+                        EXTENSION = new DesignAddExtension();
+                        EXTENSION.anotherInvestment(MID);
+                    }else{
+                        System.out.println("Empty fields");
+                        System.out.println(Arrays.toString(MSG));
+                }
+            });
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
         }else{
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
@@ -221,4 +263,12 @@ public class DesignAdd {
     public Scene getScreen(){
         return ENTRANCE;
     }
+<<<<<<< HEAD
+=======
+    
+    public String[] getMSG(){
+        return MSG;
+    }
+
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
   }

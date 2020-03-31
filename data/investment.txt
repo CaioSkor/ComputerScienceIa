@@ -10,7 +10,13 @@ QW,QW,QW,QW,QW
 RE,RE,RE,RE,RE
 FG,FG,FG,FG,FG
 Caio,Alhpa,Caio,Caio,Caio
+<<<<<<< HEAD
 ,,,,a
 xs,,,,s
 hhi,joji,iim,j99,ij99jj
  nn,nn,nn, n n,nn
+=======
+ER,EE,RR,EE,EE
+,,E,E,E
+dd,dd,dd,dd,
+>>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
