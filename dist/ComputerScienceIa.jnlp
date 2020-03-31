@@ -9,12 +9,6 @@
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
   </resources>
-<<<<<<< HEAD
-=======
-  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ComputerScienceIa" >
-    <param name="requiredFXVersion" value="8.0+"/>
-  </applet-desc>
->>>>>>> 5abb5fb04021b264b0193f08ac9d7513bdbf0e79
   <jfx:javafx-desc  width="800" height="600" main-class="stockorganizer.mainpage"  name="ComputerScienceIa" />
   <update check="always"/>
 </jnlp>
