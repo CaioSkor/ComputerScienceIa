@@ -58,7 +58,7 @@ public class Design {
             try {
                 INVEST = new DesignInv(MAINWINDOW);
             } catch (IOException ex) {
-                System.out.println("PROBLEMS");
+                Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
             }
             MAINWINDOW.setScene(INVEST.getScreen());
             MAINWINDOW.setTitle("Investments");
@@ -82,7 +82,7 @@ public class Design {
             try {
                 ADDINV = new DesignAdd(MAINWINDOW,BOOL,-1,"");
             } catch (IOException ex) {
-                System.out.println("PROBLEMS");
+                Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
             }
             MAINWINDOW.setScene(ADDINV.getScreen());
             MAINWINDOW.setTitle("Add new investment");
