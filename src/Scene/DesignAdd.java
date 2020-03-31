@@ -100,11 +100,11 @@ public class DesignAdd {
             TXTFIELDS[3] = "date";
             TXTFIELDS[4] = "reason";
             INFO = new String[5];
-            MSG = new String[5];
             SUBBTN = new Button();
             SUBBTN.setText("Submit");
             SUBBTN.setFont(MYFONT.OSWALDBUTTON);
             SUBBTN.setOnAction((ActionEvent e) -> {
+                EXTENSION = new DesignAddExtension();
                 INFO[0] = STKCODE.getText();
                 INFO[1] = PRC.getText();             
                 INFO[2] = AMNT.getText();
@@ -113,6 +113,7 @@ public class DesignAdd {
                 System.out.println(INFO[4]);
                 INDEX=0;
                 INDEXA=0;   
+                MSG = new String[5];
                 for(INDEX=0;INDEX<5;INDEX++){
                     if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
                         MSG[INDEX] = null;
@@ -137,13 +138,17 @@ public class DesignAdd {
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
-                        EXTENSION = new DesignAddExtension();
                         EXTENSION.anotherInvestment(MID);
                     }else{
+                        MID.getChildren().clear();
                         System.out.println("Empty fields");
                         System.out.println(Arrays.toString(MSG));
+                        EXTENSION.missingFields(MID, MSG);
+                        isMSG = false;
                 }
             });
+            System.out.println("hello");
+            System.out.println(Arrays.toString(MSG));
         }else{
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
@@ -216,9 +221,4 @@ public class DesignAdd {
     public Scene getScreen(){
         return ENTRANCE;
     }
-    
-    public String[] getMSG(){
-        return MSG;
-    }
-
   }
