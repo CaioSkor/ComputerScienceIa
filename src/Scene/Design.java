@@ -1,9 +1,11 @@
-
 package Scene;
      
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,8 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -23,106 +23,105 @@ import javafx.stage.Stage;
  * @author Caio Skornicki
  */
 public class Design {
-    HBox Bottom;
+    Text TITLE, DATEDISPLAY;
+    Button BTN1, BTN2, BTN3;
+    Date DATENOW;   
+    DateFormat DF; 
+    Boolean BOOL;
+    HBox BOTTOM;
     VBox MID;
     GridPane TOP;
-    BorderPane layout;
-    Text TITLE, DateDisplay;
-    Button BTN1, BTN2, BTN3;
+    BorderPane LAYOUT;
     Scene ENTRANCE;
-    DesignInv Invest;
-    DesignAdd AddInv;
-    DesignPerf PortPerfor;
+    
+    FontMeUp MYFONT;
+    DesignInv INVEST;
+    DesignAdd ADDINV;
+    DesignPerf PORTPERF;
     
     public Design (Stage MAINWINDOW){
         /* Text management */
-        Color titlecolor = Color.web("#cc0000");
-        Font myFontloadFontOswaldBold = 
-             Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Bold.ttf"), 25);
-        
-        Font myFontloadFontOswaldRegular =
-             Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Regular.ttf"), 20);
-        
-        Font myFontloadFontOswaldRegularButton =
-             Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Regular.ttf"), 15);
-        
+        MYFONT = new FontMeUp();
+        BOOL = false;
         
         TITLE = new Text();
         TITLE.setText("Stock Organizer Software");
-        TITLE.setFont(myFontloadFontOswaldBold);
-        TITLE.setFill(titlecolor);
+        TITLE.setFont(MYFONT.OSWALDBOLD);
+        TITLE.setFill(MYFONT.TITLECOLOR);
         
          /* Button Management */
         BTN1 = new Button();
         BTN1.setText("Investments");
-        BTN1.setFont(myFontloadFontOswaldRegularButton);
+        BTN1.setFont(MYFONT.OSWALDBUTTON);
+        BTN1.setMinWidth(200);
         BTN1.setOnAction((ActionEvent e) -> {
-            Invest = new DesignInv(MAINWINDOW);
-            MAINWINDOW.setScene(Invest.getScreen());
+            try {
+                INVEST = new DesignInv(MAINWINDOW);
+            } catch (IOException ex) {
+                System.out.println("PROBLEMS");
+            }
+            MAINWINDOW.setScene(INVEST.getScreen());
             MAINWINDOW.setTitle("Investments");
         });
-        BTN1.setMinWidth(200);
         
         BTN2 = new Button();
         BTN2.setText("Portfolio performance");
-        BTN2.setFont(myFontloadFontOswaldRegularButton);
+        BTN2.setFont(MYFONT.OSWALDBUTTON);
+        BTN2.setMinWidth(200);
         BTN2.setOnAction((ActionEvent e) -> {
-            PortPerfor = new DesignPerf(MAINWINDOW);
-            MAINWINDOW.setScene(PortPerfor.getScreen());
+            PORTPERF = new DesignPerf(MAINWINDOW);
+            MAINWINDOW.setScene(PORTPERF.getScreen());
             MAINWINDOW.setTitle("Portfolio performance");
         });
-        BTN2.setMinWidth(200);
         
         BTN3 = new Button();
         BTN3.setText("Add new investment");
-        BTN3.setFont(myFontloadFontOswaldRegularButton);
+        BTN3.setFont(MYFONT.OSWALDBUTTON);
+        BTN3.setMinWidth(200);
         BTN3.setOnAction((ActionEvent e) -> {
-            AddInv = new DesignAdd(MAINWINDOW);
-            MAINWINDOW.setScene(AddInv.getScreen());
+            try {
+                ADDINV = new DesignAdd(MAINWINDOW,BOOL,-1,"");
+            } catch (IOException ex) {
+                System.out.println("PROBLEMS");
+            }
+            MAINWINDOW.setScene(ADDINV.getScreen());
             MAINWINDOW.setTitle("Add new investment");
         });
-        BTN3.setMinWidth(200);
         
         /* Pane management */
-        
         TOP = new GridPane();
         TOP.setHgap(37);
         TOP.setVgap(10);
         TOP.add(TITLE, 5, 12);
         TOP.setPadding(new Insets(10, 10, 10, 33));
         
-        
         MID = new VBox(50);
         MID.getChildren().addAll(BTN1,BTN2,BTN3);
         MID.setAlignment(Pos.CENTER);
         
-        Bottom = new HBox(50);
-        Bottom.setAlignment(Pos.BOTTOM_LEFT);
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("dd.MM");
-        DateDisplay = new Text();
-        DateDisplay.setText(df.format(date));
-        DateDisplay.setFont(myFontloadFontOswaldRegular);
-        Bottom.getChildren().add(DateDisplay);
-        Bottom.setPadding(new Insets(10, 10, 10, 15));
+        BOTTOM = new HBox(50);
+        BOTTOM.setAlignment(Pos.BOTTOM_LEFT);
+        DATENOW = new Date();
+        DF = new SimpleDateFormat("dd.MM");
+        DATEDISPLAY = new Text();
+        DATEDISPLAY.setText(DF.format(DATENOW));
+        DATEDISPLAY.setFont(MYFONT.OSWALDREGULAR);
+        BOTTOM.getChildren().add(DATEDISPLAY);
+        BOTTOM.setPadding(new Insets(10, 10, 10, 15));
         
-        layout = new BorderPane();
-        layout.setTop(TOP);
-        layout.setCenter(MID);
-        layout.setBottom(Bottom);
+        LAYOUT = new BorderPane();
+        LAYOUT.setTop(TOP);
+        LAYOUT.setCenter(MID);
+        LAYOUT.setBottom(BOTTOM);
         
-        
-        ENTRANCE = new Scene(layout, 700, 500);
-        ENTRANCE.getStylesheets().add("style.css");
-       
-}
+        ENTRANCE = new Scene(LAYOUT, 700, 500);
+        ENTRANCE.getStylesheets().add("CAIOSTYLE.css");
+    }
+
     public Scene getScreen(){
         return ENTRANCE;
     }
-    
-
-           
-    }
+}
     
 
         

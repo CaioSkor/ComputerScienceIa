@@ -1,4 +1,3 @@
-
 package modules;
 
 /**
@@ -6,64 +5,63 @@ package modules;
  * @author caio
  */
 public class Investment {
-    
     // Attributes
-    private String code;
-    private String price;
-    private String amount;
-    private String date;
-    private String reason;
+    private String CODE;
+    private String PRICE;
+    private String AMOUNT;
+    private String DATE;
+    private String REASON;
     
     // Constructors
     public Investment(){
     }
     
     public Investment(String c, String p, String a, String d, String r){
-        this.code = c;
-        this.price = p;
-        this.amount = a;
-        this.date = d;
-        this.reason = r;
+        this.CODE = c;
+        this.PRICE = p;
+        this.AMOUNT = a;
+        this.DATE = d;
+        this.REASON = r;
     }
     
     public String getCode(){
-        return code;
+        return CODE;
     }
     
     public void setCode(String c){
-        this.code = c;
+        this.CODE = c;
     }
     
     public String getPrice(){
-        return price;
+        return PRICE;
     }
     
     public void setPrice(String p){
-        this.price = p;
+        this.PRICE = p;
     }
     
     public String getAmount(){
-        return amount;
+        return AMOUNT;
     }
     
     public void setAmount(String a){
-        this.amount = a;
+        this.AMOUNT = a;
     }
     
     public String getDate(){
-        return date;
+        return DATE;
     }
     
     public void setDate(String d){
-        this.date = d;
+        this.DATE = d;
     }
     
     public String getReason(){
-        return reason;
+        return REASON;
     }
     
     public void setReason(String r){
-        this.reason = r;
+        this.REASON = r;
     }
     
     
