@@ -19,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 /**
  *
  * @author Caio Skornicki
@@ -30,7 +29,7 @@ public class DesignInv {
     Button BCKBUTTON,MORESTOCKS;
     Integer PIECES,RESTE,INDEX,INDEXA,LASTBUTTON;
     Button[] STOCKBTN;
-    String DATA;
+    String DATA, CODENAME;
     String [] NAMEINVEST;
     Boolean BOOL;
     GridPane TOP;
@@ -146,6 +145,22 @@ public class DesignInv {
         ENTRANCE.getStylesheets().add("CAIOSTYLE.css");        
     }
     
+    public void codeName(String code){
+        CODENAME = code;
+    }
+        
+    public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException{
+        if(!BOOLE){
+            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME);
+            MAINWINDOW.setScene(INVEST.getScreen());                
+        }else{
+            BOOL = false;
+            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME);
+            MAINWINDOW.setScene(INVEST.getScreen());
+        }
+        
+    }
+    
     public void PopulateMe(Stage MAINWINDOW, Integer RESTE) throws IOException{
         MIDDLE[INDEXA] = new HBox(10);
         for(INDEX=0; INDEX< RESTE; INDEX++){         
@@ -167,6 +182,7 @@ public class DesignInv {
             MIDDLE[INDEXA].getChildren().add(STOCKBTN[INDEX+(5*INDEXA)]);     
         }
     }
+    
     
     public Scene getScreen(){
         return ENTRANCE;

@@ -56,7 +56,6 @@ public class InvestmentController {
                 INVESTIMENTS.set(i, null);
             }else{
                 String fileContent = INVESTIMENTS.get(i).getCode() + "," + INVESTIMENTS.get(i).getPrice() + "," + INVESTIMENTS.get(i).getAmount() + "," + INVESTIMENTS.get(i).getDate() + "," + INVESTIMENTS.get(i).getReason();
-        
                 fileWriter.write(fileContent);
                 fileWriter.write(System.lineSeparator());
             }

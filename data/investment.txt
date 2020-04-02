@@ -1,13 +1,1 @@
-INVa,a,a,a,a
-INVb,b,b,b,b
-INVc,c,c,c,c
-INVd,d,d,d,d
-INVe,e,e,e,e
-S,s,S,s,S
-TA,TA,TA,TA,TA
-A,s,D,D,D
-QW,QW,QW,QW,QW
-RE,RE,RE,RE,RE
-FG,FG,FG,FG,FG
-Caio,Alhpa,Caio,Caio,Caio
-AACG,22,22,22,123
+AAXJ,j  nnun,nun j,nu,jmn

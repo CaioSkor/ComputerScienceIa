@@ -13,7 +13,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -22,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPT0,OPT1,OPT2,OPT3;
+    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO;
     Integer INDEX, INDEXA;
@@ -31,9 +33,13 @@ public class DesignAdd {
     GridPane MID,TOP;
     BorderPane LAYOUT;
     Scene ENTRANCE;
+    RadioButton RADBTN1, RADBTN2;
+    ToggleGroup GROUP;
+    Boolean BOOLE;
    
     Design MAIN;
     DesignAddExtension EXTENSION;
+    DesignInv DSINV;
     InvestmentController INVESTCONTROL;  
     ToolsUse FILLMEUP;
     
@@ -41,16 +47,18 @@ public class DesignAdd {
     
     public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME) throws IOException {
         MYFONT = new FontMeUp();
-
+        DSINV = new DesignInv(MAINWINDOW);
+        
         /* All text */
         TITLE = new Text();
         if (!BOOL){
             TITLE.setText("Add investment");
         }else{
-            TITLE.setText("Check investment"); 
             FILLMEUP = new ToolsUse();
-            FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME);
-            System.out.println(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
+            String CODESTRING = FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0];
+            TITLE.setText(CODESTRING); 
+            System.out.println(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);    
+            DSINV.codeName(CODESTRING);
         }
         TITLE.setFont(MYFONT.OSWALDBOLD);
         TITLE.setFill(MYFONT.TITLECOLOR);
@@ -95,17 +103,50 @@ public class DesignAdd {
 
         /* All buttons */
         if (!BOOL){
+            GROUP = new ToggleGroup();
+                
+            RADBTN1 = new RadioButton();
+            RADBTN1.setText("Continue to investment");
+            RADBTN1.setFont(MYFONT.OSWALDBUTTON);
+            RADBTN1.setToggleGroup(GROUP);
+            RADBTN1.setOnAction(e -> {
+                BOOLE = false;
+                try {
+                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        
+            RADBTN2 = new RadioButton();
+            RADBTN2.setText("Add new investment");
+            RADBTN1.setFont(MYFONT.OSWALDBUTTON);
+            RADBTN2.setToggleGroup(GROUP);
+            RADBTN2.setOnAction(e -> {
+                BOOLE = true;
+                try {
+                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
+            
+            
             PRC = new TextField();
             AMNT = new TextField();
             MYDATE = new TextField();
             REASON = new TextField();
-
+            /* this array is used to store in each position the name of each respective textfield
+               in its own position
+            */ 
             TXTFIELDS = new String[5];
             TXTFIELDS[0] = "code";
             TXTFIELDS[1] = "price";
             TXTFIELDS[2] = "amount";
             TXTFIELDS[3] = "date";
             TXTFIELDS[4] = "reason";
+            /* this array is going to store any data inputed on the textfields when the SUBBTN is clicked */
             INFO = new String[5];
             SUBBTN = new Button();
             SUBBTN.setText("Submit");
@@ -118,15 +159,26 @@ public class DesignAdd {
                 INFO[3] = MYDATE.getText();
                 INFO[4] = REASON.getText();
                 System.out.println(INFO[4]);
-                INDEX=0;
                 INDEXA=0;   
+                /* this array will store only the name of the fields that are emptry, on the same position as they are
+                on the array TXTFIELDS, the filled textfields are going to be given the value null.
+                */
                 MSG = new String[5];
-                for(INDEX=0;INDEX<5;INDEX++){
+                /* the loop is going to evaluate for each position for INFO[] whether it is populated or not. 
+                if it is, then the for that position in the MSG array it is going to be given the value null
+                */
+                for(INDEX=1;INDEX<5;INDEX++){
                     if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
                         MSG[INDEX] = null;
+                /* Otherwise, it means that the field is empty/null, so  position INDEX in the array MSG
+                   is going to be populated with the name of the empty field
+                        */
                     }else{
                         MSG[INDEX] = TXTFIELDS[INDEX];
                     }
+                /* This is going to evaluate whether there are populated 
+                    
+                    */
                     if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
                         INDEXA++;  
                     }
@@ -138,12 +190,7 @@ public class DesignAdd {
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
-                    try {
-                        INVESTCONTROL.createInvestment(STKCODE.getText(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
-                    } catch (IOException ex) {
-                        System.out.println("PROBLEMS");
-                    }
-                        EXTENSION.DesignAddExtension(MID);
+                        EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
                     }else{
                         MID.getChildren().clear();
                         System.out.println("Empty fields");
@@ -152,6 +199,7 @@ public class DesignAdd {
                 }
             });
         }else{
+            OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
@@ -162,7 +210,10 @@ public class DesignAdd {
             DELETEBTN.setOnAction(e ->{
             try {
                 InvestmentController investmentcontroller = new InvestmentController();
-                investmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]);
+                EXTENSION = new DesignAddExtension();
+                MID.getChildren().clear();
+                investmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]);
+                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
             } catch (IOException ex) {
                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -201,6 +252,7 @@ public class DesignAdd {
             MID.add(MYDATE, 1, 4);
             MID.add(REASON, 1, 5);
         }else{
+            MID.add(OPTCODE, 1, 1);
             MID.add(OPT0, 1, 2 );
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
