@@ -231,7 +231,14 @@ public class DesignAdd {
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
-                        INVESTCONTROL.createInvestment(comboBox.getSelectionModel().getSelectedItem().toString(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
+                        INVESTCONTROL.createInvestment(
+                                comboBox.getSelectionModel().getSelectedItem().toString(),
+                                PRC.getText(), 
+                                AMNT.getText(), 
+                                MYDATE.getText(), 
+                                REASON.getText(),
+                                ""                  // Deletion date empty, as it is being created
+                        );
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }

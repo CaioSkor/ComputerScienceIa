@@ -18,7 +18,9 @@ public class InvestmentController {
     String FILECONTENT;
     String[] FILEDATA;    
     private Investment INVESTMENT;
+    private Investment DELETEDINVESTMENT;
     private LinkedList<Investment> INVESTIMENTS;
+    private LinkedList<Investment> DELETEDINVESTIMENTS;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
@@ -27,20 +29,20 @@ public class InvestmentController {
  
         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
             FILEDATA = FILECONTENT.split(",");
-            INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4]);
+            INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4], FILEDATA[5]);
             INVESTIMENTS.add(INVESTMENT);
         }
         FILEREADER.close();
     }
     
     // CRUD - Create INVESTMENT
-    public void createInvestment(String code, String price, String amount, String date, String reason) throws IOException{
+    public void createInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
         FileWriter FILEWRITER;
         
         FILEWRITER = new FileWriter("data/investment.txt", true);
-        INVESTMENT = new Investment(code, price, amount, date, reason);
+        INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate);
         INVESTIMENTS.add(INVESTMENT);
-        FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason());
+        FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
         
@@ -60,6 +62,9 @@ public class InvestmentController {
                 fileWriter.write(System.lineSeparator());
             }
         }
+        
+        
+        
         fileWriter.close();
 
         System.out.println("Investment" + code + " deleted.");
