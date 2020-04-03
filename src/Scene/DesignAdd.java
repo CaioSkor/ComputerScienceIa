@@ -231,7 +231,18 @@ public class DesignAdd {
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
+<<<<<<< HEAD
                         INVESTCONTROL.createInvestment(comboBox.getSelectionModel().getSelectedItem().toString(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
+=======
+                        INVESTCONTROL.createInvestment(
+                                comboBox.getSelectionModel().getSelectedItem().toString(),
+                                PRC.getText(), 
+                                AMNT.getText(), 
+                                MYDATE.getText(), 
+                                REASON.getText(),
+                                ""                  // Deletion date empty, as it is being created
+                        );
+>>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }

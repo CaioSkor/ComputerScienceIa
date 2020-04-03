@@ -1,0 +1,4 @@
+<<<<<<< HEAD
+=======
+AAL,123,123,123,123,
+>>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
