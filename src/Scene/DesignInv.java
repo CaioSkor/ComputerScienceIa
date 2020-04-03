@@ -3,8 +3,6 @@ package Scene;
 import controllers.GetNames;
 import controllers.ToolsUse;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -31,7 +29,7 @@ public class DesignInv {
     Button[] STOCKBTN;
     String DATA, CODENAME;
     String [] NAMEINVEST;
-    Boolean BOOL;
+    Boolean BOOL, BOOL2;
     GridPane TOP;
     HBox[] MIDDLE;    
     VBox MID;
@@ -70,7 +68,7 @@ public class DesignInv {
             public void handle(Event e) {
                 DATA = (String) STKCODE.getValue(); 
                 try {
-                    INVEST = new DesignAdd(MAINWINDOW,BOOL,0,DATA);
+                    INVEST = new DesignAdd(MAINWINDOW,BOOL,0,DATA, BOOL);
                     MAINWINDOW.setScene(INVEST.getScreen());                
                     MAINWINDOW.setTitle("Investment: "+DATA); 
                 } catch (IOException ex) {
@@ -150,16 +148,17 @@ public class DesignInv {
     }
         
     public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException{
+        BOOL2 = false;
         if(!BOOLE){
-            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME);
+            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
             MAINWINDOW.setScene(INVEST.getScreen());                
         }else{
             BOOL = false;
-            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME);
+            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
             MAINWINDOW.setScene(INVEST.getScreen());
         }
-        
     }
+    
     
     public void PopulateMe(Stage MAINWINDOW, Integer RESTE) throws IOException{
         MIDDLE[INDEXA] = new HBox(10);
@@ -172,7 +171,7 @@ public class DesignInv {
                 System.out.println("Button pressed " + ((Button) e.getSource()).getText());
                 LASTBUTTON = BUTTONID;                
                 try {
-                    INVEST = new DesignAdd(MAINWINDOW,BOOL,INDEX+(5*INDEXA),((Button) e.getSource()).getText());
+                    INVEST = new DesignAdd(MAINWINDOW,BOOL,INDEX+(5*INDEXA),((Button) e.getSource()).getText(), BOOL);
                 } catch (IOException ex) {
                     System.out.println("PROBLEMS");
                 }

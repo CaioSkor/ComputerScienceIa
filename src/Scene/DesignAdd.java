@@ -26,8 +26,8 @@ import javafx.stage.Stage;
 public class DesignAdd {
     Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
-    private String[] MSG, TXTFIELDS, INFO;
-    Integer INDEX, INDEXA;
+    private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
+    Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3;
     Button SUBBTN, BCKBTN, DELETEBTN;
     HBox BOTTOM;
     GridPane MID,TOP;
@@ -35,7 +35,7 @@ public class DesignAdd {
     Scene ENTRANCE;
     RadioButton RADBTN1, RADBTN2;
     ToggleGroup GROUP;
-    Boolean BOOLE;
+    Boolean BOOLE, CASE, BOOL2;
    
     Design MAIN;
     DesignAddExtension EXTENSION;
@@ -45,14 +45,23 @@ public class DesignAdd {
     
     FontMeUp MYFONT;
     
-    public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME) throws IOException {
+    public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException {
         MYFONT = new FontMeUp();
         DSINV = new DesignInv(MAINWINDOW);
         
         /* All text */
         TITLE = new Text();
+        BCKBTN = new Button();
+        BCKBTN.setText("BACK");
+        BCKBTN.setFont(MYFONT.OSWALDBUTTON);
+        
         if (!BOOL){
             TITLE.setText("Add investment");
+            BCKBTN.setOnAction((ActionEvent e) -> {
+            MAIN = new Design(MAINWINDOW);
+            MAINWINDOW.setScene(MAIN.getScreen());
+            MAINWINDOW.setTitle("Stock Organizer Software");
+            });
         }else{
             FILLMEUP = new ToolsUse();
             String CODESTRING = FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0];
@@ -103,6 +112,7 @@ public class DesignAdd {
 
         /* All buttons */
         if (!BOOL){
+            
             GROUP = new ToggleGroup();
                 
             RADBTN1 = new RadioButton();
@@ -152,6 +162,7 @@ public class DesignAdd {
             SUBBTN.setText("Submit");
             SUBBTN.setFont(MYFONT.OSWALDBUTTON);
             SUBBTN.setOnAction((ActionEvent e) -> {
+                MID.getChildren().clear();
                 EXTENSION = new DesignAddExtension();
                 INFO[0] = comboBox.getSelectionModel().getSelectedItem().toString();
                 INFO[1] = PRC.getText();             
@@ -159,6 +170,7 @@ public class DesignAdd {
                 INFO[3] = MYDATE.getText();
                 INFO[4] = REASON.getText();
                 System.out.println(INFO[4]);
+                CHECK2=0;
                 INDEXA=0;   
                 /* this array will store only the name of the fields that are emptry, on the same position as they are
                 on the array TXTFIELDS, the filled textfields are going to be given the value null.
@@ -181,8 +193,42 @@ public class DesignAdd {
                     */
                     if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
                         INDEXA++;  
+                        CHECK2++;
                     }
                 } 
+                
+                FORMATMSG = new String[2];
+                CHECK = 0;
+                try{
+                    PRCINT = Integer.parseInt(PRC.getText());
+                } catch(NumberFormatException er){ 
+                    CHECK++;
+                    FORMATMSG[CHECK-1] = "price";
+                    INDEXA++;
+                }
+                try{
+                    AMNTINT = Integer.parseInt(AMNT.getText());
+                } catch(NumberFormatException er){
+                    CHECK++;
+                    FORMATMSG[CHECK-1] = "amount";
+                    INDEXA++;
+                }
+                
+                CHECK3 = 0;
+                for(INDEX=1; INDEX<3; INDEX++){
+                    if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){    
+                    }else{
+                        CHECK3++;
+                        FORMATMSG[INDEX-1] = null;  
+                    }
+                }
+                
+                System.out.println(FORMATMSG[0]);
+                
+                System.out.println(CHECK3);
+                
+                System.out.println(CHECK);
+                    
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
@@ -192,11 +238,20 @@ public class DesignAdd {
                     }
                         EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
                     }else{
-                        MID.getChildren().clear();
-                        System.out.println("Empty fields");
-                        System.out.println(Arrays.toString(MSG));
-                        EXTENSION.DesignAddExtension(MID, MSG);
-                }
+                        if(CHECK2 <= 0){
+                            CASE = false;
+                            EXTENSION.DesignAddExtension(MID, FORMATMSG, CASE);
+                        }else{
+                            if(CHECK == 0 || CHECK3 == 2){
+                                CASE = true;
+                                System.out.println("Empty fields");
+                                System.out.println(Arrays.toString(MSG));
+                                EXTENSION.DesignAddExtension(MID, MSG, CASE);
+                            }else{
+                                EXTENSION.DesignAddExtension(MID, MSG, FORMATMSG);
+                            }
+                        }
+                    }
             });
         }else{
             OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
@@ -204,6 +259,22 @@ public class DesignAdd {
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]); 
+            if(!BOOL2){
+                BOOLE = true;
+                BCKBTN.setOnAction((ActionEvent e) -> {
+                    try {
+                        DSINV.continueInv(MAINWINDOW, BOOLE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }else{
+                BCKBTN.setOnAction((ActionEvent e) -> {
+                    MAINWINDOW.setScene(DSINV.getScreen());
+                    MAINWINDOW.setTitle("Investments");
+                });
+            }
+            
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -219,14 +290,6 @@ public class DesignAdd {
             }
         });
         }
-        BCKBTN = new Button();
-        BCKBTN.setText("BACK");
-        BCKBTN.setFont(MYFONT.OSWALDBUTTON);
-        BCKBTN.setOnAction((ActionEvent e) -> {
-            MAIN = new Design(MAINWINDOW);
-            MAINWINDOW.setScene(MAIN.getScreen());
-            MAINWINDOW.setTitle("Stock Organizer Software");
-        });
         
         /* Panes */
         TOP = new GridPane();
@@ -267,6 +330,7 @@ public class DesignAdd {
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
         }
+        
         MID.setMinSize(200, 200);
         MID.setPadding(new Insets(10, 10, 10, 10));
             

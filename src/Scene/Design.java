@@ -80,7 +80,7 @@ public class Design {
         BTN3.setMinWidth(200);
         BTN3.setOnAction((ActionEvent e) -> {
             try {
-                ADDINV = new DesignAdd(MAINWINDOW,BOOL,-1,"");
+                ADDINV = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
             } catch (IOException ex) {
                 System.out.println("PROBLEMS");
             }

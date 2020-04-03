@@ -29,6 +29,7 @@ public class DesignPerf {
     Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE;
     TextFlow Sentence;
     FontDesign FontCust;
+    FontMeUp MYFONT;
     double performance;
     
     DesignPerf(Stage MAINWINDOW) {
@@ -38,42 +39,34 @@ public class DesignPerf {
         String performanceString = Double.toString(performance);
         
         /* Text Management */
-        Color titlecolor = Color.web("#cc0000");
-        Font myFontloadFontOswaldRegularButton =
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Regular.ttf"), 15);
-        
-        Font myFontloadFontOswaldBold = 
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Bold.ttf"), 25);
-        
-        Font myFontDesignRegular =
-        Font.loadFont(getClass().getResourceAsStream("/fonts/Oswald-Regular.ttf"), 20); 
+        MYFONT = new FontMeUp();
         
         perfTXT = new Text();
         perfTXT.setText(performanceString);
-        perfTXT.setFont(myFontDesignRegular);
+        perfTXT.setFont(MYFONT.OSWALDREGULAR);
         
         mainTXT = new Text();
         mainTXT.setText("Your portfolio "); 
-        mainTXT.setFont(FontCust.FontDesignRegularButton);
+        mainTXT.setFont(MYFONT.OSWALDREGULAR);
         
         verb = new Text();
         verb.setText(" is ");
-        verb.setFont(myFontDesignRegular);
+        verb.setFont(MYFONT.OSWALDREGULAR);
         
         gainTXT = new Text();
         gainTXT.setText("gain");
-        gainTXT.setFont(myFontDesignRegular);
+        gainTXT.setFont(MYFONT.OSWALDREGULAR);
         gainTXT.setFill(Color.GREENYELLOW);
         
         lossTXT = new Text();
         lossTXT.setText("loss");
-        lossTXT.setFont(myFontDesignRegular);
-        lossTXT.setFill(titlecolor);
+        lossTXT.setFont(MYFONT.OSWALDREGULAR);
+        lossTXT.setFill(MYFONT.TITLECOLOR);
         
         TITLE = new Text();
         TITLE.setText("Portfolio Performance");
-        TITLE.setFont(myFontloadFontOswaldBold);
-        TITLE.setFill(titlecolor);
+        TITLE.setFont(MYFONT.OSWALDBOLD);
+        TITLE.setFill(MYFONT.TITLECOLOR);
         
         Sentence = new TextFlow();
         Sentence.setLayoutX(50);
@@ -87,7 +80,7 @@ public class DesignPerf {
  
         /* Button management  */
         backBTN = new Button("BACK");
-        backBTN.setFont(myFontloadFontOswaldRegularButton);
+        backBTN.setFont(MYFONT.OSWALDBUTTON);
         backBTN.setOnAction((ActionEvent e) -> {
             MAIN = new Design(MAINWINDOW);
             MAINWINDOW.setScene(MAIN.getScreen());
@@ -97,8 +90,7 @@ public class DesignPerf {
         /* Pane management */
         MID = new GridPane();
         MID.add(Sentence, 0, 0);
-        MID.setAlignment(Pos.CENTER);
-        
+        MID.setAlignment(Pos.CENTER);     
         
         TOP = new GridPane();
         TOP.setHgap(37);
@@ -116,7 +108,6 @@ public class DesignPerf {
         layout.setCenter(MID);
         layout.setBottom(Bottom);
         
-      
         ENTRANCE = new Scene(layout, 700, 500);
         ENTRANCE.getStylesheets().add("CAIOSTYLE.css");        
     }
