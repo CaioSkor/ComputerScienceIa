@@ -280,6 +280,7 @@ public class DesignAdd {
                 DATENOW = new Date();
                 DF = new SimpleDateFormat("dd.MM");
                 STRINGDATE = DF.format(DATENOW);
+                System.out.println(STRINGDATE);
                 EXTENSION = new DesignAddExtension();
                 DeletedInvestmentController deletedinvestmentcontroller  = new DeletedInvestmentController();
                 MID.getChildren().clear();
