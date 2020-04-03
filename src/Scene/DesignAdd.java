@@ -36,6 +36,7 @@ public class DesignAdd {
     GridPane MID,TOP;
     BorderPane LAYOUT;
     Scene ENTRANCE;
+    Scene ENTRANCE2;
     RadioButton RADBTN1, RADBTN2;
     ToggleGroup GROUP;
     Boolean BOOLE, CASE, BOOL2;
@@ -65,9 +66,9 @@ public class DesignAdd {
         if (!BOOL){
             TITLE.setText("Add investment");
             BCKBTN.setOnAction((ActionEvent e) -> {
-            MAIN = new Design(MAINWINDOW);
-            MAINWINDOW.setScene(MAIN.getScreen());
-            MAINWINDOW.setTitle("Stock Organizer Software");
+                MAIN = new Design(MAINWINDOW);
+                MAINWINDOW.setScene(MAIN.getScreen());
+                MAINWINDOW.setTitle("Stock Organizer Software");
             });
         }else{
             FILLMEUP = new ToolsUse();
@@ -257,8 +258,9 @@ public class DesignAdd {
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]); 
             if(!BOOL2){
+                
                 BOOLE = true;
-                BCKBTN.setOnAction((ActionEvent e) -> {
+                BCKBTN.setOnAction((ActionEvent e) -> {   
                     try {
                         DSINV.continueInv(MAINWINDOW, BOOLE);
                     } catch (IOException ex) {
@@ -267,7 +269,7 @@ public class DesignAdd {
                 });
             }else{
                 BCKBTN.setOnAction((ActionEvent e) -> {
-                    MAINWINDOW.setScene(DSINV.getScreen());
+                    MAINWINDOW.setScene(ENTRANCE2);
                     MAINWINDOW.setTitle("Investments");
                 });
             }
@@ -276,7 +278,26 @@ public class DesignAdd {
             DELETEBTN.setText("Delete");
             DELETEBTN.setOnAction(e ->{
             try {
+                // Get the date
+                
+                // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
+                investmentcontroller.deleteInvestment(
+                        FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]
+                );
+                
+                // Reload the scene
+                MID.getChildren().clear();
+                EXTENSION = new DesignAddExtension();
+                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
+                DesignInv designInv2 = new DesignInv(MAINWINDOW);
+                ENTRANCE2 = designInv2.getScreen();
+                
+                /*
                 DATENOW = new Date();
                 DF = new SimpleDateFormat("dd.MM");
                 STRINGDATE = DF.format(DATENOW);
@@ -285,8 +306,8 @@ public class DesignAdd {
                 DeletedInvestmentController deletedinvestmentcontroller  = new DeletedInvestmentController();
                 MID.getChildren().clear();
                 deletedinvestmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],STRINGDATE);
-                investmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]);
-                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);   
+                */
+                  
             } catch (IOException ex) {
                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
             }

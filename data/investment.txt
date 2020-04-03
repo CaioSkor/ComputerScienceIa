@@ -1,3 +1,0 @@
-FDIV,1234,11,dddd,sdafsd
-TCOM,1344,12,wer,wer
-CSTE,124,213,dgfds,dfgfds

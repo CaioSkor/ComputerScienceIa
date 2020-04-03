@@ -18,6 +18,7 @@ public class deleteInvestment {
     private String DELETIONDATE;
     
     public deleteInvestment(){
+        
     }
     
     public deleteInvestment(String c, String p, String a, String d, String r, String dd){
