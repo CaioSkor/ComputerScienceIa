@@ -6,6 +6,7 @@ import controllers.ToolsUse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -237,7 +238,7 @@ public class DesignAdd {
                                 AMNT.getText(), 
                                 MYDATE.getText(), 
                                 REASON.getText(),
-                                ""                  // Deletion date empty, as it is being created
+                                "000000"                  // Deletion date empty, as it is being created
                         );
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
@@ -281,6 +282,9 @@ public class DesignAdd {
                 });
             }
             
+            
+            System.out.println(Calendar.getInstance().getTime().toString());
+            
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
             DELETEBTN.setOnAction(e ->{
@@ -289,13 +293,14 @@ public class DesignAdd {
                 
                 // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
-                investmentcontroller.deleteInvestment(
+                /*investmentcontroller.deleteInvestment(
                         FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]
-                );
+                        // pass date here
+                );*/
                 
                 // Reload the scene
                 MID.getChildren().clear();

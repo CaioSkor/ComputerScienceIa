@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Arrays;
 import java.util.Scanner;
-import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 
 public class ToolsUse {
