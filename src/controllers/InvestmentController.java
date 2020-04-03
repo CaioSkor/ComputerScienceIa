@@ -55,13 +55,12 @@ public class InvestmentController {
         fileWriter.flush();
         for(int i = 0; i < INVESTMENTS.size(); i++) {
             if( INVESTMENTS.get(i).getCode().equals(code) && INVESTMENTS.get(i).getPrice().equals(price) && INVESTMENTS.get(i).getAmount().equals(amount) && INVESTMENTS.get(i).getDate().equals(date) && INVESTMENTS.get(i).getReason().equals(reason)){
-                INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate); // Set deletion date
-                INVESTMENTS.set(i, INVESTMENT); // Set the investment as deleted in the linked list
-            }else{
+                //INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate); // Set deletion date
+                INVESTMENTS.get(i).setDeletionDate(deletionDate); // Set the investment as deleted in the linked list
+            }
                 String fileContent = INVESTMENTS.get(i).getCode() + "," + INVESTMENTS.get(i).getPrice() + "," + INVESTMENTS.get(i).getAmount() + "," + INVESTMENTS.get(i).getDate() + "," + INVESTMENTS.get(i).getReason()+ "," + INVESTMENTS.get(i).getDeletionDate();
                 fileWriter.write(fileContent);
                 fileWriter.write(System.lineSeparator());
-            }
         }
         
         fileWriter.close();

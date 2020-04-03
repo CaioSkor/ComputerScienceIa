@@ -282,8 +282,9 @@ public class DesignAdd {
                 });
             }
             
-            
-            System.out.println(Calendar.getInstance().getTime().toString());
+            DATENOW = new Date();
+            DF = new SimpleDateFormat("dd.MM");
+            STRINGDATE = DF.format(DATENOW);
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -293,14 +294,14 @@ public class DesignAdd {
                 
                 // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
-                /*investmentcontroller.deleteInvestment(
+                investmentcontroller.deleteInvestment(
                         FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]
-                        // pass date here
-                );*/
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],
+                        STRINGDATE
+                );
                 
                 // Reload the scene
                 MID.getChildren().clear();
