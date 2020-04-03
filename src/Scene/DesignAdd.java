@@ -1,9 +1,12 @@
 package Scene;
 
+import controllers.DeletedInvestmentController;
 import controllers.InvestmentController;
 import controllers.ToolsUse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -40,10 +43,14 @@ public class DesignAdd {
     Design MAIN;
     DesignAddExtension EXTENSION;
     DesignInv DSINV;
-    InvestmentController INVESTCONTROL;  
+    InvestmentController INVESTCONTROL; 
+    DeletedInvestmentController DELETECONTROL;
     ToolsUse FILLMEUP;
     
     FontMeUp MYFONT;
+    private Date DATENOW;
+    private SimpleDateFormat DF;
+    String STRINGDATE;
     
     public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException {
         MYFONT = new FontMeUp();
@@ -97,7 +104,6 @@ public class DesignAdd {
         REATXT.setFont(MYFONT.OSWALDREGULAR);
         REATXT.setFill(Color.GRAY);
 
-        
         ComboBox comboBox = new ComboBox();
         INVESTCONTROL = new InvestmentController();
         comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readTickers()));
@@ -140,8 +146,6 @@ public class DesignAdd {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            
-            
             
             PRC = new TextField();
             AMNT = new TextField();
@@ -222,13 +226,7 @@ public class DesignAdd {
                         FORMATMSG[INDEX-1] = null;  
                     }
                 }
-                
-                System.out.println(FORMATMSG[0]);
-                
-                System.out.println(CHECK3);
-                
-                System.out.println(CHECK);
-                    
+
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
@@ -244,7 +242,6 @@ public class DesignAdd {
                         }else{
                             if(CHECK == 0 || CHECK3 == 2){
                                 CASE = true;
-                                System.out.println("Empty fields");
                                 System.out.println(Arrays.toString(MSG));
                                 EXTENSION.DesignAddExtension(MID, MSG, CASE);
                             }else{
@@ -275,16 +272,20 @@ public class DesignAdd {
                 });
             }
             
-            
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
             DELETEBTN.setOnAction(e ->{
             try {
                 InvestmentController investmentcontroller = new InvestmentController();
+                DATENOW = new Date();
+                DF = new SimpleDateFormat("dd.MM");
+                STRINGDATE = DF.format(DATENOW);
                 EXTENSION = new DesignAddExtension();
+                DeletedInvestmentController deletedinvestmentcontroller  = new DeletedInvestmentController();
                 MID.getChildren().clear();
+                deletedinvestmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],STRINGDATE);
                 investmentcontroller.deleteInvestment(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]);
-                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
+                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);   
             } catch (IOException ex) {
                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -170,11 +170,6 @@ public class DesignAddExtension {
         MYFONT = new FontMeUp();
         DSINV = new DesignInv(MAINWINDOW);
         
-        BACKBTN = new Button();
-        BACKBTN.setOnAction(e -> {
-            MAINWINDOW.setScene(DSINV.getScreen());
-        });
-        
         MESSAGE = new Text();
         MESSAGE.setText("Investment " + INVESTNAME + " has been deleted." );
         MESSAGE.setFill(MYFONT.TITLECOLOR);
@@ -183,7 +178,6 @@ public class DesignAddExtension {
         MID.setHgap(15);
         MID.setVgap(10);
         MID.add(MESSAGE, 0, 0);
-        MID.add(BACKBTN, 0, 1);
         MID.setAlignment(Pos.CENTER);
         return MID;
     }
