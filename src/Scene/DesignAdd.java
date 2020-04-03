@@ -6,6 +6,7 @@ import controllers.ToolsUse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -237,7 +238,7 @@ public class DesignAdd {
                                 AMNT.getText(), 
                                 MYDATE.getText(), 
                                 REASON.getText(),
-                                ""                  // Deletion date empty, as it is being created
+                                "000000"                  // Deletion date empty, as it is being created
                         );
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
@@ -281,6 +282,10 @@ public class DesignAdd {
                 });
             }
             
+            DATENOW = new Date();
+            DF = new SimpleDateFormat("dd.MM");
+            STRINGDATE = DF.format(DATENOW);
+            
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
             DELETEBTN.setOnAction(e ->{
@@ -294,7 +299,8 @@ public class DesignAdd {
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],
+                        STRINGDATE
                 );
                 
                 // Reload the scene

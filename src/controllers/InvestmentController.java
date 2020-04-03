@@ -19,18 +19,18 @@ public class InvestmentController {
     String[] FILEDATA;    
     private Investment INVESTMENT;
     private Investment DELETEDINVESTMENT;
-    private LinkedList<Investment> INVESTIMENTS;
-    private LinkedList<Investment> DELETEDINVESTIMENTS;
+    private LinkedList<Investment> INVESTMENTS;
+    private LinkedList<Investment> DELETEDINVESTMENTS;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
         BUFFEREDREADER = new BufferedReader(FILEREADER);
-        INVESTIMENTS = new LinkedList<Investment>();
+        INVESTMENTS = new LinkedList<Investment>();
  
         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
             FILEDATA = FILECONTENT.split(",");
             INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4], FILEDATA[5]);
-            INVESTIMENTS.add(INVESTMENT);
+            INVESTMENTS.add(INVESTMENT);
         }
         FILEREADER.close();
     }
@@ -41,7 +41,7 @@ public class InvestmentController {
         
         FILEWRITER = new FileWriter("data/investment.txt", true);
         INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate);
-        INVESTIMENTS.add(INVESTMENT);
+        INVESTMENTS.add(INVESTMENT);
         FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
@@ -50,23 +50,20 @@ public class InvestmentController {
     }
     
     // CRUD - Delete INVESTMENT
-    public void deleteInvestment(String code, String price, String amount, String date, String reason) throws IOException{
+    public void deleteInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
         FileWriter fileWriter = new FileWriter("data/investment.txt");
         fileWriter.flush();
-        for(int i = 0; i < INVESTIMENTS.size(); i++) {
-            if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason)){
-                INVESTIMENTS.set(i, null);
-            }else{
-                String fileContent = INVESTIMENTS.get(i).getCode() + "," + INVESTIMENTS.get(i).getPrice() + "," + INVESTIMENTS.get(i).getAmount() + "," + INVESTIMENTS.get(i).getDate() + "," + INVESTIMENTS.get(i).getReason();
+        for(int i = 0; i < INVESTMENTS.size(); i++) {
+            if( INVESTMENTS.get(i).getCode().equals(code) && INVESTMENTS.get(i).getPrice().equals(price) && INVESTMENTS.get(i).getAmount().equals(amount) && INVESTMENTS.get(i).getDate().equals(date) && INVESTMENTS.get(i).getReason().equals(reason)){
+                //INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate); // Set deletion date
+                INVESTMENTS.get(i).setDeletionDate(deletionDate); // Set the investment as deleted in the linked list
+            }
+                String fileContent = INVESTMENTS.get(i).getCode() + "," + INVESTMENTS.get(i).getPrice() + "," + INVESTMENTS.get(i).getAmount() + "," + INVESTMENTS.get(i).getDate() + "," + INVESTMENTS.get(i).getReason()+ "," + INVESTMENTS.get(i).getDeletionDate();
                 fileWriter.write(fileContent);
                 fileWriter.write(System.lineSeparator());
-            }
         }
         
-        
-        
         fileWriter.close();
-
         System.out.println("Investment" + code + " deleted.");
     }
     
