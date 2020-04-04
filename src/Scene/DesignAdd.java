@@ -231,18 +231,14 @@ public class DesignAdd {
                 if(INDEXA<=0){
                     MID.getChildren().clear();
                     try {
-<<<<<<< HEAD
-                        INVESTCONTROL.createInvestment(comboBox.getSelectionModel().getSelectedItem().toString(),PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText());
-=======
                         INVESTCONTROL.createInvestment(
                                 comboBox.getSelectionModel().getSelectedItem().toString(),
                                 PRC.getText(), 
                                 AMNT.getText(), 
                                 MYDATE.getText(), 
                                 REASON.getText(),
-                                ""                  // Deletion date empty, as it is being created
+                                "000000"                  // Deletion date empty, as it is being created
                         );
->>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
                     } catch (IOException ex) {
                         System.out.println("PROBLEMS");
                     }
@@ -290,7 +286,10 @@ public class DesignAdd {
             DELETEBTN.setOnAction(e ->{
             try {
                 // Get the date
-                
+                DATENOW = new Date();
+                DF = new SimpleDateFormat("dd.MM");
+                STRINGDATE = DF.format(DATENOW);
+                System.out.println(STRINGDATE);
                 // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
                 investmentcontroller.deleteInvestment(
@@ -298,7 +297,8 @@ public class DesignAdd {
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
                         FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4]
+                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],
+                        STRINGDATE
                 );
                 
                 // Reload the scene

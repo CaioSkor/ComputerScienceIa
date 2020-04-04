@@ -14,14 +14,13 @@ public class Investment {
     private String DELETIONDATE;
     
     // Constructors
-    public Investment(String c, String p, String a, String d, String r){
+    public Investment(String c, String p, String a, String d, String r, String dd){
         this.CODE = c;
         this.PRICE = p;
         this.AMOUNT = a;
         this.DATE = d;
         this.REASON = r;
-        
-        DELETIONDATE = "";
+        this.DELETIONDATE = dd;
     }
     
     public String getCode(){

@@ -18,13 +18,8 @@ public class InvestmentController {
     String FILECONTENT;
     String[] FILEDATA;    
     private Investment INVESTMENT;
-<<<<<<< HEAD
     private LinkedList<Investment> INVESTIMENTS;
-=======
-    private Investment DELETEDINVESTMENT;
-    private LinkedList<Investment> INVESTIMENTS;
-    private LinkedList<Investment> DELETEDINVESTIMENTS;
->>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
+    //private LinkedList<Investment> DELETEDINVESTIMENTS;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
@@ -33,30 +28,21 @@ public class InvestmentController {
  
         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
             FILEDATA = FILECONTENT.split(",");
-<<<<<<< HEAD
-            INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4]);
-=======
             INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4], FILEDATA[5]);
->>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
             INVESTIMENTS.add(INVESTMENT);
         }
         FILEREADER.close();
     }
     
     // CRUD - Create INVESTMENT
-    public void createInvestment(String code, String price, String amount, String date, String reason) throws IOException{
+    public void createInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
         FileWriter FILEWRITER;
         
         FILEWRITER = new FileWriter("data/investment.txt", true);
-<<<<<<< HEAD
-        INVESTMENT = new Investment(code, price, amount, date, reason);
-        INVESTIMENTS.add(INVESTMENT);
-        FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason());
-=======
+
         INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate);
         INVESTIMENTS.add(INVESTMENT);
         FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
->>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
         
@@ -64,27 +50,23 @@ public class InvestmentController {
     }
     
     // CRUD - Delete INVESTMENT
-    public void deleteInvestment(String code, String price, String amount, String date, String reason) throws IOException{
+    public void deleteInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
         FileWriter fileWriter = new FileWriter("data/investment.txt");
         fileWriter.flush();
         for(int i = 0; i < INVESTIMENTS.size(); i++) {
             if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason)){
-                INVESTIMENTS.set(i, null);
-            }else{
-                String fileContent = INVESTIMENTS.get(i).getCode() + "," + INVESTIMENTS.get(i).getPrice() + "," + INVESTIMENTS.get(i).getAmount() + "," + INVESTIMENTS.get(i).getDate() + "," + INVESTIMENTS.get(i).getReason();
-                fileWriter.write(fileContent);
-                fileWriter.write(System.lineSeparator());
+                INVESTIMENTS.get(i).setDeletionDate(deletionDate);
+                //INVESTIMENTS.set(i, null);
             }
-        }
-<<<<<<< HEAD
-=======
+            String fileContent = INVESTIMENTS.get(i).getCode() + "," + INVESTIMENTS.get(i).getPrice() + "," + INVESTIMENTS.get(i).getAmount() + "," + INVESTIMENTS.get(i).getDate() + "," + INVESTIMENTS.get(i).getReason() + "," + INVESTIMENTS.get(i).getDeletionDate();
+            fileWriter.write(fileContent);
+            fileWriter.write(System.lineSeparator());
+            
+        }     
         
-        
-        
->>>>>>> parent of d0a45f4... Merge pull request #2 from CaioSkor/feature-linkedlist_deletedinvestments
         fileWriter.close();
 
-        System.out.println("Investment" + code + " deleted.");
+        System.out.println("Investment " + code + " deleted.");
     }
     
     public LinkedList<String> readTickers() throws IOException{
