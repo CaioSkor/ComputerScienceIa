@@ -14,39 +14,53 @@ import javafx.scene.control.ComboBox;
 public class ToolsUse {
     Integer POS,INDEX;
     File REFERENCE;
-    String MINILINE;
-    String[] STRING,SORT;
+    String MINILINE, MINILINE2, CHECK;
+    String[] STRING,SORT, STRING2;
+    boolean DELNOT;
     
     public Integer FileMeasure(String FILEME) throws FileNotFoundException, IOException{
         LineNumberReader LNR;
         FileReader FIREADER;
         POS = 0;
+        REFERENCE = new File(FILEME);
         FIREADER = new FileReader(FILEME);
-        LNR = new LineNumberReader(FIREADER);          
+        LNR = new LineNumberReader(FIREADER); 
+        Scanner READER = new Scanner(REFERENCE);
         while (LNR.readLine() != null){
-            POS++;
+            while (READER.hasNextLine()) {
+                MINILINE2 = READER.nextLine();
+                STRING2 = MINILINE2.split(",");  
+                if (STRING2[5].equals("000000")){
+                    POS++;
+                }
+            }   
     	}
         LNR.close();        
+        System.out.println(POS);
         return POS;
     } 
     
     public void BoxFiller(String FILEME, ComboBox SELECTOR,String SOFAR) throws IOException{
         POS = FileMeasure(FILEME);
-        SORT = new String[POS];
-        REFERENCE = new File (FILEME);
-        INDEX = 0;
-        Scanner READER = new Scanner (REFERENCE);
-        while (READER.hasNextLine()) {
-            MINILINE = READER.nextLine();
-            STRING = MINILINE.split(",");  
-            SORT[INDEX] = STRING[0];
-            INDEX = INDEX +1;
+        if(POS != 0){
+            SORT = new String[POS];
+            REFERENCE = new File (FILEME);
+            INDEX = 0;
+            Scanner READER = new Scanner (REFERENCE);
+            while (READER.hasNextLine()) {
+                MINILINE = READER.nextLine();
+                STRING = MINILINE.split(",");
+                if(STRING[5].equals("000000")){
+                    SORT[INDEX] = STRING[0];
+                    INDEX = INDEX +1;
+                }
+            }
+            Arrays.sort(SORT);
+            for (INDEX=0; INDEX< POS; INDEX++){ 
+                SELECTOR.getItems().add(SORT[INDEX]);  
+            }
         }
-        Arrays.sort(SORT);
-        for (INDEX=0; INDEX< POS; INDEX++){ 
-            SELECTOR.getItems().add(SORT[INDEX]);  
-        }
-    } 
+    }
     
     public String[] TextBoxFiller(String FILEME, String INVESTNAME) throws IOException{
         FileMeasure(FILEME);
