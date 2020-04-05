@@ -43,7 +43,8 @@ public class DesignInv {
     ToolsUse NBRSTOCK;
     GetNames GAMESET;
     
-    DesignInv(Stage MAINWINDOW) throws IOException {
+    DesignInv(Stage MAINWINDOW, Integer CHOICE) throws IOException {
+        System.out.println(CHOICE + "here");
         MYFONT = new FontMeUp();
         NBRSTOCK = new ToolsUse();
         GAMESET = new GetNames();
@@ -61,7 +62,7 @@ public class DesignInv {
             STKCODE.setValue(newText);
         });        
         // Fill the choicebox with items
-        NBRSTOCK.BoxFiller("data/investment.txt", STKCODE,null); 
+        NBRSTOCK.BoxFiller("data/investment.txt", STKCODE,null, CHOICE); 
         
         STKCODE.setOnAction(new EventHandler() {
             @Override
@@ -94,10 +95,10 @@ public class DesignInv {
 
         });
         
-        STOCKBTN = new Button[NBRSTOCK.FileMeasure("data/investment.txt")];
+        STOCKBTN = new Button[NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)];
         
-        PIECES = NBRSTOCK.FileMeasure("data/investment.txt")/5;
-        RESTE = NBRSTOCK.FileMeasure("data/investment.txt")%5;
+        PIECES = NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)/5;
+        RESTE = NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)%5;
        
         TOP = new GridPane();
         TOP.setHgap(37);
@@ -112,11 +113,11 @@ public class DesignInv {
             MIDDLE = new HBox[PIECES];        
         }
         for (INDEXA=0; INDEXA< PIECES; INDEXA++){ 
-            PopulateMe(MAINWINDOW,5);
+            PopulateMe(MAINWINDOW,5, CHOICE);
             MIDDLE[INDEXA].setAlignment(Pos.CENTER);   
         }
         if (RESTE > 0){
-            PopulateMe(MAINWINDOW,RESTE);
+            PopulateMe(MAINWINDOW,RESTE, CHOICE);
             MIDDLE[INDEXA].setPadding(new Insets(0,0,0,55));            
         }
         
@@ -160,12 +161,12 @@ public class DesignInv {
     }
     
     
-    public void PopulateMe(Stage MAINWINDOW, Integer RESTE) throws IOException{
+    public void PopulateMe(Stage MAINWINDOW, Integer RESTE, Integer CHOICE) throws IOException{
         MIDDLE[INDEXA] = new HBox(10);
         for(INDEX=0; INDEX< RESTE; INDEX++){         
             STOCKBTN[INDEX+(5*INDEXA)] = new Button();
             STOCKBTN[INDEX+(5*INDEXA)].setPrefWidth(110);
-            STOCKBTN[INDEX+(5*INDEXA)].setText(GAMESET.GetNames("data/investment.txt")[INDEX+(5*INDEXA)]); 
+            STOCKBTN[INDEX+(5*INDEXA)].setText(GAMESET.GetNames("data/investment.txt",CHOICE)[INDEX+(5*INDEXA)]); 
             STOCKBTN[INDEX+(5*INDEXA)].setOnAction((ActionEvent e) -> {
                 final Integer BUTTONID = INDEX;
                 System.out.println("Button pressed " + ((Button) e.getSource()).getText());
@@ -181,7 +182,6 @@ public class DesignInv {
             MIDDLE[INDEXA].getChildren().add(STOCKBTN[INDEX+(5*INDEXA)]);     
         }
     }
-    
     
     public Scene getScreen(){
         return ENTRANCE;

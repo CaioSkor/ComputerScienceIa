@@ -18,7 +18,7 @@ public class ToolsUse {
     String[] STRING,SORT, STRING2;
     boolean DELNOT;
     
-    public Integer FileMeasure(String FILEME) throws FileNotFoundException, IOException{
+    public Integer FileMeasure(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         LineNumberReader LNR;
         FileReader FIREADER;
         POS = 0;
@@ -29,9 +29,15 @@ public class ToolsUse {
         while (LNR.readLine() != null){
             while (READER.hasNextLine()) {
                 MINILINE2 = READER.nextLine();
-                STRING2 = MINILINE2.split(",");  
-                if (STRING2[5].equals("000000")){
-                    POS++;
+                STRING2 = MINILINE2.split(",");
+                if(CHOICE == 1){
+                    if (STRING2[5].equals("000000")){
+                        POS++;
+                    }
+                }else{
+                    if (!STRING2[5].equals("000000")){
+                        POS++;
+                    }
                 }
             }   
     	}
@@ -40,9 +46,8 @@ public class ToolsUse {
         return POS;
     } 
     
-    public void BoxFiller(String FILEME, ComboBox SELECTOR,String SOFAR) throws IOException{
-        POS = FileMeasure(FILEME);
-        if(POS != 0){
+    public void BoxFiller(String FILEME, ComboBox SELECTOR,String SOFAR, Integer CHOICE) throws IOException{
+        POS = FileMeasure(FILEME,CHOICE);
             SORT = new String[POS];
             REFERENCE = new File (FILEME);
             INDEX = 0;
@@ -59,11 +64,9 @@ public class ToolsUse {
             for (INDEX=0; INDEX< POS; INDEX++){ 
                 SELECTOR.getItems().add(SORT[INDEX]);  
             }
-        }
     }
     
     public String[] TextBoxFiller(String FILEME, String INVESTNAME) throws IOException{
-        FileMeasure(FILEME);
         REFERENCE = new File (FILEME);
         Scanner READER = new Scanner (REFERENCE);
         while (READER.hasNextLine()) {

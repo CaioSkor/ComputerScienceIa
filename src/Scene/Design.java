@@ -55,8 +55,9 @@ public class Design {
         BTN1.setFont(MYFONT.OSWALDBUTTON);
         BTN1.setMinWidth(200);
         BTN1.setOnAction((ActionEvent e) -> {
+            Integer CHOICE = 1;
             try {
-                INVEST = new DesignInv(MAINWINDOW);
+                INVEST = new DesignInv(MAINWINDOW,CHOICE);
             } catch (IOException ex) {
                 System.out.println("PROBLEMS");
             }

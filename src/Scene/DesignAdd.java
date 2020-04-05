@@ -30,7 +30,7 @@ public class DesignAdd {
     Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
-    Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3;
+    Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
     Button SUBBTN, BCKBTN, DELETEBTN;
     HBox BOTTOM;
     GridPane MID,TOP;
@@ -43,7 +43,7 @@ public class DesignAdd {
    
     Design MAIN;
     DesignAddExtension EXTENSION;
-    DesignInv DSINV;
+    DesignInv DSINV, DSINV2;
     InvestmentController INVESTCONTROL; 
     DeletedInvestmentController DELETECONTROL;
     ToolsUse FILLMEUP;
@@ -55,7 +55,8 @@ public class DesignAdd {
     
     public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException {
         MYFONT = new FontMeUp();
-        DSINV = new DesignInv(MAINWINDOW);
+        CHOICE = 1;
+        DSINV = new DesignInv(MAINWINDOW, CHOICE);
         
         /* All text */
         TITLE = new Text();
@@ -263,23 +264,7 @@ public class DesignAdd {
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
-            OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]); 
-            if(!BOOL2){
-                
-                BOOLE = true;
-                BCKBTN.setOnAction((ActionEvent e) -> {   
-                    try {
-                        DSINV.continueInv(MAINWINDOW, BOOLE);
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            }else{
-                BCKBTN.setOnAction((ActionEvent e) -> {
-                    MAINWINDOW.setScene(ENTRANCE2);
-                    MAINWINDOW.setTitle("Investments");
-                });
-            }
+            OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -302,11 +287,10 @@ public class DesignAdd {
                 );
                 
                 // Reload the scene
+                CHOICE = 1;
                 MID.getChildren().clear();
                 EXTENSION = new DesignAddExtension();
                 EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
-                DesignInv designInv2 = new DesignInv(MAINWINDOW);
-                ENTRANCE2 = designInv2.getScreen();
                 
                 /*
                 DATENOW = new Date();
@@ -322,7 +306,30 @@ public class DesignAdd {
             } catch (IOException ex) {
                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
+            });
+            
+            
+            if(!BOOL2){
+                BOOLE = true;
+                BCKBTN.setOnAction((ActionEvent e) -> {   
+                    try {
+                        DSINV.continueInv(MAINWINDOW, BOOLE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }else{
+                BCKBTN.setOnAction((ActionEvent e) -> {
+                    try {
+                        DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    ENTRANCE2 = DSINV2.getScreen();
+                    MAINWINDOW.setScene(DSINV2.getScreen());
+                    MAINWINDOW.setTitle("Investments");
+                });
+            }
         }
         
         /* Panes */

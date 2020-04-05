@@ -69,7 +69,6 @@ public class DesignAddExtension {
                 }
             MISSING = new String[INDEXA];    
             }
-      
             COUNT = 0;
             for(INDEX=0;INDEX < MSG.length; INDEX++){
                 if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
@@ -168,7 +167,8 @@ public class DesignAddExtension {
     
     public GridPane DesignAddExtension(Stage MAINWINDOW, GridPane MID, String INVESTNAME) throws IOException{
         MYFONT = new FontMeUp();
-        DSINV = new DesignInv(MAINWINDOW);
+        Integer CHOICE = 1;
+        DSINV = new DesignInv(MAINWINDOW, CHOICE);
         
         MESSAGE = new Text();
         MESSAGE.setText("Investment " + INVESTNAME + " has been deleted." );
