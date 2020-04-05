@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3;
+    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, DELDATETXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3,OPT4;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
@@ -105,6 +105,11 @@ public class DesignAdd {
         REATXT.setText("Reason");
         REATXT.setFont(MYFONT.OSWALDREGULAR);
         REATXT.setFill(Color.GRAY);
+        
+        DELDATETXT = new Text();
+        DELDATETXT.setText("Date of deletion:");
+        DELDATETXT.setFont(MYFONT.OSWALDREGULAR);
+        DELDATETXT.setFill(Color.GRAY);
 
         ComboBox comboBox = new ComboBox();
         INVESTCONTROL = new InvestmentController();
@@ -265,6 +270,7 @@ public class DesignAdd {
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
+            OPT4 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5]);
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -320,14 +326,25 @@ public class DesignAdd {
                 });
             }else{
                 BCKBTN.setOnAction((ActionEvent e) -> {
-                    try {
-                        DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    if(OPT4.toString() == "000000"){
+                        try {
+                            DSINV2 = new DesignInv(MAINWINDOW, 1);
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ENTRANCE2 = DSINV2.getScreen();
+                        MAINWINDOW.setScene(DSINV2.getScreen());
+                        MAINWINDOW.setTitle("Investments");
+                    }else{
+                        try {
+                            DSINV2 = new DesignInv(MAINWINDOW, 0);
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ENTRANCE2 = DSINV2.getScreen();
+                        MAINWINDOW.setScene(DSINV2.getScreen());
+                        MAINWINDOW.setTitle("Investments");
                     }
-                    ENTRANCE2 = DSINV2.getScreen();
-                    MAINWINDOW.setScene(DSINV2.getScreen());
-                    MAINWINDOW.setTitle("Investments");
                 });
             }
         }
@@ -361,7 +378,11 @@ public class DesignAdd {
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
             MID.add(OPT3, 1, 5);  
-            MID.add(DELETEBTN, 5, 5);
+            if(FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[0].equals("000000")){
+                MID.add(DELETEBTN, 5, 5);
+            }else{
+                MID.add(OPT4, 1, 6);
+            }
         }
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);
@@ -370,6 +391,8 @@ public class DesignAdd {
         MID.add(REATXT, 0, 5);
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
+        }else{
+            MID.add(DELDATETXT, 0, 6);
         }
         
         MID.setMinSize(200, 200);

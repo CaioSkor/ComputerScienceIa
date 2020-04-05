@@ -27,12 +27,20 @@ public class GetNames {
         INVNAMES = new String[TONG.FileMeasure("data/investment.txt",CHOICE)];
         
         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
-            FILEDATA = FILECONTENT.split(","); 
-            if(FILEDATA[5].equals("000000")){
-                INVNAMES[POS]= FILEDATA[0];
-                POS++;
+            FILEDATA = FILECONTENT.split(",");
+            if(CHOICE == 1){
+                if(FILEDATA[5].equals("000000")){
+                    INVNAMES[POS]= FILEDATA[0];
+                    POS++;
+                }
+            }else{
+                if(!FILEDATA[5].equals("000000")){
+                    INVNAMES[POS]= FILEDATA[0];
+                    POS++;
+                }
             }
     	}
+        
         FIREADER.close();        
         return INVNAMES;
     }    
