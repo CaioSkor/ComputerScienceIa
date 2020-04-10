@@ -1,6 +1,5 @@
 package Scene;
 
-import controllers.FontDesign;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,7 +27,6 @@ public class DesignPerf {
     Design MAIN;
     Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE;
     TextFlow Sentence;
-    FontDesign FontCust;
     FontMeUp MYFONT;
     double performance;
     
