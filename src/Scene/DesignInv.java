@@ -3,8 +3,6 @@ package Scene;
 import controllers.GetNames;
 import controllers.ToolsUse;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -26,15 +24,16 @@ import javafx.stage.Stage;
 public class DesignInv {
     Text TITLE;
     ComboBox STKCODE;
-    Button BCKBUTTON,MORESTOCKS,DELSTOCKS;
+    Button BCKBUTTON,MORESTOCKS;
     Integer PIECES,RESTE,INDEX,INDEXA,LASTBUTTON;
     Button[] STOCKBTN;
     String DATA, CODENAME;
     String [] NAMEINVEST;
     Boolean BOOL, BOOL2;
-    GridPane TOP,BOTTOM;
+    GridPane TOP;
     HBox[] MIDDLE;    
     VBox MID;
+    HBox BOTTOM;
     BorderPane LAYOUT;
     Scene ENTRANCE;
 
@@ -44,7 +43,7 @@ public class DesignInv {
     ToolsUse NBRSTOCK;
     GetNames GAMESET;
     
-    public DesignInv(Stage MAINWINDOW, Integer CHOICE) throws IOException {
+    DesignInv(Stage MAINWINDOW, Integer CHOICE) throws IOException {
         System.out.println(CHOICE + "here");
         MYFONT = new FontMeUp();
         NBRSTOCK = new ToolsUse();
@@ -84,17 +83,9 @@ public class DesignInv {
         BCKBUTTON.setText("BACK");
         BCKBUTTON.setFont(MYFONT.OSWALDBUTTON);
         BCKBUTTON.setOnAction((ActionEvent e) -> {
-            if(CHOICE == 1){
-                MAIN = new Design(MAINWINDOW);
-                MAINWINDOW.setScene(MAIN.getScreen());
-                MAINWINDOW.setTitle("Stock Organizer Software");
-            }else{
-                try {
-                    NBRSTOCK.BackDeletedWindow(MAINWINDOW);
-                } catch (IOException ex) {
-                    Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            MAIN = new Design(MAINWINDOW);
+            MAINWINDOW.setScene(MAIN.getScreen());
+            MAINWINDOW.setTitle("Stock Organizer Software");
         });
         
         MORESTOCKS = new Button();
@@ -102,17 +93,6 @@ public class DesignInv {
         MORESTOCKS.setFont(MYFONT.OSWALDBUTTON);
         MORESTOCKS.setOnAction((ActionEvent e) -> {
 
-        });
-        
-        DELSTOCKS = new Button();
-        DELSTOCKS.setText("DELETED STOCKS");
-        DELSTOCKS.setFont(MYFONT.OSWALDBUTTON);
-        DELSTOCKS.setOnAction((ActionEvent e) -> {
-            try {
-                NBRSTOCK.DeletedWindow(MAINWINDOW);
-            } catch (IOException ex) {
-                Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
-            }
         });
         
         STOCKBTN = new Button[NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)];
@@ -150,13 +130,10 @@ public class DesignInv {
             MID.getChildren().add(MIDDLE[PIECES]);        
         }        
 
-        BOTTOM = new GridPane();
-        BOTTOM.setVgap(15);
-        BOTTOM.setHgap(15);
-        BOTTOM.setAlignment(Pos.TOP_LEFT);
-        BOTTOM.add(BCKBUTTON, 1, 2);
-        BOTTOM.add(MORESTOCKS, 25, 2);
-        BOTTOM.add(DELSTOCKS, 28, 2);
+        BOTTOM = new HBox(450);
+        BOTTOM.setAlignment(Pos.BASELINE_CENTER);
+        BOTTOM.getChildren().addAll(BCKBUTTON,MORESTOCKS);
+        BOTTOM.setPadding(new Insets(10, 20, 10, 15));
         
         LAYOUT = new BorderPane();
         LAYOUT.setTop(TOP);

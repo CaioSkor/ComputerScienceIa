@@ -1,6 +1,5 @@
 package controllers;
 
-import Scene.DesignInv;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,7 +10,6 @@ import java.util.Scanner;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.stage.Stage;
 
 public class ToolsUse {
     Integer POS,INDEX;
@@ -19,7 +17,6 @@ public class ToolsUse {
     String MINILINE, MINILINE2, CHECK;
     String[] STRING,SORT, STRING2;
     boolean DELNOT;
-    DesignInv DSINV;
     
     public Integer FileMeasure(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         LineNumberReader LNR;
@@ -58,17 +55,10 @@ public class ToolsUse {
             while (READER.hasNextLine()) {
                 MINILINE = READER.nextLine();
                 STRING = MINILINE.split(",");
-                if(CHOICE == 1){
-                    if(STRING[5].equals("000000")){
-                        SORT[INDEX] = STRING[0];
-                        INDEX = INDEX +1;
-                    }
-                }else{
-                    if(!STRING[5].equals("000000")){
-                        SORT[INDEX] = STRING[0];
-                        INDEX = INDEX +1;
-                    }
-                }   
+                if(STRING[5].equals("000000")){
+                    SORT[INDEX] = STRING[0];
+                    INDEX = INDEX +1;
+                }
             }
             Arrays.sort(SORT);
             for (INDEX=0; INDEX< POS; INDEX++){ 
@@ -87,18 +77,6 @@ public class ToolsUse {
             }
         } 
         return STRING;
-    }
-    
-    public void DeletedWindow(Stage MAINWINDOW) throws IOException{
-        INDEX = 0;
-        DSINV = new DesignInv(MAINWINDOW, INDEX);   
-        MAINWINDOW.setScene(DSINV.getScreen());
-    }
-    
-    public void BackDeletedWindow(Stage MAINWINDOW) throws IOException{
-        INDEX = 1;
-        DSINV = new DesignInv(MAINWINDOW, INDEX);   
-        MAINWINDOW.setScene(DSINV.getScreen());
     }
     
 }
