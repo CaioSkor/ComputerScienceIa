@@ -1,7 +1,7 @@
 package Scene;
 
+import controllers.DeletedInvestmentController;
 import controllers.InvestmentController;
-import controllers.PerformanceController;
 import controllers.ToolsUse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3;
+    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST,OPTCODE,OPT0,OPT1,OPT2,OPT3;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
@@ -45,8 +45,8 @@ public class DesignAdd {
     DesignAddExtension EXTENSION;
     DesignInv DSINV, DSINV2;
     InvestmentController INVESTCONTROL; 
+    DeletedInvestmentController DELETECONTROL;
     ToolsUse FILLMEUP;
-    PerformanceController PERF;
     
     FontMeUp MYFONT;
     private Date DATENOW;
@@ -105,7 +105,6 @@ public class DesignAdd {
         REATXT.setText("Reason");
         REATXT.setFont(MYFONT.OSWALDREGULAR);
         REATXT.setFill(Color.GRAY);
-        
 
         ComboBox comboBox = new ComboBox();
         INVESTCONTROL = new InvestmentController();
@@ -261,11 +260,6 @@ public class DesignAdd {
                     }
             });
         }else{
-            PERF = new PerformanceController();
-            
-            PERFTXT = new Text();
-            PERFTXT.setText(PERF.getlastOpen(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]));
-            
             OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
             OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
