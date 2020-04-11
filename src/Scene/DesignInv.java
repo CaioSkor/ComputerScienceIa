@@ -51,6 +51,9 @@ public class DesignInv {
         BOOL = true;
         LASTBUTTON = -1;
         
+        
+        MORESTOCKS = new Button();
+        
         TITLE = new Text();
         TITLE.setText("Investments");
         TITLE.setFont(MYFONT.OSWALDBOLD);
@@ -78,7 +81,7 @@ public class DesignInv {
                    
             }    
         });
-
+        
         BCKBUTTON = new Button();
         BCKBUTTON.setText("BACK");
         BCKBUTTON.setFont(MYFONT.OSWALDBUTTON);
@@ -88,12 +91,6 @@ public class DesignInv {
             MAINWINDOW.setTitle("Stock Organizer Software");
         });
         
-        MORESTOCKS = new Button();
-        MORESTOCKS.setText("MORE STOCKS");
-        MORESTOCKS.setFont(MYFONT.OSWALDBUTTON);
-        MORESTOCKS.setOnAction((ActionEvent e) -> {
-
-        });
         
         STOCKBTN = new Button[NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)];
         

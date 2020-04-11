@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3;
+    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3,OPTPERF;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
@@ -264,13 +264,28 @@ public class DesignAdd {
             PERF = new PerformanceController();
             
             PERFTXT = new Text();
-            PERFTXT.setText(PERF.getlastOpen(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]));
+            PERFTXT.setText("Performance");
+            PERFTXT.setFont(MYFONT.OSWALDREGULAR);
+            PERFTXT.setFill(Color.GRAY);
+           
             
             OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
-            OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);            
+            OPTCODE.setFont(MYFONT.OSWALDREGULAR);
+            OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
+            OPT0.setFont(MYFONT.OSWALDREGULAR);
             OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
+            OPT1.setFont(MYFONT.OSWALDREGULAR);
             OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
+            OPT2.setFont(MYFONT.OSWALDREGULAR);
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
+            OPT3.setFont(MYFONT.OSWALDREGULAR);
+            OPTPERF = new Text(PERF.PerformanceCalc(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0],FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
+            OPTPERF.setFont(MYFONT.OSWALDREGULAR);
+                if(PERF.getPerformance() < 0){
+                    OPTPERF.setFill(MYFONT.TITLECOLOR);
+                }else{
+                    OPTPERF.setFill(Color.GREENYELLOW);
+                }
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -351,11 +366,11 @@ public class DesignAdd {
         MID.setAlignment(Pos.CENTER);
         if (!BOOL){
             MID.add(comboBox, 1, 1);
-        }else{
+        }/*else{
             if(POS>-1){
                 MID.add(NAMEINVEST, 1, 1);            
             }
-        }
+        }*/
         if (!BOOL){
             MID.add(PRC, 1, 2 );
             MID.add(AMNT, 1, 3);
@@ -367,7 +382,8 @@ public class DesignAdd {
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
             MID.add(OPT3, 1, 5);  
-            MID.add(DELETEBTN, 5, 5);
+            MID.add(OPTPERF, 1, 6);
+            MID.add(DELETEBTN, 5, 6);
         }
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);
@@ -376,6 +392,8 @@ public class DesignAdd {
         MID.add(REATXT, 0, 5);
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
+        }else{
+            MID.add(PERFTXT, 0, 6);
         }
         
         MID.setMinSize(200, 200);

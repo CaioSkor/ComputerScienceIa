@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 import org.json.JSONObject;
 
@@ -17,14 +18,16 @@ import org.json.JSONObject;
  * @author caio
  */
 public class PerformanceController {
-    Scanner SCANNER;
-    String URLSTRING, MINILINE, LINE, LASTOPEN; 
-    URL URL;
-    JSONObject OBJECT;
-    URLConnection CON;
-    InputStream INPUT;
+    private Scanner SCANNER;
+    private String URLSTRING, MINILINE, LINE, PERFORMANCESTRING; 
+    private URL URL;
+    private JSONObject OBJECT;
+    private URLConnection CON;
+    private InputStream INPUT;
+    private double PERFORMANCE, LASTCLOSE;
     
-    public String getlastOpen(String code) throws IOException {
+    
+    public void getlastClose(String code) throws IOException {
         URLSTRING = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + code + "&apikey=W4Y24M2DSAHOK1O7";
         URL = new URL(URLSTRING);
         
@@ -37,16 +40,36 @@ public class PerformanceController {
         MINILINE = "";
         while (SCANNER.hasNext()) {
             MINILINE = SCANNER.nextLine();
-            System.out.println(LINE);
             LINE = LINE + MINILINE.trim();
         }
         SCANNER.close();
         System.out.println(LINE);
-
-        JSONObject jObject = new JSONObject(LINE);
-        LASTOPEN = jObject.getJSONObject("Global Quote").getString("08. previous close");
-        System.out.println(LASTOPEN);
         
-        return LASTOPEN;
+        JSONObject jObject = new JSONObject(LINE);
+        LASTCLOSE = jObject.getJSONObject("Global Quote").getFloat("08. previous close");
+        System.out.println(LASTCLOSE);
+        
     }
+    
+    public String PerformanceCalc(String code, String price) throws IOException{
+    getlastClose(code);
+    DecimalFormat df = new DecimalFormat("#.##");
+    LASTCLOSE = Double.valueOf(df.format(LASTCLOSE));
+    
+    PERFORMANCE = LASTCLOSE - Double.parseDouble(price);
+    PERFORMANCE = Double.valueOf(df.format(PERFORMANCE));
+    if(PERFORMANCE > 0){
+        PERFORMANCESTRING = "+ " + String.valueOf(PERFORMANCE) + " USD";
+    }else{
+        PERFORMANCESTRING = String.valueOf(PERFORMANCE) + " USD";
+    }
+    
+    return PERFORMANCESTRING;
+    } 
+    
+    public double getPerformance(){
+        return PERFORMANCE;
+    }
+     
+    
 }

@@ -162,7 +162,6 @@ public class DesignAddExtension {
         MID.add(MESSAGE2, 0, 4);
         
         return MID;
-        
     }
     
     public GridPane DesignAddExtension(Stage MAINWINDOW, GridPane MID, String INVESTNAME) throws IOException{
