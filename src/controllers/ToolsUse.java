@@ -74,6 +74,8 @@ public class ToolsUse {
     }
     
     public String[] TextBoxFiller(String FILEME, String INVESTNAME) throws IOException{
+        STRING = new String[5];
+        STRING[0] = "A";
         REFERENCE = new File (FILEME);
         Scanner READER = new Scanner (REFERENCE);
         while (READER.hasNextLine()) {

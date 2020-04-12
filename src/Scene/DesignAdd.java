@@ -139,6 +139,7 @@ public class DesignAdd {
 
         /* All buttons */
         if (!BOOL){
+            TOOLS = new ToolsUse();
             
             GROUP = new ToggleGroup();
                 
@@ -191,7 +192,8 @@ public class DesignAdd {
             SUBBTN.setOnAction((ActionEvent e) -> {
                 MID.getChildren().clear();
                 EXTENSION = new DesignAddExtension();
-                INFO[0] = comboBox.getSelectionModel().getSelectedItem().toString();
+                String CODE = comboBox.getSelectionModel().getSelectedItem().toString();
+                INFO[0] = CODE;
                 INFO[1] = PRC.getText();             
                 INFO[2] = AMNT.getText();
                 INFO[3] = MYDATE.getText();
@@ -243,22 +245,27 @@ public class DesignAdd {
                         FORMATMSG[INDEX-1] = null;  
                     }
                 }
-
                 if(INDEXA<=0){
-                    MID.getChildren().clear();
                     try {
-                        INVESTCONTROL.createInvestment(
-                                comboBox.getSelectionModel().getSelectedItem().toString(),
-                                PRC.getText(), 
-                                AMNT.getText(), 
-                                MYDATE.getText(), 
-                                REASON.getText(),
-                                "000000"                  // Deletion date empty, as it is being created
-                        );
+                        MID.getChildren().clear();
+                        if(CODE.equals(TOOLS.TextBoxFiller("data/investment.txt", CODE)[0])){
+                            INVESTCONTROL.updateInvestment(CODE, TOOLS.TextBoxFiller("data/investment.txt", CODE)[1], TOOLS.TextBoxFiller("data/investment.txt", CODE)[2] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[3], TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText(), "000000");
+                            String MESSAGE = "Investment" + CODE + "has been updated with sucess";
+                            EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP, MESSAGE);
+                        }else{
+                            INVESTCONTROL.createInvestment(
+                                    CODE,
+                                    PRC.getText(),
+                                    AMNT.getText(),
+                                    MYDATE.getText(),
+                                    REASON.getText(),
+                                    "000000" 
+                            );
+                            EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
+                        }
                     } catch (IOException ex) {
-                        System.out.println("PROBLEMS");
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                        EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
                     }else{
                         if(CHECK2 <= 0){
                             CASE = false;

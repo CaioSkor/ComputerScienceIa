@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -36,6 +37,25 @@ public class DesignAddExtension {
         
         MID.add(BTN1, 0, 0);
         MID.add(BTN2, 0, 1);
+        return MID;
+    }
+    
+    public GridPane DesignAddExtension(GridPane MID, RadioButton BTN1, RadioButton BTN2, ToggleGroup GROUP, String MSG) {
+        MYFONT = new FontMeUp();
+        
+        MESSAGE = new Text();
+        MESSAGE.setText(MSG);
+        MESSAGE.setFont(MYFONT.getOswaldRegular());
+        MESSAGE.setFill(Color.CHARTREUSE);
+                
+        MID.setHgap(15);
+        MID.setVgap(10);
+
+        MID.setAlignment(Pos.CENTER);
+        
+        MID.add(MESSAGE, 0, 0);
+        MID.add(BTN1, 0, 1);
+        MID.add(BTN2, 0, 2);
         return MID;
     }
     

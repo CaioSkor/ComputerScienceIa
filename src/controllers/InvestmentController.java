@@ -68,6 +68,36 @@ public class InvestmentController {
         System.out.println("Investment " + code + " deleted.");
     }
     
+    public void updateInvestment(String code, String price, String amount, String date, String reason, String newPrice, String newAmnt, String newDate, String newReason, String deldate) throws IOException{
+        FileWriter fileWriter = new FileWriter("data/investment.txt");
+        fileWriter.flush();
+        double MEDPRICE; 
+        Integer MEDAMOUNT;
+        String MEDPRICESTRING;
+        String MEDAMOUNTSTRING;
+        
+        MEDAMOUNT = Integer.parseInt(amount) + Integer.parseInt(newAmnt);
+        MEDAMOUNTSTRING = String.valueOf(MEDAMOUNT);
+        
+        MEDPRICE = ((Double.parseDouble(amount) * Double.parseDouble(price)) + (Double.parseDouble(newAmnt) * Double.parseDouble(newPrice))) / MEDAMOUNT ; 
+        MEDPRICESTRING = String.valueOf(MEDPRICE);
+        
+        for(int i = 0; i < INVESTIMENTS.size(); i++) {
+            if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason) && INVESTIMENTS.get(i).getDeletionDate().equals(deldate)){
+                INVESTIMENTS.get(i).setPrice(MEDPRICESTRING);
+                INVESTIMENTS.get(i).setAmount(MEDAMOUNTSTRING);
+                INVESTIMENTS.get(i).setDate(newDate);
+                INVESTIMENTS.get(i).setReason(newReason);
+                INVESTIMENTS.get(i).setDeletionDate(deldate);
+            }
+            fileWriter.write(INVESTIMENTS.get(i).getCode()+ "," + INVESTIMENTS.get(i).getPrice()+ "," +INVESTIMENTS.get(i).getAmount()+ "," +INVESTIMENTS.get(i).getDate()+ ","+ INVESTIMENTS.get(i).getReason()+ "," + INVESTIMENTS.get(i).getDeletionDate());
+            fileWriter.write(System.lineSeparator());
+        }
+        fileWriter.close();
+        
+        System.out.println("Investment " + code + " updated.");
+    }
+    
     public LinkedList<String> readTickers() throws IOException{
         LinkedList<String> TICKERS = new LinkedList<String>();
         FileReader TEXTFILEPATH = new FileReader("./data/nasdaqlisted.txt");
