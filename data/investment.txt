@@ -1,2 +1,1 @@
-AAPL,190,12,12/05,upward pressure,12.04
-ACBI,123,123,dsa,fds,12.04
+AAPL,190.55,12,15/04,income increased,12.04

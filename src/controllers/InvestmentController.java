@@ -13,12 +13,12 @@ import modules.Investment;
  * @author caio
  */
 public class InvestmentController {
-    FileReader FILEREADER;   
-    BufferedReader BUFFEREDREADER;
-    String FILECONTENT;
-    String[] FILEDATA;    
+    private final FileReader FILEREADER;   
+    private final BufferedReader BUFFEREDREADER;
+    private String FILECONTENT;
+    private String[] FILEDATA;    
     private Investment INVESTMENT;
-    private LinkedList<Investment> INVESTIMENTS;
+    private final LinkedList<Investment> INVESTIMENTS;
     //private LinkedList<Investment> DELETEDINVESTIMENTS;
     
     public InvestmentController() throws IOException{

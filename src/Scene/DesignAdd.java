@@ -37,7 +37,7 @@ public class DesignAdd {
     private Text NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, DELTXT;
     private TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
-    private Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
+    private Integer INDEX, INDEXA, CHECK, AMNTINT, CHECK2, CHECK3, CHOICE;
     private Button SUBBTN;
     private final Button BCKBTN;
     private Button DELETEBTN;
@@ -50,7 +50,8 @@ public class DesignAdd {
     private RadioButton RADBTN1, RADBTN2;
     private ToggleGroup GROUP;
     private Boolean BOOLE, CASE, BOOL2;
-   
+    private double PRCDOUBLE;
+    
     private Design MAIN;
     private DesignAddExtension EXTENSION;
     private DesignInv DSINV, DSINV2;
@@ -76,10 +77,17 @@ public class DesignAdd {
         
         if (!BOOL){
             TITLE.setText("Add investment");
+            
             BCKBTN.setOnAction((ActionEvent e) -> {
-                MAIN = new Design(MAINWINDOW);
-                MAINWINDOW.setScene(MAIN.getScreen());
-                MAINWINDOW.setTitle("Stock Organizer Software");
+                if(INVESTNAME.equals("NOINV")){
+                    MAINWINDOW.setScene(DSINV.getScreen());
+                    MAINWINDOW.setTitle("Investments");
+                }else{
+                    MAIN = new Design(MAINWINDOW);
+                    MAINWINDOW.setScene(MAIN.getScreen());
+                    MAINWINDOW.setTitle("Stock Organizer Software");
+                }
+                
             });
         }else{
             TOOLS = new ToolsUse();
@@ -219,7 +227,7 @@ public class DesignAdd {
                 FORMATMSG = new String[2];
                 CHECK = 0;
                 try{
-                    PRCINT = Integer.parseInt(PRC.getText());
+                    PRCDOUBLE = Double.parseDouble(PRC.getText());
                 } catch(NumberFormatException er){ 
                     CHECK++;
                     FORMATMSG[CHECK-1] = "price";
@@ -287,7 +295,7 @@ public class DesignAdd {
             
             OPTCODE = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
             OPTCODE.setFont(MYFONT.getOswaldRegular());
-            OPT0 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
+            OPT0 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1] + " USD");
             OPT0.setFont(MYFONT.getOswaldRegular());
             OPT1 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
             OPT1.setFont(MYFONT.getOswaldRegular());
@@ -446,4 +454,4 @@ public class DesignAdd {
         return ENTRANCE;
     }
     
-  }
+}

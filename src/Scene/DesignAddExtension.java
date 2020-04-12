@@ -182,7 +182,7 @@ public class DesignAddExtension {
         MID.setAlignment(Pos.CENTER);
         return MID;
     }
-   
+    
     public void DelStockPage(Stage MAINWINDOW) throws IOException{
         DSINV = new DesignInv(MAINWINDOW, 0);
         ENTRANCE = DSINV.getScreen();

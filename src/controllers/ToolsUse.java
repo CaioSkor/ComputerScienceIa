@@ -12,13 +12,13 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 public class ToolsUse {
-    Integer POS,INDEX;
-    File REFERENCE;
-    String MINILINE, MINILINE2, CHECK;
-    String[] STRING,SORT, STRING2;
-    boolean DELNOT;
+    private Integer POS,INDEX;
+    private File REFERENCE;
+    private String MINILINE, MINILINE2, CHECK;
+    private String[] STRING,SORT, STRING2;
+    private boolean DELNOT;
     
-    DesignInv DSINV;
+    private DesignInv DSINV;
     
     public Integer FileMeasure(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         LineNumberReader LNR;

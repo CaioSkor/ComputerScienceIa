@@ -24,10 +24,9 @@ public class PerformanceController {
     private JSONObject OBJECT;
     private URLConnection CON;
     private InputStream INPUT;
-    private double PERFORMANCE, LASTCLOSE;
+    private double PERFORMANCE, CURRENTPRICE;
     
-    
-    public void getlastClose(String code) throws IOException {
+    public void getCurrentPrice(String code) throws IOException {
         URLSTRING = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + code + "&apikey=W4Y24M2DSAHOK1O7";
         URL = new URL(URLSTRING);
         
@@ -47,17 +46,17 @@ public class PerformanceController {
         System.out.println(LINE);
         
         JSONObject jObject = new JSONObject(LINE);
-        LASTCLOSE = jObject.getJSONObject("Global Quote").getFloat("08. previous close");
-        System.out.println(LASTCLOSE);
+        CURRENTPRICE = jObject.getJSONObject("Global Quote").getFloat("05. price");
+        System.out.println(CURRENTPRICE);
         
     }
     
     public String PerformanceCalc(String code, String price) throws IOException{
-    getlastClose(code);
+    getCurrentPrice(code);
     DecimalFormat df = new DecimalFormat("#.##");
-    LASTCLOSE = Double.valueOf(df.format(LASTCLOSE));
+    CURRENTPRICE = Double.valueOf(df.format(CURRENTPRICE));
     
-    PERFORMANCE = LASTCLOSE - Double.parseDouble(price);
+    PERFORMANCE = CURRENTPRICE - Double.parseDouble(price);
     PERFORMANCE = Double.valueOf(df.format(PERFORMANCE));
     if(PERFORMANCE > 0){
         PERFORMANCESTRING = "+ " + String.valueOf(PERFORMANCE) + " USD";

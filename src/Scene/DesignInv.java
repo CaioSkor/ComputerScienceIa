@@ -60,7 +60,6 @@ public class DesignInv {
         BOOL = true;
         LASTBUTTON = -1;
         
-        
         MORESTOCKS = new Button();
         MORESTOCKS.setText("MORESTOCKS");
         MORESTOCKS.setFont(MYFONT.getOswaldButton());
@@ -165,7 +164,7 @@ public class DesignInv {
                 DSADDBUTTON.setFont(MYFONT.getOswaldButton());
                 DSADDBUTTON.setOnAction((ActionEvent e) -> {
                     try {
-                        DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"HI", BOOL);
+                        DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV", BOOL);
                     } catch (IOException ex) {
                         Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -183,7 +182,6 @@ public class DesignInv {
             MID.getChildren().add(MIDDLE[PIECES]);        
             }    
         }
-            
 
         BOTTOM = new GridPane();
         BOTTOM.setVgap(15);
@@ -227,7 +225,6 @@ public class DesignInv {
             MAINWINDOW.setScene(DSADD.getScreen());
         }
     }
-    
     
     public void PopulateMe(Stage MAINWINDOW, Integer RESTE, Integer CHOICE) throws IOException{
         MIDDLE[INDEXA] = new HBox(10);

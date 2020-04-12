@@ -5,8 +5,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class mainpage extends Application {
-    Stage MAINWINDOW;
-    Design PAYSAGE;
+    private Stage MAINWINDOW;
+    private Design PAYSAGE;
     
     @Override
     public void start(Stage primaryStage) throws Exception  {

@@ -4,10 +4,7 @@
     -fx-font-weight: bold;  
     -fx-background-radius: 18px;
 }
-.button:hover {
-    -fx-background-color:  #b30000ff;
-    -fx-text-fill: whitesmoke;
-}
+
 /*COMBOBOX*/
 .combo-box-base  
 {

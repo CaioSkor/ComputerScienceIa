@@ -110,7 +110,6 @@ public class DesignPerf {
         ENTRANCE.getStylesheets().add("CAIOSTYLE.css");        
     }
 
-
     public Scene getScreen(){
         return ENTRANCE;
     }
