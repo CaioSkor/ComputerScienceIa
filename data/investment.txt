@@ -1,6 +1,2 @@
-ACRX,134,134,gfds,gfds,11.04
-ACTTU,12345,65432,gfds,gfds,12.04
-ACST,1234,1234,gfds,gfds,11.04
-AAPL,2,123,fds,gfds,12.04
-ADIL,1234,432,ffdd,fdddd,12.04
-ACER,1234,1234,fds,fds,12.04
+AAPL,190,12,12/05,upward pressure,12.04
+ACBI,123,123,dsa,fds,12.04

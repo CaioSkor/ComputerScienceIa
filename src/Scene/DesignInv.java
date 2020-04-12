@@ -218,6 +218,7 @@ public class DesignInv {
     public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException{
         BOOL2 = false;
         if(!BOOLE){
+            BOOL = true;
             DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
             MAINWINDOW.setScene(DSADD.getScreen());                
         }else{
