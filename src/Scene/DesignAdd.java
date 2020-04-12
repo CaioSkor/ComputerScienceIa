@@ -77,6 +77,10 @@ public class DesignAdd {
             TITLE.setText(CODESTRING); 
             System.out.println(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);    
             DSINV.codeName(CODESTRING);
+            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                CHOICE = 0;
+            }
+                
         }
         TITLE.setFont(MYFONT.OSWALDBOLD);
         TITLE.setFill(MYFONT.TITLECOLOR);
@@ -351,17 +355,10 @@ public class DesignAdd {
             }else{
                 BCKBTN.setOnAction((ActionEvent e) -> {
                     try {
-                        if(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
-                            DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
-                            ENTRANCE2 = DSINV2.getScreen();
-                            MAINWINDOW.setScene(DSINV2.getScreen());
-                            MAINWINDOW.setTitle("Investments"); 
-                        }else{
-                            DSINV2 = new DesignInv(MAINWINDOW, 0);
-                            ENTRANCE2 = DSINV2.getScreen();
-                            MAINWINDOW.setScene(DSINV2.getScreen());
-                            MAINWINDOW.setTitle("Deleted Investments"); 
-                        }
+                        DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
+                        ENTRANCE2 = DSINV2.getScreen();
+                        MAINWINDOW.setScene(DSINV2.getScreen());
+                        MAINWINDOW.setTitle("Investments");
                     } catch (IOException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
