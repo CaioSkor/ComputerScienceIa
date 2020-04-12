@@ -16,7 +16,6 @@ public class ToolsUse {
     private File REFERENCE;
     private String MINILINE, MINILINE2, CHECK;
     private String[] STRING,SORT, STRING2;
-    private boolean DELNOT;
     
     private DesignInv DSINV;
     
@@ -44,7 +43,6 @@ public class ToolsUse {
             }   
     	}
         LNR.close();        
-        System.out.println(POS);
         return POS;
     }
     
@@ -98,6 +96,6 @@ public class ToolsUse {
         INDEX = 1;
         DSINV = new DesignInv(MAINWINDOW, INDEX);   
         MAINWINDOW.setScene(DSINV.getScreen());
+        MAINWINDOW.setTitle("Deleted Investments");
      }
-    
 }

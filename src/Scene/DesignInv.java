@@ -1,6 +1,6 @@
 package Scene;
 
-import controllers.GetNames;
+import controllers.GetTicker;
 import controllers.ToolsUse;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -50,13 +50,12 @@ public class DesignInv {
     private DesignAddExtension EXTENSION;
     private final FontMeUp MYFONT;
     private ToolsUse TOOLS;
-    private final GetNames NAMES;
+    private final GetTicker NAMES;
     
     public DesignInv(Stage MAINWINDOW, Integer CHOICE) throws IOException {
-        System.out.println(CHOICE + "here");
         MYFONT = new FontMeUp();
         TOOLS = new ToolsUse();
-        NAMES = new GetNames();
+        NAMES = new GetTicker();
         BOOL = true;
         LASTBUTTON = -1;
         
@@ -65,7 +64,11 @@ public class DesignInv {
         MORESTOCKS.setFont(MYFONT.getOswaldButton());
         
         TITLE = new Text();
-        TITLE.setText("Investments");
+        if(CHOICE == 1){
+            TITLE.setText("Investments");
+        }else{
+            TITLE.setText("Deleted investments");
+        }
         TITLE.setFont(MYFONT.getOswaldBold());
         TITLE.setFill(MYFONT.getTitleColor());
         
@@ -231,7 +234,7 @@ public class DesignInv {
         for(INDEX=0; INDEX< RESTE; INDEX++){         
             STOCKBTN[INDEX+(5*INDEXA)] = new Button();
             STOCKBTN[INDEX+(5*INDEXA)].setPrefWidth(110);
-            STOCKBTN[INDEX+(5*INDEXA)].setText(NAMES.GetNames("data/investment.txt",CHOICE)[INDEX+(5*INDEXA)]); 
+            STOCKBTN[INDEX+(5*INDEXA)].setText(NAMES.GetTicker("data/investment.txt",CHOICE)[INDEX+(5*INDEXA)]); 
             STOCKBTN[INDEX+(5*INDEXA)].setOnAction((ActionEvent e) -> {
                 final Integer BUTTONID = INDEX;
                 System.out.println("Button pressed " + ((Button) e.getSource()).getText());

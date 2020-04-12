@@ -1,1 +1,2 @@
 AAPL,190.55,12,15/04,income increased,12.04
+EA,16.72,11,10.01,i like it,000000

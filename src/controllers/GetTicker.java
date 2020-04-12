@@ -1,12 +1,11 @@
 package controllers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GetNames {
+public class GetTicker {
     private BufferedReader BUFFEREDREADER;
     private FileReader FIREADER;
     private String FILECONTENT;
@@ -15,7 +14,7 @@ public class GetNames {
     private ToolsUse TOOLS;
     private Integer POS;
     
-    public String[] GetNames(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
+    public String[] GetTicker(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         TOOLS = new ToolsUse();
         POS = 0;
         FIREADER = new FileReader(FILEME);
@@ -38,6 +37,5 @@ public class GetNames {
         }
         FIREADER.close();
         return INVNAMES;
-}
-
+    }
 }

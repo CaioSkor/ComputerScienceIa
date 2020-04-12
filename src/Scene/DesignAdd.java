@@ -34,7 +34,7 @@ public class DesignAdd {
     private final Text DATETXT;
     private final Text REATXT;
     private final Text TITLE;
-    private Text NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, DELTXT;
+    private Text NAMEINVEST, PERFTXT, INDIVPERFTXT, PERCENTAGEPERFTXT, PERFTOTALTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, OPTPERCENTAGEPERF, OPTTOTALPERF, DELTXT;
     private TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     private Integer INDEX, INDEXA, CHECK, AMNTINT, CHECK2, CHECK3, CHOICE;
@@ -69,7 +69,6 @@ public class DesignAdd {
         CHOICE = 1;
         DSINV = new DesignInv(MAINWINDOW, CHOICE);
         
-        /* All text */
         TITLE = new Text();
         BCKBTN = new Button();
         BCKBTN.setText("BACK");
@@ -92,8 +91,7 @@ public class DesignAdd {
         }else{
             TOOLS = new ToolsUse();
             String CODESTRING = TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0];
-            TITLE.setText(CODESTRING); 
-            System.out.println(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);    
+            TITLE.setText(CODESTRING);   
             DSINV.codeName(CODESTRING);
             if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 CHOICE = 0;
@@ -196,28 +194,22 @@ public class DesignAdd {
                 INFO[2] = AMNT.getText();
                 INFO[3] = MYDATE.getText();
                 INFO[4] = REASON.getText();
-                System.out.println(INFO[4]);
                 CHECK2=0;
                 INDEXA=0;   
-                /* this array will store only the name of the fields that are emptry, on the same position as they are
-                on the array TXTFIELDS, the filled textfields are going to be given the value null.
-                */
+                //this array will store only the name of the fields that are emptry, on the same position as they are
+                //on the array TXTFIELDS, the filled textfields are going to be given the value null.
                 MSG = new String[5];
-                /* the loop is going to evaluate for each position for INFO[] whether it is populated or not. 
-                if it is, then the for that position in the MSG array it is going to be given the value null
-                */
+                // the loop is going to evaluate for each position for INFO[] whether it is populated or not. 
+                // if it is, then the for that position in the MSG array it is going to be given the value null
                 for(INDEX=1;INDEX<5;INDEX++){
                     if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
                         MSG[INDEX] = null;
-                /* Otherwise, it means that the field is empty/null, so  position INDEX in the array MSG
-                   is going to be populated with the name of the empty field
-                        */
+                // Otherwise, it means that the field is empty/null, so  position INDEX in the array MSG
+                //   is going to be populated with the name of the empty field
                     }else{
                         MSG[INDEX] = TXTFIELDS[INDEX];
                     }
-                /* This is going to evaluate whether there are populated 
-                    
-                    */
+                // This is going to evaluate whether there are populated   
                     if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
                         INDEXA++;  
                         CHECK2++;
@@ -272,7 +264,6 @@ public class DesignAdd {
                         }else{
                             if(CHECK == 0 || CHECK3 == 2){
                                 CASE = true;
-                                System.out.println(Arrays.toString(MSG));
                                 EXTENSION.DesignAddExtension(MID, MSG, CASE);
                             }else{
                                 EXTENSION.DesignAddExtension(MID, MSG, FORMATMSG);
@@ -286,7 +277,22 @@ public class DesignAdd {
             PERFTXT = new Text();
             PERFTXT.setText("Performance");
             PERFTXT.setFont(MYFONT.getOswaldRegular());
-            PERFTXT.setFill(Color.GRAY);
+            PERFTXT.setFill(Color.DARKGRAY);
+            
+            PERFTOTALTXT = new Text();
+            PERFTOTALTXT.setText("Total");
+            PERFTOTALTXT.setFont(MYFONT.getOswaldRegular());
+            PERFTOTALTXT.setFill(Color.GRAY);
+            
+            INDIVPERFTXT = new Text();
+            INDIVPERFTXT.setText("Per share");
+            INDIVPERFTXT.setFont(MYFONT.getOswaldRegular());
+            INDIVPERFTXT.setFill(Color.GRAY);
+            
+            PERCENTAGEPERFTXT = new Text();
+            PERCENTAGEPERFTXT.setText("Percentage");
+            PERCENTAGEPERFTXT.setFont(MYFONT.getOswaldRegular());
+            PERCENTAGEPERFTXT.setFill(Color.GREY);
             
             DELTXT = new Text();
             DELTXT.setText("Date of deletion");
@@ -309,10 +315,18 @@ public class DesignAdd {
             if(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 OPTPERF = new Text(PERF.PerformanceCalc(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0],TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
                 OPTPERF.setFont(MYFONT.getOswaldRegular());
-                if(PERF.getPerformance() < 0){
+                OPTTOTALPERF = new Text(PERF.getTotalPerformance(Integer.parseInt(TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[2])));
+                OPTTOTALPERF.setFont(MYFONT.getOswaldRegular());
+                OPTPERCENTAGEPERF = new Text(PERF.getPercentageString());
+                OPTPERCENTAGEPERF.setFont(MYFONT.getOswaldRegular());
+                if(PERF.getAbsolutePerformance() < 0){
                     OPTPERF.setFill(MYFONT.getTitleColor());
+                    OPTTOTALPERF.setFill(MYFONT.getTitleColor());
+                    OPTPERCENTAGEPERF.setFill(MYFONT.getTitleColor());
                 }else{
-                    OPTPERF.setFill(Color.GREENYELLOW);
+                    OPTPERF.setFill(Color.CHARTREUSE);
+                    OPTTOTALPERF.setFill(Color.CHARTREUSE);
+                    OPTPERCENTAGEPERF.setFill(Color.CHARTREUSE);
                 }
             }
             
@@ -324,7 +338,6 @@ public class DesignAdd {
                 DATENOW = new Date();
                 DF = new SimpleDateFormat("dd.MM");
                 STRINGDATE = DF.format(DATENOW);
-                System.out.println(STRINGDATE);
                 // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
                 investmentcontroller.deleteInvestment(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
@@ -405,16 +418,18 @@ public class DesignAdd {
             MID.add(MYDATE, 1, 4);
             MID.add(REASON, 1, 5);
         }else{
-            MID.add(OPTCODE, 1, 1);
-            MID.add(OPT0, 1, 2 );
-            MID.add(OPT1, 1, 3);
-            MID.add(OPT2, 1, 4);
-            MID.add(OPT3, 1, 5);  
+            MID.add(OPTCODE, 3, 1);
+            MID.add(OPT0, 3, 2 );
+            MID.add(OPT1, 3, 3);
+            MID.add(OPT2, 3, 4);
+            MID.add(OPT3, 3, 5);  
             if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
-                MID.add(OPT4, 1, 6);
+                MID.add(OPT4, 3, 6);
             }else{
-                MID.add(OPTPERF, 1, 6);
-                MID.add(DELETEBTN, 5, 6);
+                MID.add(OPTPERF, 3, 7);
+                MID.add(OPTTOTALPERF, 3, 8);
+                MID.add(OPTPERCENTAGEPERF, 3, 9);
+                MID.add(DELETEBTN, 5, 10);
             }
         }
         
@@ -429,7 +444,10 @@ public class DesignAdd {
             if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                MID.add(DELTXT, 0, 6);
             }else{
-               MID.add(PERFTXT, 0, 6);
+               MID.add(PERFTXT, 2, 6);
+               MID.add(INDIVPERFTXT, 0, 7);
+               MID.add(PERFTOTALTXT, 0, 8);
+               MID.add(PERCENTAGEPERFTXT, 0, 9);
             }
         }
         
