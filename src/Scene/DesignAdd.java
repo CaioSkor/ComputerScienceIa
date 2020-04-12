@@ -27,31 +27,41 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, DELTXT;
-    TextField STKCODE, PRC, AMNT, MYDATE, REASON;
+
+    private final Text CODETXT;
+    private final Text PRCTXT;
+    private final Text AMNTTXT;
+    private final Text DATETXT;
+    private final Text REATXT;
+    private final Text TITLE;
+    private Text NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, DELTXT;
+    private TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
-    Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
-    Button SUBBTN, BCKBTN, DELETEBTN;
-    HBox BOTTOM;
-    GridPane MID,TOP;
-    BorderPane LAYOUT;
-    Scene ENTRANCE;
-    Scene ENTRANCE2;
-    RadioButton RADBTN1, RADBTN2;
-    ToggleGroup GROUP;
-    Boolean BOOLE, CASE, BOOL2;
+    private Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
+    private Button SUBBTN;
+    private final Button BCKBTN;
+    private Button DELETEBTN;
+    private final HBox BOTTOM;
+    private GridPane MID;
+    private final GridPane TOP;
+    private final BorderPane LAYOUT;
+    private final Scene ENTRANCE;
+    private Scene ENTRANCE2;
+    private RadioButton RADBTN1, RADBTN2;
+    private ToggleGroup GROUP;
+    private Boolean BOOLE, CASE, BOOL2;
    
-    Design MAIN;
-    DesignAddExtension EXTENSION;
-    DesignInv DSINV, DSINV2;
-    InvestmentController INVESTCONTROL; 
-    ToolsUse FILLMEUP;
-    PerformanceController PERF;
+    private Design MAIN;
+    private DesignAddExtension EXTENSION;
+    private DesignInv DSINV, DSINV2;
+    private InvestmentController INVESTCONTROL; 
+    private ToolsUse TOOLS;
+    private PerformanceController PERF;
     
-    FontMeUp MYFONT;
+    private final FontMeUp MYFONT;
     private Date DATENOW;
     private SimpleDateFormat DF;
-    String STRINGDATE;
+    private String STRINGDATE;
     
     public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException {
         MYFONT = new FontMeUp();
@@ -62,7 +72,7 @@ public class DesignAdd {
         TITLE = new Text();
         BCKBTN = new Button();
         BCKBTN.setText("BACK");
-        BCKBTN.setFont(MYFONT.OSWALDBUTTON);
+        BCKBTN.setFont(MYFONT.getOswaldButton());
         
         if (!BOOL){
             TITLE.setText("Add investment");
@@ -72,51 +82,49 @@ public class DesignAdd {
                 MAINWINDOW.setTitle("Stock Organizer Software");
             });
         }else{
-            FILLMEUP = new ToolsUse();
-            String CODESTRING = FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0];
+            TOOLS = new ToolsUse();
+            String CODESTRING = TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0];
             TITLE.setText(CODESTRING); 
-            System.out.println(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);    
+            System.out.println(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);    
             DSINV.codeName(CODESTRING);
-            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+            if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 CHOICE = 0;
             }
                 
         }
-        TITLE.setFont(MYFONT.OSWALDBOLD);
-        TITLE.setFill(MYFONT.TITLECOLOR);
+        TITLE.setFont(MYFONT.getOswaldBold());
+        TITLE.setFill(MYFONT.getTitleColor());
         
         CODETXT = new Text();
         CODETXT.setText("Code");
-        CODETXT.setFont(MYFONT.OSWALDREGULAR);
+        CODETXT.setFont(MYFONT.getOswaldRegular());
         CODETXT.setFill(Color.GRAY);
         
         PRCTXT = new Text();
         PRCTXT.setText("Price");
-        PRCTXT.setFont(MYFONT.OSWALDREGULAR);
+        PRCTXT.setFont(MYFONT.getOswaldRegular());
         PRCTXT.setFill(Color.GRAY);
         
         AMNTTXT = new Text();
         AMNTTXT.setText("Amount bought");
-        AMNTTXT.setFont(MYFONT.OSWALDREGULAR);
+        AMNTTXT.setFont(MYFONT.getOswaldRegular());
         AMNTTXT.setFill(Color.GRAY);
         
         DATETXT = new Text();
         DATETXT.setText("Date");
-        DATETXT.setFont(MYFONT.OSWALDREGULAR);
+        DATETXT.setFont(MYFONT.getOswaldRegular());
         DATETXT.setFill(Color.GRAY);
         
         REATXT = new Text();
         REATXT.setText("Reason");
-        REATXT.setFont(MYFONT.OSWALDREGULAR);
+        REATXT.setFont(MYFONT.getOswaldRegular());
         REATXT.setFill(Color.GRAY);
         
-
         ComboBox comboBox = new ComboBox();
         INVESTCONTROL = new InvestmentController();
         comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readTickers()));
         /* All TextFields */
         if (!BOOL){
-            //STKCODE = new TextField();
         }else{
             if(POS>-1) {
                 NAMEINVEST = new Text(INVESTNAME);            
@@ -130,7 +138,7 @@ public class DesignAdd {
                 
             RADBTN1 = new RadioButton();
             RADBTN1.setText("Continue to investment");
-            RADBTN1.setFont(MYFONT.OSWALDBUTTON);
+            RADBTN1.setFont(MYFONT.getOswaldButton());
             RADBTN1.setToggleGroup(GROUP);
             RADBTN1.setOnAction(e -> {
                 BOOLE = false;
@@ -143,7 +151,7 @@ public class DesignAdd {
         
             RADBTN2 = new RadioButton();
             RADBTN2.setText("Add new investment");
-            RADBTN1.setFont(MYFONT.OSWALDBUTTON);
+            RADBTN1.setFont(MYFONT.getOswaldButton());
             RADBTN2.setToggleGroup(GROUP);
             RADBTN2.setOnAction(e -> {
                 BOOLE = true;
@@ -171,7 +179,7 @@ public class DesignAdd {
             INFO = new String[5];
             SUBBTN = new Button();
             SUBBTN.setText("Submit");
-            SUBBTN.setFont(MYFONT.OSWALDBUTTON);
+            SUBBTN.setFont(MYFONT.getOswaldButton());
             SUBBTN.setOnAction((ActionEvent e) -> {
                 MID.getChildren().clear();
                 EXTENSION = new DesignAddExtension();
@@ -269,32 +277,32 @@ public class DesignAdd {
             
             PERFTXT = new Text();
             PERFTXT.setText("Performance");
-            PERFTXT.setFont(MYFONT.OSWALDREGULAR);
+            PERFTXT.setFont(MYFONT.getOswaldRegular());
             PERFTXT.setFill(Color.GRAY);
             
             DELTXT = new Text();
             DELTXT.setText("Date of deletion");
-            DELTXT.setFont(MYFONT.OSWALDREGULAR);
+            DELTXT.setFont(MYFONT.getOswaldRegular());
             DELTXT.setFill(Color.GRAY);
             
-            OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
-            OPTCODE.setFont(MYFONT.OSWALDREGULAR);
-            OPT0 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
-            OPT0.setFont(MYFONT.OSWALDREGULAR);
-            OPT1 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
-            OPT1.setFont(MYFONT.OSWALDREGULAR);
-            OPT2 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
-            OPT2.setFont(MYFONT.OSWALDREGULAR);
-            OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
-            OPT3.setFont(MYFONT.OSWALDREGULAR);
-            OPT4 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5]);
-            OPT4.setFont(MYFONT.OSWALDREGULAR);
+            OPTCODE = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
+            OPTCODE.setFont(MYFONT.getOswaldRegular());
+            OPT0 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]);
+            OPT0.setFont(MYFONT.getOswaldRegular());
+            OPT1 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[2]); 
+            OPT1.setFont(MYFONT.getOswaldRegular());
+            OPT2 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[3]); 
+            OPT2.setFont(MYFONT.getOswaldRegular());
+            OPT3 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
+            OPT3.setFont(MYFONT.getOswaldRegular());
+            OPT4 = new Text(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5]);
+            OPT4.setFont(MYFONT.getOswaldRegular());
             
-            if(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
-                OPTPERF = new Text(PERF.PerformanceCalc(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0],FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
-                OPTPERF.setFont(MYFONT.OSWALDREGULAR);
+            if(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                OPTPERF = new Text(PERF.PerformanceCalc(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0],TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
+                OPTPERF.setFont(MYFONT.getOswaldRegular());
                 if(PERF.getPerformance() < 0){
-                    OPTPERF.setFill(MYFONT.TITLECOLOR);
+                    OPTPERF.setFill(MYFONT.getTitleColor());
                 }else{
                     OPTPERF.setFill(Color.GREENYELLOW);
                 }
@@ -311,12 +319,11 @@ public class DesignAdd {
                 System.out.println(STRINGDATE);
                 // Set the date as a the deleted date for the investment and delete the investment
                 InvestmentController investmentcontroller = new InvestmentController();
-                investmentcontroller.deleteInvestment(
-                        FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
-                        FILLMEUP.TextBoxFiller("data/investment.txt", INVESTNAME)[4],
+                investmentcontroller.deleteInvestment(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0], 
+                        TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[1], 
+                        TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[2], 
+                        TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[3], 
+                        TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[4],
                         STRINGDATE
                 );
                 
@@ -324,7 +331,7 @@ public class DesignAdd {
                 CHOICE = 1;
                 MID.getChildren().clear();
                 EXTENSION = new DesignAddExtension();
-                EXTENSION.DesignAddExtension(MAINWINDOW, MID, FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
+                EXTENSION.DesignAddExtension(MAINWINDOW, MID, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
                 
                 /*
                 DATENOW = new Date();
@@ -395,13 +402,14 @@ public class DesignAdd {
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
             MID.add(OPT3, 1, 5);  
-            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+            if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 MID.add(OPT4, 1, 6);
             }else{
                 MID.add(OPTPERF, 1, 6);
                 MID.add(DELETEBTN, 5, 6);
             }
         }
+        
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);
         MID.add(AMNTTXT, 0, 3);
@@ -410,13 +418,13 @@ public class DesignAdd {
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
         }else{
-            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+            if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                MID.add(DELTXT, 0, 6);
             }else{
                MID.add(PERFTXT, 0, 6);
             }
         }
-      
+        
         MID.setMinSize(200, 200);
         MID.setPadding(new Insets(10, 10, 10, 10));
             

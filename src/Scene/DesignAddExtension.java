@@ -12,19 +12,19 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class DesignAddExtension {
-    Integer INDEX, INDEXA, COUNT;
-    String JOINER;
-    String[] MISSING, MSGRESULTS;
-    Integer[] POS;
-    DesignAdd DSADD;
-    DesignInv DSINV;
-    Button BACKBTN;
-    ToggleGroup GROUP;
-    RadioButton BTN1, BTN2;
-    Text MESSAGE, MESSAGE2, DEMAND, DEMAND2;
-    Scene ENTRANCE;
+    private Integer INDEX, INDEXA, COUNT;
+    private String JOINER;
+    private String[] MISSING, MSGRESULTS;
+    private Integer[] POS;
+    private DesignAdd DSADD;
+    private DesignInv DSINV;
+    private Button BACKBTN;
+    private ToggleGroup GROUP;
+    private RadioButton BTN1, BTN2;
+    private Text MESSAGE, MESSAGE2, DEMAND, DEMAND2;
+    private Scene ENTRANCE;
     
-    FontMeUp MYFONT;
+    private FontMeUp MYFONT;
     
     public GridPane DesignAddExtension(GridPane MID, RadioButton BTN1, RadioButton BTN2, ToggleGroup GROUP) {
         MYFONT = new FontMeUp();
@@ -43,12 +43,12 @@ public class DesignAddExtension {
         MYFONT = new FontMeUp();
         
         MESSAGE = new Text();
-        MESSAGE.setFont(MYFONT.OSWALDREGULAR);
-        MESSAGE.setFill(MYFONT.TITLECOLOR);
+        MESSAGE.setFont(MYFONT.getOswaldRegular());
+        MESSAGE.setFill(MYFONT.getTitleColor());
         MESSAGE.setTextAlignment(TextAlignment.CENTER);
         
         DEMAND = new Text();
-        DEMAND.setFont(MYFONT.OSWALDREGULAR);
+        DEMAND.setFont(MYFONT.getOswaldRegular());
         DEMAND.setTextAlignment(TextAlignment.CENTER);
         
         if(!CASE){
@@ -111,8 +111,8 @@ public class DesignAddExtension {
         } 
         
         MESSAGE = new Text();
-        MESSAGE.setFont(MYFONT.OSWALDREGULAR);
-        MESSAGE.setFill(MYFONT.TITLECOLOR);
+        MESSAGE.setFont(MYFONT.getOswaldRegular());
+        MESSAGE.setFill(MYFONT.getTitleColor());
         MESSAGE.setTextAlignment(TextAlignment.CENTER);
         
         String JOINER = String.join(" and ", FORMATMSG);
@@ -139,19 +139,19 @@ public class DesignAddExtension {
         }*/
         
         DEMAND = new Text();
-        DEMAND.setFont(MYFONT.OSWALDREGULAR);
+        DEMAND.setFont(MYFONT.getOswaldRegular());
         DEMAND.setTextAlignment(TextAlignment.CENTER);
         DEMAND.setText("Please input the following field(s) as integers:");
         
         MESSAGE2 = new Text();
-        MESSAGE2.setFont(MYFONT.OSWALDREGULAR);
-        MESSAGE2.setFill(MYFONT.TITLECOLOR);
+        MESSAGE2.setFont(MYFONT.getOswaldRegular());
+        MESSAGE2.setFill(MYFONT.getTitleColor());
         MESSAGE2.setTextAlignment(TextAlignment.CENTER);
         String JOINER2 = String.join(", ", MISSING);
         MESSAGE2.setText(JOINER2);
         
         DEMAND2 = new Text();
-        DEMAND2.setFont(MYFONT.OSWALDREGULAR);
+        DEMAND2.setFont(MYFONT.getOswaldRegular());
         DEMAND2.setTextAlignment(TextAlignment.CENTER);
         DEMAND2.setText("Please input the following missing field(s):");
         
@@ -173,8 +173,8 @@ public class DesignAddExtension {
         
         MESSAGE = new Text();
         MESSAGE.setText("Investment " + INVESTNAME + " has been deleted." );
-        MESSAGE.setFill(MYFONT.TITLECOLOR);
-        MESSAGE.setFont(MYFONT.OSWALDREGULAR);
+        MESSAGE.setFill(MYFONT.getTitleColor());
+        MESSAGE.setFont(MYFONT.getOswaldRegular());
         
         MID.setHgap(15);
         MID.setVgap(10);

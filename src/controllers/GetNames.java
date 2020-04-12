@@ -5,24 +5,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class GetNames {
-    BufferedReader BUFFEREDREADER;
+    private BufferedReader BUFFEREDREADER;
     FileReader FIREADER;
     String FILECONTENT;
     String[] FILEDATA;      
     String[] INVNAMES;
     File REFERENCE;
-    ToolsUse TONG;
+    ToolsUse TOOLS;
     Integer POS;
     
     public String[] GetNames(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
-        TONG = new ToolsUse();
+        TOOLS = new ToolsUse();
         POS = 0;
         FIREADER = new FileReader(FILEME);
         BUFFEREDREADER = new BufferedReader(FIREADER);
-         INVNAMES = new String[TONG.FileMeasure("data/investment.txt",CHOICE)];
+         INVNAMES = new String[TOOLS.FileMeasure("data/investment.txt",CHOICE)];
 
          while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
              FILEDATA = FILECONTENT.split(",");

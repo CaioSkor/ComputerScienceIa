@@ -41,30 +41,30 @@ public class DesignPerf {
         
         perfTXT = new Text();
         perfTXT.setText(performanceString);
-        perfTXT.setFont(MYFONT.OSWALDREGULAR);
+        perfTXT.setFont(MYFONT.getOswaldRegular());
         
         mainTXT = new Text();
         mainTXT.setText("Your portfolio "); 
-        mainTXT.setFont(MYFONT.OSWALDREGULAR);
+        mainTXT.setFont(MYFONT.getOswaldRegular());
         
         verb = new Text();
         verb.setText(" is ");
-        verb.setFont(MYFONT.OSWALDREGULAR);
+        verb.setFont(MYFONT.getOswaldRegular());
         
         gainTXT = new Text();
         gainTXT.setText("gain");
-        gainTXT.setFont(MYFONT.OSWALDREGULAR);
+        gainTXT.setFont(MYFONT.getOswaldRegular());
         gainTXT.setFill(Color.GREENYELLOW);
         
         lossTXT = new Text();
         lossTXT.setText("loss");
-        lossTXT.setFont(MYFONT.OSWALDREGULAR);
-        lossTXT.setFill(MYFONT.TITLECOLOR);
+        lossTXT.setFont(MYFONT.getOswaldRegular());
+        lossTXT.setFill(MYFONT.getTitleColor());
         
         TITLE = new Text();
         TITLE.setText("Portfolio Performance");
-        TITLE.setFont(MYFONT.OSWALDBOLD);
-        TITLE.setFill(MYFONT.TITLECOLOR);
+        TITLE.setFont(MYFONT.getOswaldBold());
+        TITLE.setFill(MYFONT.getTitleColor());
         
         Sentence = new TextFlow();
         Sentence.setLayoutX(50);
@@ -78,7 +78,7 @@ public class DesignPerf {
  
         /* Button management  */
         backBTN = new Button("BACK");
-        backBTN.setFont(MYFONT.OSWALDBUTTON);
+        backBTN.setFont(MYFONT.getOswaldButton());
         backBTN.setOnAction((ActionEvent e) -> {
             MAIN = new Design(MAINWINDOW);
             MAINWINDOW.setScene(MAIN.getScreen());

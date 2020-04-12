@@ -24,44 +24,51 @@ import javafx.stage.Stage;
  * @author Caio Skornicki
  */
 public class DesignInv {
-    Text TITLE;
-    ComboBox STKCODE;
-    Button BCKBUTTON,MORESTOCKS,DELSTOCKS;
-    Integer PIECES,RESTE,INDEX,INDEXA,LASTBUTTON;
-    Button[] STOCKBTN;
-    String DATA, CODENAME;
-    String [] NAMEINVEST;
-    Boolean BOOL, BOOL2;
-    GridPane TOP,BOTTOM;
-    HBox[] MIDDLE;    
-    VBox MID;
-    BorderPane LAYOUT;
-    Scene ENTRANCE;
+    private Text MISSINGSTOCKS;
+    private final Text TITLE;
+    private ComboBox STKCODE;
+    private final Button BCKBUTTON;
+    private final Button MORESTOCKS;
+    private final Button DELSTOCKS;
+    private Button DSADDBUTTON;
+    private final Integer PIECES;
+    private final Integer RESTE;
+    private Integer INDEX,INDEXA,LASTBUTTON;
+    private final Button[] STOCKBTN;
+    private String DATA, CODENAME;
+    private String [] NAMEINVEST;
+    private Boolean BOOL, BOOL2;
+    private final GridPane TOP;
+    private final GridPane BOTTOM;
+    private final HBox[] MIDDLE;    
+    private final VBox MID;
+    private final BorderPane LAYOUT;
+    private final Scene ENTRANCE;
 
-    Design MAIN;
-    DesignAdd INVEST;
-    DesignAddExtension EXTENSION;
-    FontMeUp MYFONT;
-    ToolsUse NBRSTOCK;
-    GetNames GAMESET;
+    private Design MAIN;
+    private DesignAdd DSADD;
+    private DesignAddExtension EXTENSION;
+    private final FontMeUp MYFONT;
+    private ToolsUse TOOLS;
+    private final GetNames NAMES;
     
     public DesignInv(Stage MAINWINDOW, Integer CHOICE) throws IOException {
         System.out.println(CHOICE + "here");
         MYFONT = new FontMeUp();
-        NBRSTOCK = new ToolsUse();
-        GAMESET = new GetNames();
+        TOOLS = new ToolsUse();
+        NAMES = new GetNames();
         BOOL = true;
         LASTBUTTON = -1;
         
         
         MORESTOCKS = new Button();
         MORESTOCKS.setText("MORESTOCKS");
-        MORESTOCKS.setFont(MYFONT.OSWALDBUTTON);
+        MORESTOCKS.setFont(MYFONT.getOswaldButton());
         
         TITLE = new Text();
         TITLE.setText("Investments");
-        TITLE.setFont(MYFONT.OSWALDBOLD);
-        TITLE.setFill(MYFONT.TITLECOLOR);
+        TITLE.setFont(MYFONT.getOswaldBold());
+        TITLE.setFill(MYFONT.getTitleColor());
         
         STKCODE = new ComboBox();   
         STKCODE.setEditable(true);
@@ -69,15 +76,15 @@ public class DesignInv {
             STKCODE.setValue(newText);
         });        
         // Fill the choicebox with items
-        NBRSTOCK.BoxFiller("data/investment.txt", STKCODE,null, CHOICE); 
+        TOOLS.BoxFiller("data/investment.txt", STKCODE,null, CHOICE); 
         
         STKCODE.setOnAction(new EventHandler() {
             @Override
             public void handle(Event e) {
                 DATA = (String) STKCODE.getValue(); 
                 try {
-                    INVEST = new DesignAdd(MAINWINDOW,BOOL,0,DATA, BOOL);
-                    MAINWINDOW.setScene(INVEST.getScreen());                
+                    DSADD = new DesignAdd(MAINWINDOW,BOOL,0,DATA, BOOL);
+                    MAINWINDOW.setScene(DSADD.getScreen());                
                     MAINWINDOW.setTitle("Investment: "+DATA); 
                 } catch (IOException ex) {
                     System.out.println("PROBLEMS");
@@ -88,7 +95,7 @@ public class DesignInv {
         
         BCKBUTTON = new Button();
         BCKBUTTON.setText("BACK");
-        BCKBUTTON.setFont(MYFONT.OSWALDBUTTON);
+        BCKBUTTON.setFont(MYFONT.getOswaldButton());
         BCKBUTTON.setOnAction((ActionEvent e) -> {
             if(CHOICE == 1){
                  MAIN = new Design(MAINWINDOW);
@@ -96,7 +103,7 @@ public class DesignInv {
                  MAINWINDOW.setTitle("Stock Organizer Software");
              }else{
                  try {
-                     NBRSTOCK.BackDeletedWindow(MAINWINDOW);
+                     TOOLS.BackDeletedWindow(MAINWINDOW);
                  } catch (IOException ex) {
                      Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                  }
@@ -105,19 +112,19 @@ public class DesignInv {
         
         DELSTOCKS = new Button();
         DELSTOCKS.setText("DELETED STOCKS");
-        DELSTOCKS.setFont(MYFONT.OSWALDBUTTON);
+        DELSTOCKS.setFont(MYFONT.getOswaldButton());
         DELSTOCKS.setOnAction((ActionEvent e) -> {
              try {
-                 NBRSTOCK.DeletedWindow(MAINWINDOW);
+                 TOOLS.DeletedWindow(MAINWINDOW);
              } catch (IOException ex) {
                  Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
              }
          });
         
-        STOCKBTN = new Button[NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)];
+        STOCKBTN = new Button[TOOLS.FileMeasure("data/investment.txt", CHOICE)];
         
-        PIECES = NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)/5;
-        RESTE = NBRSTOCK.FileMeasure("data/investment.txt", CHOICE)%5;
+        PIECES = TOOLS.FileMeasure("data/investment.txt", CHOICE)/5;
+        RESTE = TOOLS.FileMeasure("data/investment.txt", CHOICE)%5;
        
         TOP = new GridPane();
         TOP.setHgap(37);
@@ -142,20 +149,58 @@ public class DesignInv {
         
         MID = new VBox(10);
         MID.setAlignment(Pos.CENTER);
-        for(INDEX=0; INDEX< PIECES; INDEX++){                     
-            MID.getChildren().add(MIDDLE[INDEX]); 
-        } 
-        if (RESTE > 0){
+        if(RESTE == 0 && PIECES == 0){
+            MISSINGSTOCKS = new Text();
+            if(CHOICE == 1){
+                BOOL = false;
+                //DSADD = new DesignAdd(MAINWINDOW,BOOL,0,DATA, BOOL);
+                
+                MISSINGSTOCKS.setText("No investment submitted. Click on button to add investment");
+                MISSINGSTOCKS.setFont(MYFONT.getOswaldRegular());
+                MISSINGSTOCKS.setFill(MYFONT.getTitleColor());
+                
+                DSADDBUTTON = new Button();
+                DSADDBUTTON = new Button();
+                DSADDBUTTON.setText("Add investment");
+                DSADDBUTTON.setFont(MYFONT.getOswaldButton());
+                DSADDBUTTON.setOnAction((ActionEvent e) -> {
+                    try {
+                        DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"HI", BOOL);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    MAINWINDOW.setScene(DSADD.getScreen());
+                    MAINWINDOW.setTitle("Add investment");
+                });
+                
+                MID.getChildren().addAll(MISSINGSTOCKS, DSADDBUTTON);
+            }
+        }else{
+            for(INDEX=0; INDEX< PIECES; INDEX++){                     
+                MID.getChildren().add(MIDDLE[INDEX]); 
+            } 
+            if (RESTE > 0){
             MID.getChildren().add(MIDDLE[PIECES]);        
-        }        
+            }    
+        }
+            
 
         BOTTOM = new GridPane();
         BOTTOM.setVgap(15);
         BOTTOM.setHgap(15);
         BOTTOM.setAlignment(Pos.TOP_LEFT);
         BOTTOM.add(BCKBUTTON, 1, 2);
-        BOTTOM.add(MORESTOCKS, 25, 2);
-        BOTTOM.add(DELSTOCKS, 28, 2);
+        if(CHOICE == 1){
+            if(TOOLS.FileMeasure("data/investment.txt", 0) != 0){
+                BOTTOM.add(DELSTOCKS, 33, 2);
+            }else{
+                //BOTTOM.add(MORESTOCKS, 35, 2);
+            }
+        }else{
+            MORESTOCKS.setText("More Deleted Stocks");
+            BOTTOM.add(MORESTOCKS, 33, 2);
+        }
+        
 
         LAYOUT = new BorderPane();
         LAYOUT.setTop(TOP);
@@ -173,12 +218,12 @@ public class DesignInv {
     public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException{
         BOOL2 = false;
         if(!BOOLE){
-            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
-            MAINWINDOW.setScene(INVEST.getScreen());                
+            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
+            MAINWINDOW.setScene(DSADD.getScreen());                
         }else{
             BOOL = false;
-            INVEST = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
-            MAINWINDOW.setScene(INVEST.getScreen());
+            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
+            MAINWINDOW.setScene(DSADD.getScreen());
         }
     }
     
@@ -188,17 +233,17 @@ public class DesignInv {
         for(INDEX=0; INDEX< RESTE; INDEX++){         
             STOCKBTN[INDEX+(5*INDEXA)] = new Button();
             STOCKBTN[INDEX+(5*INDEXA)].setPrefWidth(110);
-            STOCKBTN[INDEX+(5*INDEXA)].setText(GAMESET.GetNames("data/investment.txt",CHOICE)[INDEX+(5*INDEXA)]); 
+            STOCKBTN[INDEX+(5*INDEXA)].setText(NAMES.GetNames("data/investment.txt",CHOICE)[INDEX+(5*INDEXA)]); 
             STOCKBTN[INDEX+(5*INDEXA)].setOnAction((ActionEvent e) -> {
                 final Integer BUTTONID = INDEX;
                 System.out.println("Button pressed " + ((Button) e.getSource()).getText());
                 LASTBUTTON = BUTTONID;                
                 try {
-                    INVEST = new DesignAdd(MAINWINDOW,BOOL,INDEX+(5*INDEXA),((Button) e.getSource()).getText(), BOOL);
+                    DSADD = new DesignAdd(MAINWINDOW,BOOL,INDEX+(5*INDEXA),((Button) e.getSource()).getText(), BOOL);
                 } catch (IOException ex) {
                     System.out.println("PROBLEMS");
                 }
-                MAINWINDOW.setScene(INVEST.getScreen());                
+                MAINWINDOW.setScene(DSADD.getScreen());                
                 MAINWINDOW.setTitle("Investment: "+((Button) e.getSource()).getText());
             });                
             MIDDLE[INDEXA].getChildren().add(STOCKBTN[INDEX+(5*INDEXA)]);     

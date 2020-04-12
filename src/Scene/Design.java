@@ -36,8 +36,8 @@ public class Design {
     private final Scene ENTRANCE;
     
     private final FontMeUp MYFONT;
-    private DesignInv INVEST;
-    private DesignAdd ADDINV;
+    private DesignInv DSINV;
+    private DesignAdd DSADD;
     private DesignPerf PORTPERF;
     
     public Design (Stage MAINWINDOW){
@@ -47,28 +47,28 @@ public class Design {
         
         TITLE = new Text();
         TITLE.setText("Stock Organizer Software");
-        TITLE.setFont(MYFONT.OSWALDBOLD);
-        TITLE.setFill(MYFONT.TITLECOLOR);
+        TITLE.setFont(MYFONT.getOswaldBold());
+        TITLE.setFill(MYFONT.getTitleColor());
         
          /* Button Management */
         BTN1 = new Button();
         BTN1.setText("Investments");
-        BTN1.setFont(MYFONT.OSWALDBUTTON);
+        BTN1.setFont(MYFONT.getOswaldButton());
         BTN1.setMinWidth(200);
         BTN1.setOnAction((ActionEvent e) -> {
             Integer CHOICE = 1;
             try {
-                INVEST = new DesignInv(MAINWINDOW,CHOICE);
+                DSINV = new DesignInv(MAINWINDOW,CHOICE);
             } catch (IOException ex) {
                 System.out.println("PROBLEMS");
             }
-            MAINWINDOW.setScene(INVEST.getScreen());
+            MAINWINDOW.setScene(DSINV.getScreen());
             MAINWINDOW.setTitle("Investments");
         });
         
         BTN2 = new Button();
         BTN2.setText("Portfolio performance");
-        BTN2.setFont(MYFONT.OSWALDBUTTON);
+        BTN2.setFont(MYFONT.getOswaldButton());
         BTN2.setMinWidth(200);
         BTN2.setOnAction((ActionEvent e) -> {
             PORTPERF = new DesignPerf(MAINWINDOW);
@@ -78,15 +78,15 @@ public class Design {
         
         BTN3 = new Button();
         BTN3.setText("Add new investment");
-        BTN3.setFont(MYFONT.OSWALDBUTTON);
+        BTN3.setFont(MYFONT.getOswaldButton());
         BTN3.setMinWidth(200);
         BTN3.setOnAction((ActionEvent e) -> {
             try {
-                ADDINV = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
+                DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
             } catch (IOException ex) {
                 System.out.println("PROBLEMS");
             }
-            MAINWINDOW.setScene(ADDINV.getScreen());
+            MAINWINDOW.setScene(DSADD.getScreen());
             MAINWINDOW.setTitle("Add new investment");
         });
         
@@ -107,7 +107,7 @@ public class Design {
         DF = new SimpleDateFormat("dd.MM");
         DATEDISPLAY = new Text();
         DATEDISPLAY.setText(DF.format(DATENOW));
-        DATEDISPLAY.setFont(MYFONT.OSWALDREGULAR);
+        DATEDISPLAY.setFont(MYFONT.getOswaldRegular());
         BOTTOM.getChildren().add(DATEDISPLAY);
         BOTTOM.setPadding(new Insets(10, 10, 10, 15));
         
