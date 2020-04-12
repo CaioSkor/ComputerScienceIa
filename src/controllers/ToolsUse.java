@@ -1,5 +1,6 @@
 package controllers;
 
+import Scene.DesignInv;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.stage.Stage;
 
 public class ToolsUse {
     Integer POS,INDEX;
@@ -18,8 +20,10 @@ public class ToolsUse {
     String[] STRING,SORT, STRING2;
     boolean DELNOT;
     
+    DesignInv DSINV;
+    
     public Integer FileMeasure(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
-        LineNumberReader LNR;
+         LineNumberReader LNR;
         FileReader FIREADER;
         POS = 0;
         REFERENCE = new File(FILEME);
@@ -44,7 +48,7 @@ public class ToolsUse {
         LNR.close();        
         System.out.println(POS);
         return POS;
-    } 
+    }
     
     public void BoxFiller(String FILEME, ComboBox SELECTOR,String SOFAR, Integer CHOICE) throws IOException{
         POS = FileMeasure(FILEME,CHOICE);
@@ -52,16 +56,23 @@ public class ToolsUse {
             REFERENCE = new File (FILEME);
             INDEX = 0;
             Scanner READER = new Scanner (REFERENCE);
-            while (READER.hasNextLine()) {
-                MINILINE = READER.nextLine();
-                STRING = MINILINE.split(",");
-                if(STRING[5].equals("000000")){
-                    SORT[INDEX] = STRING[0];
-                    INDEX = INDEX +1;
-                }
-            }
-            Arrays.sort(SORT);
-            for (INDEX=0; INDEX< POS; INDEX++){ 
+             while (READER.hasNextLine()) {
+                 MINILINE = READER.nextLine();
+                 STRING = MINILINE.split(",");
+                 if(CHOICE == 1){
+                     if(STRING[5].equals("000000")){
+                         SORT[INDEX] = STRING[0];
+                         INDEX = INDEX +1;
+                     }
+                 }else{
+                     if(!STRING[5].equals("000000")){
+                         SORT[INDEX] = STRING[0];
+                         INDEX = INDEX +1;
+                     }
+                 }   
+             }
+             Arrays.sort(SORT);
+             for (INDEX=0; INDEX< POS; INDEX++){ 
                 SELECTOR.getItems().add(SORT[INDEX]);  
             }
     }
@@ -78,5 +89,17 @@ public class ToolsUse {
         } 
         return STRING;
     }
+    
+    public void DeletedWindow(Stage MAINWINDOW) throws IOException{
+         INDEX = 0;
+         DSINV = new DesignInv(MAINWINDOW, INDEX);   
+         MAINWINDOW.setScene(DSINV.getScreen());
+     }
+
+     public void BackDeletedWindow(Stage MAINWINDOW) throws IOException{
+         INDEX = 1;
+         DSINV = new DesignInv(MAINWINDOW, INDEX);   
+         MAINWINDOW.setScene(DSINV.getScreen());
+     }
     
 }

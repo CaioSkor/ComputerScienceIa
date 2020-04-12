@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DesignAdd {
-    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3,OPTPERF;
+    Text CODETXT, PRCTXT, AMNTTXT, DATETXT, REATXT, TITLE,NAMEINVEST, PERFTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, DELTXT;
     TextField STKCODE, PRC, AMNT, MYDATE, REASON;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     Integer INDEX, INDEXA, CHECK, PRCINT, AMNTINT, CHECK2, CHECK3, CHOICE;
@@ -267,7 +267,11 @@ public class DesignAdd {
             PERFTXT.setText("Performance");
             PERFTXT.setFont(MYFONT.OSWALDREGULAR);
             PERFTXT.setFill(Color.GRAY);
-           
+            
+            DELTXT = new Text();
+            DELTXT.setText("Date of deletion");
+            DELTXT.setFont(MYFONT.OSWALDREGULAR);
+            DELTXT.setFill(Color.GRAY);
             
             OPTCODE = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
             OPTCODE.setFont(MYFONT.OSWALDREGULAR);
@@ -279,13 +283,18 @@ public class DesignAdd {
             OPT2.setFont(MYFONT.OSWALDREGULAR);
             OPT3 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[4]);
             OPT3.setFont(MYFONT.OSWALDREGULAR);
-            OPTPERF = new Text(PERF.PerformanceCalc(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0],FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
-            OPTPERF.setFont(MYFONT.OSWALDREGULAR);
+            OPT4 = new Text(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5]);
+            OPT4.setFont(MYFONT.OSWALDREGULAR);
+            
+            if(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                OPTPERF = new Text(PERF.PerformanceCalc(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[0],FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[1]));
+                OPTPERF.setFont(MYFONT.OSWALDREGULAR);
                 if(PERF.getPerformance() < 0){
                     OPTPERF.setFill(MYFONT.TITLECOLOR);
                 }else{
                     OPTPERF.setFill(Color.GREENYELLOW);
                 }
+            }
             
             DELETEBTN = new Button();
             DELETEBTN.setText("Delete");
@@ -342,13 +351,20 @@ public class DesignAdd {
             }else{
                 BCKBTN.setOnAction((ActionEvent e) -> {
                     try {
-                        DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
+                        if(FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                            DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
+                            ENTRANCE2 = DSINV2.getScreen();
+                            MAINWINDOW.setScene(DSINV2.getScreen());
+                            MAINWINDOW.setTitle("Investments"); 
+                        }else{
+                            DSINV2 = new DesignInv(MAINWINDOW, 0);
+                            ENTRANCE2 = DSINV2.getScreen();
+                            MAINWINDOW.setScene(DSINV2.getScreen());
+                            MAINWINDOW.setTitle("Deleted Investments"); 
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    ENTRANCE2 = DSINV2.getScreen();
-                    MAINWINDOW.setScene(DSINV2.getScreen());
-                    MAINWINDOW.setTitle("Investments");
                 });
             }
         }
@@ -382,8 +398,12 @@ public class DesignAdd {
             MID.add(OPT1, 1, 3);
             MID.add(OPT2, 1, 4);
             MID.add(OPT3, 1, 5);  
-            MID.add(OPTPERF, 1, 6);
-            MID.add(DELETEBTN, 5, 6);
+            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                MID.add(OPT4, 1, 6);
+            }else{
+                MID.add(OPTPERF, 1, 6);
+                MID.add(DELETEBTN, 5, 6);
+            }
         }
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);
@@ -393,9 +413,13 @@ public class DesignAdd {
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
         }else{
-            MID.add(PERFTXT, 0, 6);
+            if(!FILLMEUP.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+               MID.add(DELTXT, 0, 6);
+            }else{
+               MID.add(PERFTXT, 0, 6);
+            }
         }
-        
+      
         MID.setMinSize(200, 200);
         MID.setPadding(new Insets(10, 10, 10, 10));
             
@@ -416,4 +440,5 @@ public class DesignAdd {
     public Scene getScreen(){
         return ENTRANCE;
     }
+    
   }

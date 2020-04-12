@@ -2,6 +2,7 @@ package Scene;
 
 import java.io.IOException;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -21,6 +22,7 @@ public class DesignAddExtension {
     ToggleGroup GROUP;
     RadioButton BTN1, BTN2;
     Text MESSAGE, MESSAGE2, DEMAND, DEMAND2;
+    Scene ENTRANCE;
     
     FontMeUp MYFONT;
     
@@ -181,5 +183,11 @@ public class DesignAddExtension {
         return MID;
     }
    
+    public void DelStockPage(Stage MAINWINDOW) throws IOException{
+        DSINV = new DesignInv(MAINWINDOW, 0);
+        ENTRANCE = DSINV.getScreen();
+        MAINWINDOW.setScene(DSINV.getScreen());
+        MAINWINDOW.setTitle("Deleted Investments");
+    }
     
 }

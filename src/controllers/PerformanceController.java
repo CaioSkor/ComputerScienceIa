@@ -40,6 +40,7 @@ public class PerformanceController {
         MINILINE = "";
         while (SCANNER.hasNext()) {
             MINILINE = SCANNER.nextLine();
+            System.out.println(MINILINE);
             LINE = LINE + MINILINE.trim();
         }
         SCANNER.close();

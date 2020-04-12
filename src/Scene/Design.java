@@ -21,21 +21,24 @@ import javafx.stage.Stage;
  * @author Caio Skornicki
  */
 public class Design {
-    Text TITLE, DATEDISPLAY;
-    Button BTN1, BTN2, BTN3;
-    Date DATENOW;   
-    DateFormat DF; 
-    Boolean BOOL;
-    HBox BOTTOM;
-    VBox MID;
-    GridPane TOP;
-    BorderPane LAYOUT;
-    Scene ENTRANCE;
+    private final Text TITLE;
+    private final Text DATEDISPLAY;
+    private final Button BTN1;
+    private final Button BTN2;
+    private final Button BTN3;
+    private final Date DATENOW;   
+    private final DateFormat DF; 
+    private Boolean BOOL;
+    private final HBox BOTTOM;
+    private final VBox MID;
+    private final GridPane TOP;
+    private final BorderPane LAYOUT;
+    private final Scene ENTRANCE;
     
-    FontMeUp MYFONT;
-    DesignInv INVEST;
-    DesignAdd ADDINV;
-    DesignPerf PORTPERF;
+    private final FontMeUp MYFONT;
+    private DesignInv INVEST;
+    private DesignAdd ADDINV;
+    private DesignPerf PORTPERF;
     
     public Design (Stage MAINWINDOW){
         /* Text management */

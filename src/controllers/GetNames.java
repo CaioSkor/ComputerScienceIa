@@ -20,20 +20,26 @@ public class GetNames {
     public String[] GetNames(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         TONG = new ToolsUse();
         POS = 0;
-      //  REFERENCE = new File(FILEME);
         FIREADER = new FileReader(FILEME);
-       // Scanner READER = new Scanner(REFERENCE);
         BUFFEREDREADER = new BufferedReader(FIREADER);
-        INVNAMES = new String[TONG.FileMeasure("data/investment.txt",CHOICE)];
-        
-        while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
-            FILEDATA = FILECONTENT.split(","); 
-            if(FILEDATA[5].equals("000000")){
-                INVNAMES[POS]= FILEDATA[0];
-                POS++;
-            }
-    	}
-        FIREADER.close();        
+         INVNAMES = new String[TONG.FileMeasure("data/investment.txt",CHOICE)];
+
+         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
+             FILEDATA = FILECONTENT.split(",");
+             if(CHOICE == 1){
+                 if(FILEDATA[5].equals("000000")){
+                     INVNAMES[POS]= FILEDATA[0];
+                     POS++;
+                 }
+             }else{
+                 if(!FILEDATA[5].equals("000000")){
+                     INVNAMES[POS]= FILEDATA[0];
+                     POS++;
+                 }
+             }
+     	}
+        FIREADER.close();
         return INVNAMES;
-    }    
+}
+
 }
