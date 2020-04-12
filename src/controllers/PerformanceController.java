@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author caio
+ * @author Caio Skornicki
  */
 public class PerformanceController {
     private Scanner SCANNER;
@@ -70,7 +70,6 @@ public class PerformanceController {
             PERCENTAGESTRING =  String.valueOf(PERCENTAGEPERF) + " %";
         }
         
-        
         return PERFORMANCESTRING;
     } 
     
@@ -80,6 +79,8 @@ public class PerformanceController {
     
     public String getTotalPerformance(Integer amount){
         TOTALPERF = PERFORMANCE * amount;
+        DecimalFormat df = new DecimalFormat("#.##");
+        TOTALPERF = Double.valueOf(df.format(TOTALPERF));
         
         if(TOTALPERF > 0){
             TOTALPERFSTRING = "+ " + String.valueOf(TOTALPERF) + " USD";

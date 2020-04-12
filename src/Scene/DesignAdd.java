@@ -145,6 +145,7 @@ public class DesignAdd {
             RADBTN1 = new RadioButton();
             RADBTN1.setText("Continue to investment");
             RADBTN1.setFont(MYFONT.getOswaldButton());
+            RADBTN1.setTextFill(Color.GRAY);
             RADBTN1.setToggleGroup(GROUP);
             RADBTN1.setOnAction(e -> {
                 BOOLE = false;
@@ -157,7 +158,8 @@ public class DesignAdd {
         
             RADBTN2 = new RadioButton();
             RADBTN2.setText("Add new investment");
-            RADBTN1.setFont(MYFONT.getOswaldButton());
+            RADBTN2.setFont(MYFONT.getOswaldButton());
+            RADBTN2.setTextFill(Color.GRAY);
             RADBTN2.setToggleGroup(GROUP);
             RADBTN2.setOnAction(e -> {
                 BOOLE = true;

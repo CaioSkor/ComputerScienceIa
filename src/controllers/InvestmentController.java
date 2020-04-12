@@ -24,8 +24,7 @@ public class InvestmentController {
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
         BUFFEREDREADER = new BufferedReader(FILEREADER);
-        INVESTIMENTS = new LinkedList<Investment>();
- 
+        INVESTIMENTS = new LinkedList<Investment>();    
         while((FILECONTENT = BUFFEREDREADER.readLine()) != null) {
             FILEDATA = FILECONTENT.split(",");
             INVESTMENT = new Investment(FILEDATA[0], FILEDATA[1], FILEDATA[2], FILEDATA[3], FILEDATA[4], FILEDATA[5]);

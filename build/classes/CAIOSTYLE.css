@@ -11,28 +11,28 @@
     -fx-background-color: #ccccccff;
 }
 .combo-box-base > .arrow-button {
-   -fx-background-color: pink;
+   -fx-background-color: red;
 }
 .combo-box-base > .arrow-button > .arrow {
-    -fx-background-color: blue;
+    -fx-background-color: #ccccccff;
 }
 .combo-box .list-cell{
-    -fx-text-fill:red;
+    -fx-text-fill: grey;
     -fx-font-weight: bold;    
 }
 .combo-box-popup > .list-view {
     -fx-border-width: 2;
     -fx-border-color: #ccccccff;
-    -fx-background-color: pink;
+    -fx-background-color: #ccccccff;
 }
 .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
-    -fx-background: pink;
+    -fx-background: #cc0000;
 }
 .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
     -fx-background-color: red !important;
 }
 .text-input{
-    -fx-control-inner-background: #FFFF00;
+    -fx-control-inner-background: #ccccccff;
     -fx-alignment: center ;    
 }
 .text-input:focused {
