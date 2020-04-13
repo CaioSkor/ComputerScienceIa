@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Scanner;
 import modules.Investment;
@@ -97,37 +98,49 @@ public class InvestmentController {
     }
     
     public void updateInvestment(String code, String price, String amount, String date, String reason, String newPrice, String newAmnt, String newDate, String newReason, String deldate) throws IOException{
-        createRepeatedInvestment(code, price, amount, date, reason, deldate);
-        createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
+        DecimalFormat df = new DecimalFormat("#.##");
+        Integer SURE = 0;
+        for(int i = 0; i < REPEATEDINVESTMENTS.size(); i++){
+            if(REPEATEDINVESTMENTS.get(i).getCode().equals(code)){
+                SURE++;
+            }
+        }
         
+        if(SURE>0){
+            createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
+        }else{
+            createRepeatedInvestment(code, price, amount, date, reason, deldate);
+            createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
+        }
         FileWriter fileWriter = new FileWriter("data/investment.txt");
         fileWriter.flush();
         
         REPETITION = 0;
         MEDAMOUNT = 0;
         MEDPRICE = 0;
-        for(int i = 0; i < INVESTIMENTS.size(); i++){
-            if(INVESTIMENTS.get(i).getCode().equals(code)){
+        for(int i = 0; i < REPEATEDINVESTMENTS.size(); i++){
+            if(REPEATEDINVESTMENTS.get(i).getCode().equals(code)){
                 REPETITION++;
-            }
-            
+            }       
         }
         amounts = new Integer[REPETITION];
         prices = new double[REPETITION];
         Integer INDEX = 0;
-        for(int i = 0; i < INVESTIMENTS.size(); i++){
-            if(INVESTIMENTS.get(i).getCode().equals(code)){
-                amounts[INDEX] = Integer.parseInt(INVESTIMENTS.get(i).getAmount());
-                prices[INDEX] = Double.parseDouble(INVESTIMENTS.get(i).getPrice());
+        for(int i = 0; i < REPEATEDINVESTMENTS.size(); i++){
+            if(REPEATEDINVESTMENTS.get(i).getCode().equals(code)){
+                amounts[INDEX] = Integer.parseInt(REPEATEDINVESTMENTS.get(i).getAmount());
+                prices[INDEX] = Double.parseDouble(REPEATEDINVESTMENTS.get(i).getPrice());
                 INDEX++;
             }
         }
+        
         double TOTAL = 0;
         for(int i = 0; i < INDEX; i++){
             TOTAL = TOTAL + amounts[i]*prices[i];
             MEDAMOUNT = MEDAMOUNT + amounts[i];
         }
         MEDPRICE = TOTAL / MEDAMOUNT;
+        MEDPRICE = Double.valueOf(df.format(MEDPRICE));
         MEDPRICESTRING = String.valueOf(MEDPRICE);
         MEDAMOUNTSTRING = String.valueOf(MEDAMOUNT);
         

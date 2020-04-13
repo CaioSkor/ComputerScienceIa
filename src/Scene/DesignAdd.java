@@ -249,6 +249,7 @@ public class DesignAdd {
                     try {
                         MID.getChildren().clear();
                         if(CODE.equals(TOOLS.TextBoxFiller("data/investment.txt", CODE)[0])){
+                            System.out.println(TOOLS.TextBoxFiller("data/investment.txt", CODE)[1]);
                             INVESTCONTROL.updateInvestment(CODE, TOOLS.TextBoxFiller("data/investment.txt", CODE)[1], TOOLS.TextBoxFiller("data/investment.txt", CODE)[2] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[3], TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText(), "000000");
                             String MESSAGE = "Investment" + CODE + "has been updated with sucess";
                             EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP, MESSAGE);

@@ -1,0 +1,5 @@
+AAPL,100,100,vds,vcds,000000
+AAPL,100,100,fgds,gfds,000000
+AAPL,100,100,gfds,bgvfd,000000
+AAPL,150,300,gfds,gfds,000000
+AAPL,146.33,600,gfds,gfds,000000
