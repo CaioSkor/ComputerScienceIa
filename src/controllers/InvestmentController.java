@@ -13,13 +13,18 @@ import modules.Investment;
  * @author caio
  */
 public class InvestmentController {
-    private final FileReader FILEREADER;   
-    private final BufferedReader BUFFEREDREADER;
-    private String FILECONTENT;
-    private String[] FILEDATA;    
+    private final FileReader FILEREADER, FILEREADER2;   
+    private final BufferedReader BUFFEREDREADER, BUFFEREDREADER2;
+    private String FILECONTENT, FILECONTENT2;
+    private String[] FILEDATA, FILEDATA2;    
     private Investment INVESTMENT;
     private final LinkedList<Investment> INVESTIMENTS;
-    //private LinkedList<Investment> DELETEDINVESTIMENTS;
+    Integer MEDAMOUNT, REPETITION;
+    Integer[] amounts;
+    double[] prices;
+    double MEDPRICE;
+    String MEDPRICESTRING, MEDAMOUNTSTRING;
+    private LinkedList<Investment> REPEATEDINVESTMENTS;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
@@ -31,6 +36,15 @@ public class InvestmentController {
             INVESTIMENTS.add(INVESTMENT);
         }
         FILEREADER.close();
+        
+        FILEREADER2 = new FileReader("data/repeatedInvestments.txt");
+        BUFFEREDREADER2 = new BufferedReader(FILEREADER2);
+        REPEATEDINVESTMENTS = new LinkedList<Investment>();
+        while((FILECONTENT2 = BUFFEREDREADER2.readLine()) != null) {
+            FILEDATA2 = FILECONTENT2.split(",");
+            INVESTMENT = new Investment(FILEDATA2[0], FILEDATA2[1], FILEDATA2[2], FILEDATA2[3], FILEDATA2[4], FILEDATA2[5]);
+            REPEATEDINVESTMENTS.add(INVESTMENT);
+        }
     }
     
     // CRUD - Create INVESTMENT
@@ -41,6 +55,20 @@ public class InvestmentController {
 
         INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate);
         INVESTIMENTS.add(INVESTMENT);
+        FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
+        FILEWRITER.write(System.lineSeparator());
+        FILEWRITER.close();
+        
+        System.out.println("Investment " + INVESTMENT.getCode() + " created.");
+    }
+    
+        public void createRepeatedInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
+        FileWriter FILEWRITER;
+        
+        FILEWRITER = new FileWriter("data/repeatedInvestments.txt", true);
+
+        INVESTMENT = new Investment(code, price, amount, date, reason, deletionDate);
+        REPEATEDINVESTMENTS.add(INVESTMENT);
         FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
@@ -69,18 +97,39 @@ public class InvestmentController {
     }
     
     public void updateInvestment(String code, String price, String amount, String date, String reason, String newPrice, String newAmnt, String newDate, String newReason, String deldate) throws IOException{
+        createRepeatedInvestment(code, price, amount, date, reason, deldate);
+        createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
+        
         FileWriter fileWriter = new FileWriter("data/investment.txt");
         fileWriter.flush();
-        double MEDPRICE; 
-        Integer MEDAMOUNT;
-        String MEDPRICESTRING;
-        String MEDAMOUNTSTRING;
         
-        MEDAMOUNT = Integer.parseInt(amount) + Integer.parseInt(newAmnt);
-        MEDAMOUNTSTRING = String.valueOf(MEDAMOUNT);
-        
-        MEDPRICE = ((Double.parseDouble(amount) * Double.parseDouble(price)) + (Double.parseDouble(newAmnt) * Double.parseDouble(newPrice))) / MEDAMOUNT ; 
+        REPETITION = 0;
+        MEDAMOUNT = 0;
+        MEDPRICE = 0;
+        for(int i = 0; i < INVESTIMENTS.size(); i++){
+            if(INVESTIMENTS.get(i).getCode().equals(code)){
+                REPETITION++;
+            }
+            
+        }
+        amounts = new Integer[REPETITION];
+        prices = new double[REPETITION];
+        Integer INDEX = 0;
+        for(int i = 0; i < INVESTIMENTS.size(); i++){
+            if(INVESTIMENTS.get(i).getCode().equals(code)){
+                amounts[INDEX] = Integer.parseInt(INVESTIMENTS.get(i).getAmount());
+                prices[INDEX] = Double.parseDouble(INVESTIMENTS.get(i).getPrice());
+                INDEX++;
+            }
+        }
+        double TOTAL = 0;
+        for(int i = 0; i < INDEX; i++){
+            TOTAL = TOTAL + amounts[i]*prices[i];
+            MEDAMOUNT = MEDAMOUNT + amounts[i];
+        }
+        MEDPRICE = TOTAL / MEDAMOUNT;
         MEDPRICESTRING = String.valueOf(MEDPRICE);
+        MEDAMOUNTSTRING = String.valueOf(MEDAMOUNT);
         
         for(int i = 0; i < INVESTIMENTS.size(); i++) {
             if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason) && INVESTIMENTS.get(i).getDeletionDate().equals(deldate)){
