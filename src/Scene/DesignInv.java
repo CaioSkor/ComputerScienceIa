@@ -224,7 +224,7 @@ public class DesignInv {
             MAINWINDOW.setScene(DSADD.getScreen());                
         }else{
             BOOL = false;
-            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
+            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV", BOOL2);
             MAINWINDOW.setScene(DSADD.getScreen());
         }
     }

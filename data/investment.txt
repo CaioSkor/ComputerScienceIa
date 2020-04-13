@@ -1,1 +1,4 @@
 AAPL,135.66,1200,gfds,gfds,12.04
+CRNX,13.2,1235,gfds,gfd,12.04
+DDOG,275.0,24,4/06/18,:),12.04
+AAON,111,1,hgfds,hgfds,000000
