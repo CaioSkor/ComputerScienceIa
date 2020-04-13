@@ -15,9 +15,10 @@ public class ToolsUse {
     private Integer POS,INDEX;
     private File REFERENCE;
     private String MINILINE, MINILINE2, CHECK;
-    private String[] STRING,SORT, STRING2;
+    private String[] STRING,SORT, STRING2, LASTPERF;
     
     private DesignInv DSINV;
+    private Integer BOOL;
     
     public Integer FileMeasure(String FILEME, Integer CHOICE) throws FileNotFoundException, IOException{
         LineNumberReader LNR;
@@ -100,4 +101,37 @@ public class ToolsUse {
         MAINWINDOW.setScene(DSINV.getScreen());
         MAINWINDOW.setTitle("Deleted Investments");
      }
+     
+    public Integer CheckSoldInvestments(String code) throws FileNotFoundException{
+        STRING = new String[2];
+        STRING[0] = "A";
+        BOOL = 0;
+        REFERENCE = new File("data/lastperformance.txt");
+        Scanner READER = new Scanner (REFERENCE);
+        while (READER.hasNextLine()) {
+            MINILINE = READER.nextLine();
+            LASTPERF = MINILINE.split(",");  
+            if (LASTPERF[0].equals(code)){
+               BOOL = 1;
+               break;
+            }
+        } 
+        return BOOL;
+    }
+    
+public String getLastPerf(String code) throws FileNotFoundException{
+        STRING = new String[2];
+        STRING[0] = "A";
+        REFERENCE = new File("data/lastperformance.txt");
+        Scanner READER = new Scanner (REFERENCE);
+        while (READER.hasNextLine()) {
+            MINILINE = READER.nextLine();
+            LASTPERF = MINILINE.split(",");  
+            if (LASTPERF[0].equals(code)){
+               break;
+            }
+        } 
+        System.out.println(LASTPERF[1]);
+        return LASTPERF[1];
+    }
 }

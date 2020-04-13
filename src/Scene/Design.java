@@ -123,10 +123,4 @@ public class Design {
     public Scene getScreen(){
         return ENTRANCE;
     }
-}
-    
-
-        
-
-                
-    
+}  

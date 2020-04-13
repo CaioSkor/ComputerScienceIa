@@ -46,8 +46,13 @@ public class DesignAddExtension {
         MESSAGE = new Text();
         MESSAGE.setText(MSG);
         MESSAGE.setFont(MYFONT.getOswaldRegular());
-        MESSAGE.setFill(Color.CHARTREUSE);
-                
+        
+        if(MSG.length() > 31){
+            MESSAGE.setFill(Color.CHARTREUSE);
+        }else{
+            MESSAGE.setFill(Color.GRAY);
+        }
+                 
         MID.setHgap(15);
         MID.setVgap(10);
 

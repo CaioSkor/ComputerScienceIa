@@ -18,14 +18,16 @@ public class InvestmentController {
     private final BufferedReader BUFFEREDREADER, BUFFEREDREADER2;
     private String FILECONTENT, FILECONTENT2;
     private String[] FILEDATA, FILEDATA2;    
-    private Investment INVESTMENT;
     private final LinkedList<Investment> INVESTIMENTS;
-    Integer MEDAMOUNT, REPETITION;
-    Integer[] amounts;
+    private Integer MEDAMOUNT, REPETITION;
+    private Integer[] amounts;
     double[] prices;
     double MEDPRICE;
-    String MEDPRICESTRING, MEDAMOUNTSTRING;
+    private String MEDPRICESTRING, MEDAMOUNTSTRING;
     private LinkedList<Investment> REPEATEDINVESTMENTS;
+    
+    private Investment INVESTMENT;
+    private PerformanceController PERFORMANCE;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
@@ -158,6 +160,22 @@ public class InvestmentController {
         fileWriter.close();
         
         System.out.println("Investment " + code + " updated.");
+    }
+    
+    public void writeLastPerformance(String code, String sellprice, String price, String amount) throws IOException{
+        FileWriter FILEWRITER;
+        FILEWRITER = new FileWriter("data/lastperformance.txt", true);
+        
+        double PERF;
+        PERF = (Double.parseDouble(sellprice) - Double.parseDouble(price))* Integer.parseInt(amount);
+        String fileContent;
+        fileContent = code + "," + String.valueOf(PERF);
+        
+        FILEWRITER.write(fileContent);
+        FILEWRITER.write(System.lineSeparator());
+        FILEWRITER.close();
+        
+        System.out.println("Investment last performance registred");
     }
     
     public LinkedList<String> readTickers() throws IOException{
