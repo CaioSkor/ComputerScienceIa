@@ -75,8 +75,6 @@ public class InvestmentController {
         FILEWRITER.write(INVESTMENT.getCode()+ "," + INVESTMENT.getPrice()+ "," + INVESTMENT.getAmount()+ "," + INVESTMENT.getDate()+ "," + INVESTMENT.getReason() + "," + INVESTMENT.getDeletionDate());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
-        
-        System.out.println("Investment " + INVESTMENT.getCode() + " created.");
     }
     
     // CRUD - Delete INVESTMENT
@@ -99,6 +97,26 @@ public class InvestmentController {
         System.out.println("Investment " + code + " deleted.");
     }
     
+    public void recoverDeletedInvestment(String code, String price, String amount, String date, String reason, String deletionDate, String newPrice, String newAmnt, String newDate, String newReason) throws IOException{
+        FileWriter fileWriter = new FileWriter("data/investment.txt");
+        fileWriter.flush();
+        for(int i = 0; i < INVESTIMENTS.size(); i++) {
+            if( INVESTIMENTS.get(i).getCode().equals(code) && INVESTIMENTS.get(i).getPrice().equals(price) && INVESTIMENTS.get(i).getAmount().equals(amount) && INVESTIMENTS.get(i).getDate().equals(date) && INVESTIMENTS.get(i).getReason().equals(reason)){
+                INVESTIMENTS.get(i).setPrice(newPrice);
+                INVESTIMENTS.get(i).setAmount(newAmnt);
+                INVESTIMENTS.get(i).setDate(newDate);
+                INVESTIMENTS.get(i).setReason(newReason);
+                INVESTIMENTS.get(i).setDeletionDate("000000");
+            }
+            String fileContent = INVESTIMENTS.get(i).getCode()+ "," + INVESTIMENTS.get(i).getPrice()+ "," + INVESTIMENTS.get(i).getAmount()+ "," + INVESTIMENTS.get(i).getDate()+ "," +INVESTIMENTS.get(i).getReason()+ "," +INVESTIMENTS.get(i).getDeletionDate();
+            fileWriter.write(fileContent);
+            fileWriter.write(System.lineSeparator());
+            
+        }
+        fileWriter.close();
+        System.out.println("Investment " + code + "recovered");
+    }
+    
     public void updateInvestment(String code, String price, String amount, String date, String reason, String newPrice, String newAmnt, String newDate, String newReason, String deldate) throws IOException{
         DecimalFormat df = new DecimalFormat("#.##");
         Integer SURE = 0;
@@ -111,8 +129,8 @@ public class InvestmentController {
         if(SURE>0){
             createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
         }else{
-            createRepeatedInvestment(code, price, amount, date, reason, deldate);
             createRepeatedInvestment(code, newPrice, newAmnt, newDate, newReason, deldate);
+            createRepeatedInvestment(code, price, amount, date, reason, deldate);
         }
         FileWriter fileWriter = new FileWriter("data/investment.txt");
         fileWriter.flush();
@@ -175,8 +193,31 @@ public class InvestmentController {
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
         
-        System.out.println("Investment last performance registred");
+        System.out.println("Investment last performance registered");
     }
+    
+    public void deleteAll() throws IOException{
+        FileWriter DELINVESTMENTS;
+        DELINVESTMENTS = new FileWriter("data/investment.txt");
+        
+        for(int i=0; i < INVESTIMENTS.size(); i++){
+            INVESTIMENTS.set(i, null);
+        }
+        DELINVESTMENTS.close();
+        
+        FileWriter DELREPEATED;
+        DELREPEATED = new FileWriter("data/repeatedInvestments.txt");
+        
+        for(int i=0; i < INVESTIMENTS.size(); i++){
+            REPEATEDINVESTMENTS.set(i, null);
+        }
+        DELREPEATED.close();
+        
+        FileWriter DELLAST;
+        DELLAST = new  FileWriter("data/lastperformance.txt");
+        DELLAST.close();
+    }
+    
     
     public LinkedList<String> readTickers() throws IOException{
         LinkedList<String> TICKERS = new LinkedList<String>();

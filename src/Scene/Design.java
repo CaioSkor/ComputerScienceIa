@@ -20,6 +20,7 @@ import javafx.stage.Stage;
  *
  * @author Caio Skornicki
  */
+
 public class Design {
     private final Text TITLE;
     private final Text DATEDISPLAY;

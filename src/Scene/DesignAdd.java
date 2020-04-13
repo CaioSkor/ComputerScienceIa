@@ -48,8 +48,8 @@ public class DesignAdd {
     private final BorderPane LAYOUT;
     private final Scene ENTRANCE;
     private Scene ENTRANCE2;
-    private RadioButton RADBTN1, RADBTN2, RADBTN3, RADBTN4;
-    private ToggleGroup GROUP, GROUP2;
+    private RadioButton RADBTN1, RADBTN2, RADBTN3, RADBTN4, RADBTN5, RADBTN6;
+    private ToggleGroup GROUP, GROUP2, GROUP3;
     private Boolean BOOLE, CASE, BOOL2;
     private double PRCDOUBLE;
     
@@ -173,6 +173,28 @@ public class DesignAdd {
                 }
             });
             
+            GROUP3 = new ToggleGroup();
+            
+            RADBTN5 = new RadioButton();
+            RADBTN5.setText("Re-introduce investment");
+            RADBTN5.setFont(MYFONT.getOswaldButton());
+            RADBTN5.setTextFill(Color.GRAY);
+            RADBTN5.setToggleGroup(GROUP);
+            
+            RADBTN6 = new RadioButton();
+            RADBTN6.setText("Cancel");
+            RADBTN6.setFont(MYFONT.getOswaldButton());
+            RADBTN6.setTextFill(Color.GRAY);
+            RADBTN6.setToggleGroup(GROUP);
+            RADBTN6.setOnAction(e -> {
+                BOOLE = true;
+                try {
+                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
             PRC = new TextField();
             AMNT = new TextField();
             MYDATE = new TextField();
@@ -190,80 +212,97 @@ public class DesignAdd {
             SUBBTN = new Button();
             SUBBTN.setText("Submit");
             SUBBTN.setFont(MYFONT.getOswaldButton());
-            SUBBTN.setOnAction((ActionEvent e) -> {
-                MID.getChildren().clear();
-                
-                EXTENSION = new DesignAddExtension();
-                
-                String CODE = comboBox.getSelectionModel().getSelectedItem().toString();
-                INFO[0] = CODE;
-                INFO[1] = PRC.getText();             
-                INFO[2] = AMNT.getText();
-                INFO[3] = MYDATE.getText();
-                INFO[4] = REASON.getText();
-                
-                CHECK2=0;
-                INDEXA=0;   
-                MSG = new String[5];
-                for(INDEX=1;INDEX<5;INDEX++){
-                    if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
-                        MSG[INDEX] = null;
-                    }else{
-                        MSG[INDEX] = TXTFIELDS[INDEX];
-                    }
-                    if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
-                        INDEXA++;  
-                        CHECK2++;
-                    }
-                } 
-                
-                FORMATMSG = new String[2];
-                CHECK = 0;
-                try{
-                    PRCDOUBLE = Double.parseDouble(PRC.getText());
-                } catch(NumberFormatException er){ 
-                    CHECK++;
-                    FORMATMSG[CHECK-1] = "price";
-                    INDEXA++;
-                }
-                try{
-                    AMNTINT = Integer.parseInt(AMNT.getText());
-                } catch(NumberFormatException er){
-                    CHECK++;
-                    FORMATMSG[CHECK-1] = "amount";
-                    INDEXA++;
-                }
-                
-                CHECK3 = 0;
-                for(INDEX=1; INDEX<3; INDEX++){
-                    if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){    
-                    }else{
-                        CHECK3++;
-                        FORMATMSG[INDEX-1] = null;  
-                    }
-                }
-                if(INDEXA<=0){
-                    try {
-                        MID.getChildren().clear();
-                        if(CODE.equals(TOOLS.TextBoxFiller("data/investment.txt", CODE)[0])){
-                            System.out.println(TOOLS.TextBoxFiller("data/investment.txt", CODE)[1]);
-                            INVESTCONTROL.updateInvestment(CODE, TOOLS.TextBoxFiller("data/investment.txt", CODE)[1], TOOLS.TextBoxFiller("data/investment.txt", CODE)[2] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[3], TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText(), "000000");
-                            String MESSAGE = "Investment " + CODE + " has been updated with sucess";
-                            EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP, MESSAGE);
+            SUBBTN.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    MID.getChildren().clear();
+                    
+                    EXTENSION = new DesignAddExtension();
+                    
+                    String CODE = comboBox.getSelectionModel().getSelectedItem().toString();
+                    INFO[0] = CODE;
+                    INFO[1] = PRC.getText();
+                    INFO[2] = AMNT.getText();
+                    INFO[3] = MYDATE.getText();
+                    INFO[4] = REASON.getText();
+                    
+                    CHECK2=0;
+                    INDEXA=0;
+                    MSG = new String[5];
+                    for(INDEX=1;INDEX<5;INDEX++){
+                        if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
+                            MSG[INDEX] = null;
                         }else{
-                            INVESTCONTROL.createInvestment(
-                                    CODE,
-                                    PRC.getText(),
-                                    AMNT.getText(),
-                                    MYDATE.getText(),
-                                    REASON.getText(),
-                                    "000000" 
-                            );
-                            EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
+                            MSG[INDEX] = TXTFIELDS[INDEX];
                         }
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        if(MSG[INDEX] != null && !MSG[INDEX].trim().isEmpty()){
+                            INDEXA++;
+                            CHECK2++;
+                        }
                     }
+                    
+                    FORMATMSG = new String[2];
+                    CHECK = 0;
+                    try{
+                        PRCDOUBLE = Double.parseDouble(PRC.getText());
+                    } catch(NumberFormatException er){
+                        CHECK++;
+                        FORMATMSG[CHECK-1] = "price";
+                        INDEXA++;
+                    }
+                    try{
+                        AMNTINT = Integer.parseInt(AMNT.getText());
+                    } catch(NumberFormatException er){
+                        CHECK++;
+                        FORMATMSG[CHECK-1] = "amount";
+                        INDEXA++;  
+                    }
+                    
+                    CHECK3 = 0;
+                    for(INDEX=1; INDEX<3; INDEX++){
+                        if(INFO[INDEX] != null && !INFO[INDEX].trim().isEmpty()){
+                        }else{
+                            CHECK3++;
+                            FORMATMSG[INDEX-1] = null;
+                        }
+                    }
+                    if(INDEXA<=0){
+                        try {
+                            MID.getChildren().clear();
+                            if(CODE.equals(TOOLS.TextBoxFiller("data/investment.txt", CODE)[0])){
+                                if(!TOOLS.TextBoxFiller("data/investment.txt", CODE)[0].equals("000000")){
+                                    RADBTN5.setOnAction(new EventHandler<ActionEvent>() {
+                                        @Override
+                                        public void handle(ActionEvent e) {
+                                            try {
+                                                INVESTCONTROL.recoverDeletedInvestment(CODE,TOOLS.TextBoxFiller("data/investment.txt", CODE)[1] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[2], TOOLS.TextBoxFiller("data/investment.txt", CODE)[3],TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], TOOLS.TextBoxFiller("data/investment.txt", CODE)[5], INFO[1], INFO[2], INFO[3], INFO[4]);
+                                            } catch (IOException ex) {
+                                                Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                        }
+                                    });
+                                    String MESSAGE = "Investment " + CODE+ " is deleted.";                      
+                                    EXTENSION.DesignAddExtension(MID, RADBTN5, RADBTN6, GROUP, MESSAGE);
+                                }else{
+                                    System.out.println(TOOLS.TextBoxFiller("data/investment.txt", CODE)[1]);
+                                    INVESTCONTROL.updateInvestment(CODE, TOOLS.TextBoxFiller("data/investment.txt", CODE)[1], TOOLS.TextBoxFiller("data/investment.txt", CODE)[2] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[3], TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], PRC.getText(), AMNT.getText(), MYDATE.getText(), REASON.getText(), "000000");
+                                    String MESSAGE = "Investment " + CODE + " has been updated with sucess";
+                                    EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP, MESSAGE);
+                                }
+                            }else{
+                                INVESTCONTROL.createInvestment(
+                                        CODE,
+                                        PRC.getText(),
+                                        AMNT.getText(),
+                                        MYDATE.getText(),
+                                        REASON.getText(),
+                                        "000000"
+                                );
+                                EXTENSION.DesignAddExtension(MID, RADBTN1, RADBTN2, GROUP);
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }else{
                         if(CHECK2 <= 0){
                             CASE = false;
@@ -277,6 +316,7 @@ public class DesignAdd {
                             }
                         }
                     }
+                }
             });
         }else{
             EXTENSION = new DesignAddExtension();

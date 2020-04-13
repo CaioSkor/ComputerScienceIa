@@ -108,6 +108,7 @@ public class DesignAddExtension {
             String JOINER = String.join(", ", MISSING);
             MESSAGE.setText(JOINER);
         }
+        
         MID.setHgap(15);
         MID.setVgap(10);
         MID.setAlignment(Pos.CENTER);
