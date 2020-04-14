@@ -270,12 +270,14 @@ public class DesignAdd {
                         try {
                             MID.getChildren().clear();
                             if(CODE.equals(TOOLS.TextBoxFiller("data/investment.txt", CODE)[0])){
-                                if(!TOOLS.TextBoxFiller("data/investment.txt", CODE)[0].equals("000000")){
+                                if(!TOOLS.TextBoxFiller("data/investment.txt", CODE)[5].equals("000000")){
                                     RADBTN5.setOnAction(new EventHandler<ActionEvent>() {
                                         @Override
                                         public void handle(ActionEvent e) {
                                             try {
                                                 INVESTCONTROL.recoverDeletedInvestment(CODE,TOOLS.TextBoxFiller("data/investment.txt", CODE)[1] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[2], TOOLS.TextBoxFiller("data/investment.txt", CODE)[3],TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], TOOLS.TextBoxFiller("data/investment.txt", CODE)[5], INFO[1], INFO[2], INFO[3], INFO[4]);
+                                                DSINV = new DesignInv(MAINWINDOW, 1);
+                                                MAINWINDOW.setScene(DSINV.getScreen());
                                             } catch (IOException ex) {
                                                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                                             }
@@ -348,6 +350,16 @@ public class DesignAdd {
                     MID.getChildren().clear();
                     EXTENSION = new DesignAddExtension();
                     EXTENSION.DesignAddExtension(MAINWINDOW, MID, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
+                    BCKBTN.setOnAction(event ->{
+                        try {
+                            DSINV=new DesignInv(MAINWINDOW, 1);
+                            MAINWINDOW.setScene(DSINV.getScreen());
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    });
+                    
                   
                     } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
@@ -409,6 +421,18 @@ public class DesignAdd {
                 MID.add(NEWPRCTXT, 0, 0);
                 MID.add(NEWPRC, 1, 0);
                 MID.add(SUBBTN, 1, 1);
+                BCKBTN.setOnAction((ActionEvent a) -> {
+                MID.getChildren().clear();
+                String WARNING;
+                    try {
+                        WARNING = "Is Investment " + TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0] + " going to be:";
+                        EXTENSION.DesignAddExtension(MID,RADBTN3,RADBTN4,GROUP2,WARNING);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                
+                
             });
             
             PERF = new PerformanceController();
@@ -477,6 +501,15 @@ public class DesignAdd {
                     String WARNING;
                     WARNING = "Is Investment " + TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0] + " going to be:";
                     EXTENSION.DesignAddExtension(MID,RADBTN3,RADBTN4,GROUP2,WARNING);
+                    BCKBTN.setOnAction((ActionEvent a) -> {
+                        BOOLE = false;
+                        try {
+                            DSINV.continueInv(MAINWINDOW, BOOLE);
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                  
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }

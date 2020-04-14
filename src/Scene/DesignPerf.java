@@ -86,6 +86,15 @@ public class DesignPerf {
         }
  
         /* Button management  */
+        
+        backBTN = new Button("BACK");
+        backBTN.setFont(MYFONT.getOswaldButton());
+        backBTN.setOnAction((ActionEvent e) -> {
+            MAIN = new Design(MAINWINDOW);
+            MAINWINDOW.setScene(MAIN.getScreen());
+            MAINWINDOW.setTitle("Stock Organizer Software");
+        });
+        
         RESETBTN2 = new Button();
         RESETBTN2.setText("RESET ALL PORTFOLIO");
         RESETBTN2.setFont(MYFONT.getOswaldButton());
@@ -95,7 +104,11 @@ public class DesignPerf {
             } catch (IOException ex) {
                 Logger.getLogger(DesignPerf.class.getName()).log(Level.SEVERE, null, ex);
             }
+            MID.getChildren().clear();
+            String MESSAGE = "Portfolio reseted with success";
+            EXTENSION.DesignPerfExtension(MID, MESSAGE);
         });
+        
         
         RESETBTN = new Button();
         RESETBTN.setText("RESET ALL PORTFOLIO");
@@ -104,21 +117,14 @@ public class DesignPerf {
             MID.getChildren().clear();
             String MESSAGE = "This will reset all investments submitted and deleted. Are you sure?";
             EXTENSION.DesignPerfExtension(MID, MESSAGE, RESETBTN2);
+            BOTTOM2.getChildren().clear();
         });
-        
- 
-        backBTN = new Button("BACK");
-        backBTN.setFont(MYFONT.getOswaldButton());
-        backBTN.setOnAction((ActionEvent e) -> {
-            MAIN = new Design(MAINWINDOW);
-            MAINWINDOW.setScene(MAIN.getScreen());
-            MAINWINDOW.setTitle("Stock Organizer Software");
-                });
+       
         
         /* Pane management */
         MID = new GridPane();
         MID.setHgap(40);
-        MID.add(Sentence, 0, 0);
+       // MID.add(Sentence, 0, 0);
         MID.setAlignment(Pos.CENTER);     
         
         TOP = new GridPane();
@@ -126,7 +132,7 @@ public class DesignPerf {
         TOP.setVgap(10);
         TOP.setAlignment(Pos.TOP_LEFT);
         TOP.add(TITLE, 1, 2);
-        
+      
         BOTTOM2 = new VBox(20);
         BOTTOM2.setAlignment(Pos.BOTTOM_RIGHT);
         BOTTOM2.getChildren().add(RESETBTN);
@@ -154,6 +160,10 @@ public class DesignPerf {
 
     public Scene getScreen(){
         return ENTRANCE;
+    }
+    
+    public GridPane getMID(){
+        return MID;
     }
 }
 

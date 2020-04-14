@@ -65,7 +65,7 @@ public class InvestmentController {
         System.out.println("Investment " + INVESTMENT.getCode() + " created.");
     }
     
-        public void createRepeatedInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
+    public void createRepeatedInvestment(String code, String price, String amount, String date, String reason, String deletionDate) throws IOException{
         FileWriter FILEWRITER;
         
         FILEWRITER = new FileWriter("data/repeatedInvestments.txt", true);
@@ -181,11 +181,13 @@ public class InvestmentController {
     }
     
     public void writeLastPerformance(String code, String sellprice, String price, String amount) throws IOException{
+        DecimalFormat df = new DecimalFormat("#.##");
         FileWriter FILEWRITER;
         FILEWRITER = new FileWriter("data/lastperformance.txt", true);
         
         double PERF;
         PERF = (Double.parseDouble(sellprice) - Double.parseDouble(price))* Integer.parseInt(amount);
+        PERF = Double.valueOf(df.format(PERF));
         String fileContent;
         fileContent = code + "," + String.valueOf(PERF);
         
@@ -200,18 +202,26 @@ public class InvestmentController {
         FileWriter DELINVESTMENTS;
         DELINVESTMENTS = new FileWriter("data/investment.txt");
         
-        for(int i=0; i < INVESTIMENTS.size(); i++){
-            INVESTIMENTS.set(i, null);
+        if(INVESTIMENTS.size() == 0){
+            DELINVESTMENTS.close();
+        }else{
+            for(int i=0; i < INVESTIMENTS.size(); i++){
+                INVESTIMENTS.set(i, null);
+            }
+            DELINVESTMENTS.close();
         }
-        DELINVESTMENTS.close();
         
         FileWriter DELREPEATED;
         DELREPEATED = new FileWriter("data/repeatedInvestments.txt");
         
-        for(int i=0; i < INVESTIMENTS.size(); i++){
-            REPEATEDINVESTMENTS.set(i, null);
+        if(REPEATEDINVESTMENTS.size() == 0){
+            DELREPEATED.close();
+        }else{
+            for(int i=0; i < REPEATEDINVESTMENTS.size(); i++){
+                REPEATEDINVESTMENTS.set(i, null);
+            }
+            DELREPEATED.close();
         }
-        DELREPEATED.close();
         
         FileWriter DELLAST;
         DELLAST = new  FileWriter("data/lastperformance.txt");

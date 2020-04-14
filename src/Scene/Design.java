@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -72,7 +74,11 @@ public class Design {
         BTN2.setFont(MYFONT.getOswaldButton());
         BTN2.setMinWidth(200);
         BTN2.setOnAction((ActionEvent e) -> {
-            PORTPERF = new DesignPerf(MAINWINDOW);
+            try {
+                PORTPERF = new DesignPerf(MAINWINDOW);
+            } catch (IOException ex) {
+                Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
+            }
             MAINWINDOW.setScene(PORTPERF.getScreen());
             MAINWINDOW.setTitle("Portfolio performance");
         });
