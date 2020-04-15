@@ -1,6 +1,7 @@
 package Scene;
 
 import controllers.InvestmentController;
+import controllers.ToolsUse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,17 +29,20 @@ public class DesignPerf {
     GridPane TOP,MID;
     BorderPane layout;
     Scene ENTRANCE;
-    Button backBTN, RESETBTN, RESETBTN2;
+    Button backBTN, RESETBTN, RESETBTN2, ADDINV;
     Design MAIN;
-    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE;
+    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE, STARTPORT;
     TextFlow Sentence;
     FontMeUp MYFONT;
     double performance;
     
+    private ToolsUse TOOLS;
     private InvestmentController INVESTCONTROL;
     private DesignPerfExtension EXTENSION;
+    private DesignAdd DSADD;
     
     DesignPerf(Stage MAINWINDOW) throws IOException {
+        TOOLS = new ToolsUse();
         EXTENSION = new DesignPerfExtension();
         INVESTCONTROL = new InvestmentController();
         /* Performance Management */
@@ -75,6 +79,11 @@ public class DesignPerf {
         TITLE.setFont(MYFONT.getOswaldBold());
         TITLE.setFill(MYFONT.getTitleColor());
         
+        STARTPORT = new Text();
+        STARTPORT.setText("A portfolio has not yet being initialized. In order to start it, click the button");
+        STARTPORT.setFont(MYFONT.getOswaldRegular());
+        STARTPORT.setFill(Color.GRAY);
+        
         Sentence = new TextFlow();
         Sentence.setLayoutX(50);
         Sentence.setLayoutY(40);
@@ -86,6 +95,16 @@ public class DesignPerf {
         }
  
         /* Button management  */
+        boolean BOOL = false;
+        DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
+        
+        ADDINV = new Button("Add Investment");
+        ADDINV.setFont(MYFONT.getOswaldButton());
+        ADDINV.setOnAction(event -> {
+            MAINWINDOW.setScene(DSADD.getScreen());
+            MAINWINDOW.setTitle("Add Investment");
+        });
+        
         
         backBTN = new Button("BACK");
         backBTN.setFont(MYFONT.getOswaldButton());
@@ -108,7 +127,6 @@ public class DesignPerf {
             String MESSAGE = "Portfolio reseted with success";
             EXTENSION.DesignPerfExtension(MID, MESSAGE);
         });
-        
         
         RESETBTN = new Button();
         RESETBTN.setText("RESET ALL PORTFOLIO");
@@ -134,20 +152,25 @@ public class DesignPerf {
         TOP.add(TITLE, 1, 2);
       
         BOTTOM2 = new VBox(20);
-        BOTTOM2.setAlignment(Pos.BOTTOM_RIGHT);
-        BOTTOM2.getChildren().add(RESETBTN);
         BOTTOM2.setPadding(new Insets(10, 10, 10, 15));
+        BOTTOM2.setAlignment(Pos.BOTTOM_RIGHT);
         
         BOTTOM3 = new VBox(20);
         BOTTOM3.getChildren().add(backBTN);
-        BOTTOM3.setAlignment(Pos.BOTTOM_LEFT);
         BOTTOM3.setPadding(new Insets(10, 10, 10, 15));
         
         Bottom = new HBox(410);
+        Bottom.setPadding(new Insets(10, 20, 10, 15));
         Bottom.getChildren().add(BOTTOM3);
         Bottom.getChildren().add(BOTTOM2);
-        Bottom.setPadding(new Insets(10, 20, 10, 15));
         
+        
+        if(TOOLS.portfolioStart() > 0){
+            BOTTOM2.getChildren().add(RESETBTN);
+        }else{
+            MID.add(STARTPORT, 0, 0);
+            MID.add(ADDINV, 0, 1);
+        }
         layout = new BorderPane();
         layout.setTop(TOP);
         layout.setCenter(MID);

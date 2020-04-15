@@ -229,6 +229,18 @@ public class DesignInv {
         }
     }
     
+    public void posRecoveryInv(Stage MAINWINDOW, String CODE) throws IOException{
+        BOOL = true;
+        BOOL2 = true;
+        DSADD = new DesignAdd(MAINWINDOW,BOOL,1,CODE,BOOL2);
+        MAINWINDOW.setScene(DSADD.getScreen());
+    }
+    
+    public void backToAdd(Stage MAINWINDOW) throws IOException{
+        DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
+        MAINWINDOW.setScene(DSADD.getScreen());
+    }
+    
     public void PopulateMe(Stage MAINWINDOW, Integer RESTE, Integer CHOICE) throws IOException{
         MIDDLE[INDEXA] = new HBox(10);
         for(INDEX=0; INDEX< RESTE; INDEX++){         

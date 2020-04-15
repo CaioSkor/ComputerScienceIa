@@ -119,7 +119,7 @@ public class ToolsUse {
         return BOOL;
     }
     
-public String getLastPerf(String code) throws FileNotFoundException{
+    public String getLastPerf(String code) throws FileNotFoundException{
         STRING = new String[2];
         STRING[0] = "A";
         REFERENCE = new File("data/lastperformance.txt");
@@ -133,5 +133,30 @@ public String getLastPerf(String code) throws FileNotFoundException{
         } 
         System.out.println(LASTPERF[1]);
         return LASTPERF[1];
+    }
+    
+    public Integer portfolioStart() throws FileNotFoundException, IOException{
+        POS = 0;
+        FileReader READER = new FileReader("data/investment.txt");
+        LineNumberReader LNR = new LineNumberReader(READER);
+        while(LNR.readLine() != null){
+            POS++;
+        }
+        
+        FileReader READER2 = new FileReader("data/repeatedInvestments.txt");
+        LineNumberReader LNR2 = new LineNumberReader(READER2);
+        while(LNR2.readLine() != null){
+            POS++;
+        }
+        
+        FileReader READER3 = new FileReader("data/lastperformance.txt");
+        LineNumberReader LNR3 = new LineNumberReader(READER3);
+        while(LNR3.readLine() != null){
+            POS++;
+        }
+        LNR.close();
+        LNR2.close();
+        LNR3.close();
+        return POS;
     }
 }

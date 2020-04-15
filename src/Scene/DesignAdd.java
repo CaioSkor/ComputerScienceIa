@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class DesignAdd {
 
@@ -69,6 +71,8 @@ public class DesignAdd {
         MYFONT = new FontMeUp();
         CHOICE = 1;
         DSINV = new DesignInv(MAINWINDOW, CHOICE);
+        
+        BOTTOM = new HBox(30);
         
         TITLE = new Text();
         BCKBTN = new Button();
@@ -318,7 +322,14 @@ public class DesignAdd {
                             }
                         }
                     }
-                }
+                BCKBTN.setOnAction(event ->{
+                        try {
+                            DSINV.backToAdd(MAINWINDOW);
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                }         
             });
         }else{
             EXTENSION = new DesignAddExtension();
@@ -422,17 +433,29 @@ public class DesignAdd {
                 MID.add(NEWPRC, 1, 0);
                 MID.add(SUBBTN, 1, 1);
                 BCKBTN.setOnAction((ActionEvent a) -> {
-                MID.getChildren().clear();
-                String WARNING;
+                    MID.getChildren().clear();
+                    String WARNING;
+                    if(!BOOL2){
+                        try {
+                            WARNING = "Is Investment " + TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0] + " going to be:";
+                            EXTENSION.DesignAddExtension(MID,RADBTN3,RADBTN4,GROUP2,WARNING);
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+                
+                BOTTOM.getChildren().clear();
+                PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
+                DELAY.setOnFinished(event ->{
+                    BOOLE = false;
                     try {
-                        WARNING = "Is Investment " + TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0] + " going to be:";
-                        EXTENSION.DesignAddExtension(MID,RADBTN3,RADBTN4,GROUP2,WARNING);
+                        DSINV.posRecoveryInv(MAINWINDOW, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
                     } catch (IOException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-                
-                
+                DELAY.play();
             });
             
             PERF = new PerformanceController();
@@ -526,13 +549,29 @@ public class DesignAdd {
                 });
             }else{
                 BCKBTN.setOnAction((ActionEvent e) -> {
-                    try {
-                        DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
-                        ENTRANCE2 = DSINV2.getScreen();
-                        MAINWINDOW.setScene(DSINV2.getScreen());
-                        MAINWINDOW.setTitle("Investments");
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    if(POS>0){
+                        try {
+                            DSINV2 = new DesignInv(MAINWINDOW, 0);
+                            MAINWINDOW.setScene(DSINV2.getScreen());
+                            MAINWINDOW.setTitle("Investments");
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }    
+                    }else{
+                        if(POS==-3){
+                           MAIN = new Design(MAINWINDOW);
+                           MAINWINDOW.setScene(MAIN.getScreen());
+                           MAINWINDOW.setTitle("Stock Organizer Software");
+                        }else{
+                            try {
+                                DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
+                                ENTRANCE2 = DSINV2.getScreen();
+                                MAINWINDOW.setScene(DSINV2.getScreen());
+                                MAINWINDOW.setTitle("Investments");
+                            } catch (IOException ex) {
+                                Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
                     }
                 });
             }
@@ -612,7 +651,6 @@ public class DesignAdd {
         MID.setMinSize(200, 200);
         MID.setPadding(new Insets(10, 10, 10, 10));
             
-        BOTTOM = new HBox(30);
         BOTTOM.getChildren().add(BCKBTN);
         BOTTOM.setAlignment(Pos.BOTTOM_LEFT);
         BOTTOM.setPadding(new Insets(10, 10, 10, 15));

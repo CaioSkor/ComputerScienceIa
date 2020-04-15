@@ -1,3 +1,1 @@
-AAPL,678,78,hj,bjk,000000
-AAWW,1567,12,fdsa,fdsa,000000
-AAL,678.0,1578,fghj,vbn,13.04
+AAPL,220,12,gfd,gf,000000

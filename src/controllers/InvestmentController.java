@@ -8,26 +8,29 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Scanner;
 import modules.Investment;
+import modules.LastPerformance;
 
 /**
  *
  * @author caio
  */
 public class InvestmentController {
-    private final FileReader FILEREADER, FILEREADER2;   
-    private final BufferedReader BUFFEREDREADER, BUFFEREDREADER2;
-    private String FILECONTENT, FILECONTENT2;
-    private String[] FILEDATA, FILEDATA2;    
-    private final LinkedList<Investment> INVESTIMENTS;
+    private final FileReader FILEREADER, FILEREADER2, FILEREADER3;   
+    private final BufferedReader BUFFEREDREADER, BUFFEREDREADER2, BUFFEREDREADER3;
+    private String FILECONTENT, FILECONTENT2, FILECONTENT3;
+    private String[] FILEDATA, FILEDATA2, FILEDATA3;    
     private Integer MEDAMOUNT, REPETITION;
     private Integer[] amounts;
     double[] prices;
     double MEDPRICE;
     private String MEDPRICESTRING, MEDAMOUNTSTRING;
+    private final LinkedList<Investment> INVESTIMENTS;
     private LinkedList<Investment> REPEATEDINVESTMENTS;
+    private LinkedList<LastPerformance> LASTPERFORMANCE;
     
     private Investment INVESTMENT;
     private PerformanceController PERFORMANCE;
+    private LastPerformance LAST;
     
     public InvestmentController() throws IOException{
         FILEREADER = new FileReader("data/investment.txt");
@@ -47,6 +50,15 @@ public class InvestmentController {
             FILEDATA2 = FILECONTENT2.split(",");
             INVESTMENT = new Investment(FILEDATA2[0], FILEDATA2[1], FILEDATA2[2], FILEDATA2[3], FILEDATA2[4], FILEDATA2[5]);
             REPEATEDINVESTMENTS.add(INVESTMENT);
+        }
+        
+        FILEREADER3 = new FileReader("data/lastperformance.txt");
+        BUFFEREDREADER3 = new BufferedReader(FILEREADER3);
+        LASTPERFORMANCE = new LinkedList<LastPerformance>();
+        while((FILECONTENT3 = BUFFEREDREADER3.readLine()) != null){
+            FILEDATA3 = FILECONTENT3.split(",");
+            LAST = new LastPerformance(FILEDATA3[0], FILEDATA3[1]);
+            LASTPERFORMANCE.add(LAST);
         }
     }
     
@@ -115,6 +127,19 @@ public class InvestmentController {
         }
         fileWriter.close();
         System.out.println("Investment " + code + "recovered");
+        
+        FileWriter FILEWRITER = new FileWriter("data/lastperformance.txt");
+        FILEWRITER.flush();
+        for(int i = 0; i < LASTPERFORMANCE.size(); i++){
+            if(LASTPERFORMANCE.get(i).getCode().equals(code)){
+                LASTPERFORMANCE.set(i, null);
+            }else{
+                String STRING = LASTPERFORMANCE.get(i).getCode()+","+LASTPERFORMANCE.get(i).getPerformance();
+                FILEWRITER.write(STRING);
+                FILEWRITER.write(System.lineSeparator());
+            }
+        }
+        FILEWRITER.close();
     }
     
     public void updateInvestment(String code, String price, String amount, String date, String reason, String newPrice, String newAmnt, String newDate, String newReason, String deldate) throws IOException{
@@ -188,14 +213,15 @@ public class InvestmentController {
         double PERF;
         PERF = (Double.parseDouble(sellprice) - Double.parseDouble(price))* Integer.parseInt(amount);
         PERF = Double.valueOf(df.format(PERF));
+        String performance = String.valueOf(PERF);
         String fileContent;
         fileContent = code + "," + String.valueOf(PERF);
-        
-        FILEWRITER.write(fileContent);
+
+        LAST = new LastPerformance(code, performance);
+        LASTPERFORMANCE.add(LAST);
+        FILEWRITER.write(LAST.getCode()+","+LAST.getPerformance());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
-        
-        System.out.println("Investment last performance registered");
     }
     
     public void deleteAll() throws IOException{
@@ -225,10 +251,16 @@ public class InvestmentController {
         
         FileWriter DELLAST;
         DELLAST = new  FileWriter("data/lastperformance.txt");
-        DELLAST.close();
+        if(LASTPERFORMANCE.size() == 0){
+            DELLAST.close();
+        }else{
+            for(int i=0; i < LASTPERFORMANCE.size(); i++){
+                LASTPERFORMANCE.set(i, null);
+            }
+            DELLAST.close();
+        }
     }
-    
-    
+       
     public LinkedList<String> readTickers() throws IOException{
         LinkedList<String> TICKERS = new LinkedList<String>();
         FileReader TEXTFILEPATH = new FileReader("./data/nasdaqlisted.txt");
@@ -242,5 +274,4 @@ public class InvestmentController {
         
         return TICKERS;
     }
-    
 }
