@@ -263,20 +263,25 @@ public class InvestmentController {
     }
     
     public void allInfo(){
-        ALLCODES = new String[INVESTIMENTS.size()][2];
-        ALLAMOUNTS = new String[INVESTIMENTS.size()];
+        POS = 0;
+        for(int i = 0; i < INVESTIMENTS.size(); i++){
+            if(INVESTIMENTS.get(i).getDeletionDate().equals("000000")){
+                POS++;
+            }
+        }
+        
+        ALLCODES = new String[POS][2];
+        ALLAMOUNTS = new String[POS];
         TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
         
+        Integer INDEX = 0;
         for(int i = 0; i < INVESTIMENTS.size(); i++ ){
-            ALLCODES[i][0] = INVESTIMENTS.get(i).getCode();
-        }
-        
-        for(int i = 0; i < INVESTIMENTS.size(); i++){
-            ALLCODES[i][1] = INVESTIMENTS.get(i).getPrice();
-        }
-        
-        for(int i=0; i < INVESTIMENTS.size(); i++){
-            ALLAMOUNTS[i] = INVESTIMENTS.get(i).getAmount();
+            if(INVESTIMENTS.get(i).getDeletionDate().equals("000000")){
+                ALLCODES[INDEX][0] = INVESTIMENTS.get(i).getCode();     
+                ALLCODES[INDEX][1] = INVESTIMENTS.get(i).getPrice();
+                ALLAMOUNTS[INDEX] = INVESTIMENTS.get(i).getAmount();
+                INDEX++;
+            }
         }
         
         for(int i=0; i < LASTPERFORMANCE.size(); i++){

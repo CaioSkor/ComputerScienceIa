@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class PerformanceController {
     private String PERFORMANCESTRING, TOTALPERFSTRING, PERCENTAGESTRING; 
     private URLConnection CON;
-    private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC;
+    private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE;
     
     private InvestmentController INVESTCONTROL;
     
@@ -88,6 +88,7 @@ public class PerformanceController {
     }
     
     public double portTotalPerf() throws IOException, ApiException{
+        DecimalFormat df = new DecimalFormat("#.##");
         INVESTCONTROL = new InvestmentController();
         TOTALPERFORMANCEUNIT = 0;
         System.out.println(INVESTCONTROL.getAllCodes().length);
@@ -95,29 +96,51 @@ public class PerformanceController {
             PerformanceCalc(INVESTCONTROL.getAllCodes()[i][0], INVESTCONTROL.getAllCodes()[i][1]);
             TOTALPERFORMANCEUNIT = TOTALPERFORMANCEUNIT + (PERFORMANCE*Integer.parseInt(INVESTCONTROL.getAllAmounts()[i]));
         }
+        TOTALPERFORMANCEUNIT = Double.valueOf(df.format(TOTALPERFORMANCEUNIT));
         
         TOTALPRICES = 0;
         for(int i=0; i < INVESTCONTROL.getAllCodes().length; i++){
             TOTALPRICES = TOTALPRICES + (Double.parseDouble(INVESTCONTROL.getAllCodes()[i][1]) * Integer.parseInt(INVESTCONTROL.getAllAmounts()[i]));
         }
         TOTALPERFORMANCEPERC = TOTALPERFORMANCEUNIT/TOTALPRICES*100;
+        TOTALPERFORMANCEPERC = Double.valueOf(df.format(TOTALPERFORMANCEPERC));
         System.out.println(TOTALPERFORMANCEUNIT);
         
-        double TOTALPERFORMANCEALL;
         TOTALPERFORMANCEALL = TOTALPERFORMANCEUNIT;
         for(int i=0; i<INVESTCONTROL.getToutLastPerf().length; i++){
             TOTALPERFORMANCEALL = TOTALPERFORMANCEALL + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
         }
+        TOTALPERFORMANCEALL = Double.valueOf(df.format(TOTALPERFORMANCEALL));
         
-        double TOTALGAINPERCENTAGE;
         TOTALGAINPERCENTAGE = TOTALPERFORMANCEALL/TOTALPRICES*100;
         System.out.println(TOTALPERFORMANCEALL);
+        TOTALGAINPERCENTAGE = Double.valueOf(df.format(TOTALGAINPERCENTAGE));
         
         return TOTALPERFORMANCEUNIT;
     }
     
     public String getPercentageString(){
         return PERCENTAGESTRING;
+    }
+    
+    public double getTotalPerformanceShare() throws IOException, ApiException{
+        portTotalPerf();
+        return TOTALPERFORMANCEUNIT;
+    }
+    
+    public double getTotalPerformancePerc() throws IOException, ApiException{
+        portTotalPerf();
+        return TOTALPERFORMANCEPERC;
+    }
+    
+    public double getTotalPerformanceAll() throws IOException, ApiException{
+        portTotalPerf();
+        return TOTALPERFORMANCEALL;
+    }
+    
+    public double getTotalGainPercentage() throws IOException, ApiException{
+        portTotalPerf();
+        return TOTALGAINPERCENTAGE;
     }
     
 }

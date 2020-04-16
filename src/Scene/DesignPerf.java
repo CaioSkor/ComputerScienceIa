@@ -26,14 +26,14 @@ import javafx.stage.Stage;
  * @author Caio Skornicki
  */
 public class DesignPerf {
-    HBox Bottom;
+    HBox Bottom, OVERRAL, SHARES;
     VBox BOTTOM2, BOTTOM3;
     GridPane TOP,MID;
     BorderPane layout;
     Scene ENTRANCE;
     Button backBTN, RESETBTN, RESETBTN2, ADDINV;
     Design MAIN;
-    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE, STARTPORT;
+    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE, STARTPORT, GAINSTOCKSTXT, GAINOVERRALTXT, GAINSTOCKS, GAINSTOCKSPERC, GAINOVERRAL, GAINOVERRALPERC;
     TextFlow Sentence;
     FontMeUp MYFONT;
     double performance;
@@ -142,6 +142,70 @@ public class DesignPerf {
             BOTTOM2.getChildren().clear();
         });
        
+        if(TOOLS.portfolioStart() > 0){
+            GAINSTOCKSTXT = new Text();
+            GAINSTOCKSTXT.setText("Your balance from current stocks:");
+            GAINSTOCKSTXT.setFont(MYFONT.getOswaldRegular());
+            GAINSTOCKSTXT.setFill(Color.GRAY);
+            
+            GAINSTOCKS = new Text();
+            GAINSTOCKS.setFont(MYFONT.getOswaldRegular());
+            
+            GAINSTOCKSPERC = new Text();
+            GAINSTOCKSPERC.setFont(MYFONT.getOswaldRegular());
+            
+            GAINOVERRALTXT = new Text();
+            GAINOVERRALTXT.setText("Your balance from current and sold stocks:");
+            GAINOVERRALTXT.setFont(MYFONT.getOswaldRegular());
+            GAINOVERRALTXT.setFill(Color.GRAY);
+            
+            GAINOVERRAL = new Text();
+            GAINOVERRAL.setFont(MYFONT.getOswaldRegular());
+            
+            GAINOVERRALPERC = new Text();
+            GAINOVERRALPERC.setFont(MYFONT.getOswaldRegular());
+            
+            if(PERF.getTotalPerformanceShare() > 0){
+                String MESSAGE1 = String.valueOf(PERF.getTotalPerformanceShare());
+                GAINSTOCKS.setText(MESSAGE1 + " USD   ");
+                GAINSTOCKS.setFill(Color.CHARTREUSE);
+                String MESSAGE2 = String.valueOf(PERF.getTotalPerformancePerc());
+                GAINSTOCKSPERC.setText(MESSAGE2 + " %   ");
+                GAINSTOCKSPERC.setFill(Color.CHARTREUSE);
+                
+                String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
+                GAINOVERRAL.setText(MESSAGE3 + " USD   ");
+                GAINOVERRAL.setFill(Color.CHARTREUSE);
+                String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
+                GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
+                GAINOVERRALPERC.setFill(Color.CHARTREUSE);
+            }else{
+                String MESSAGE1 = String.valueOf(PERF.getTotalPerformanceShare());
+                GAINSTOCKS.setText("- "+ MESSAGE1 + " USD   ");
+                GAINSTOCKS.setFill(MYFONT.getTitleColor());
+                String MESSAGE2 = String.valueOf(PERF.getTotalPerformancePerc());
+                GAINSTOCKSPERC.setText("- "+ MESSAGE2 + " %   ");
+                GAINSTOCKSPERC.setFill(MYFONT.getTitleColor());
+                
+                String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
+                GAINOVERRAL.setText("- "+ MESSAGE3 + " USD   ");
+                GAINOVERRAL.setFill(MYFONT.getTitleColor());
+                String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
+                GAINOVERRALPERC.setText("- "+ MESSAGE4 + " %   ");
+                GAINOVERRALPERC.setFill(MYFONT.getTitleColor());
+            }
+            SHARES = new HBox();
+            SHARES.getChildren().add(GAINSTOCKS);
+            SHARES.getChildren().add(GAINSTOCKSPERC);
+            SHARES.setPadding(new Insets(10,10,10,15));
+            SHARES.setAlignment(Pos.CENTER);
+            
+            OVERRAL = new HBox();
+            OVERRAL.getChildren().add(GAINOVERRAL);
+            OVERRAL.getChildren().add(GAINOVERRALPERC);
+            OVERRAL.setPadding(new Insets(10,10,10,15));
+            OVERRAL.setAlignment(Pos.CENTER);
+        }
         
         /* Pane management */
         MID = new GridPane();
@@ -171,7 +235,10 @@ public class DesignPerf {
         
         if(TOOLS.portfolioStart() > 0){
             BOTTOM2.getChildren().add(RESETBTN);
-            PERF.portTotalPerf();
+            MID.add(GAINSTOCKSTXT, 0, 0);
+            MID.add(SHARES, 0, 1);
+            MID.add(GAINOVERRALTXT, 0, 2);
+            MID.add(OVERRAL, 0, 3);
         }else{
             MID.add(STARTPORT, 0, 0);
             MID.add(ADDINV, 0, 1);
