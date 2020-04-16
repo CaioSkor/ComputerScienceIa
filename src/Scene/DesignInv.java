@@ -1,5 +1,6 @@
 package Scene;
 
+import com.intrinio.invoker.ApiException;
 import controllers.GetTicker;
 import controllers.ToolsUse;
 import java.io.IOException;
@@ -90,6 +91,8 @@ public class DesignInv {
                     MAINWINDOW.setTitle("Investment: "+DATA); 
                 } catch (IOException ex) {
                     System.out.println("PROBLEMS");
+                } catch (ApiException ex) {
+                    Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                 }
                    
             }    
@@ -170,6 +173,8 @@ public class DesignInv {
                         DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV", BOOL);
                     } catch (IOException ex) {
                         Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ApiException ex) {
+                        Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     MAINWINDOW.setScene(DSADD.getScreen());
                     MAINWINDOW.setTitle("Add investment");
@@ -216,7 +221,7 @@ public class DesignInv {
         CODENAME = code;
     }
         
-    public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException{
+    public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException, ApiException{
         BOOL2 = false;
         if(!BOOLE){
             BOOL = true;
@@ -229,14 +234,14 @@ public class DesignInv {
         }
     }
     
-    public void posRecoveryInv(Stage MAINWINDOW, String CODE) throws IOException{
+    public void posRecoveryInv(Stage MAINWINDOW, String CODE) throws IOException, ApiException{
         BOOL = true;
         BOOL2 = true;
         DSADD = new DesignAdd(MAINWINDOW,BOOL,1,CODE,BOOL2);
         MAINWINDOW.setScene(DSADD.getScreen());
     }
     
-    public void backToAdd(Stage MAINWINDOW) throws IOException{
+    public void backToAdd(Stage MAINWINDOW) throws IOException, ApiException{
         DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
         MAINWINDOW.setScene(DSADD.getScreen());
     }
@@ -255,6 +260,8 @@ public class DesignInv {
                     DSADD = new DesignAdd(MAINWINDOW,BOOL,INDEX+(5*INDEXA),((Button) e.getSource()).getText(), BOOL);
                 } catch (IOException ex) {
                     System.out.println("PROBLEMS");
+                } catch (ApiException ex) {
+                    Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 MAINWINDOW.setScene(DSADD.getScreen());                
                 MAINWINDOW.setTitle("Investment: "+((Button) e.getSource()).getText());

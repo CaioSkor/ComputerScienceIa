@@ -18,8 +18,9 @@ public class InvestmentController {
     private final FileReader FILEREADER, FILEREADER2, FILEREADER3;   
     private final BufferedReader BUFFEREDREADER, BUFFEREDREADER2, BUFFEREDREADER3;
     private String FILECONTENT, FILECONTENT2, FILECONTENT3;
-    private String[] FILEDATA, FILEDATA2, FILEDATA3;    
-    private Integer MEDAMOUNT, REPETITION;
+    private String[] FILEDATA, FILEDATA2, FILEDATA3, ALLAMOUNTS, TOUTLASTPERF;
+    private String[][] ALLCODES;
+    private Integer MEDAMOUNT, REPETITION, POS;
     private Integer[] amounts;
     double[] prices;
     double MEDPRICE;
@@ -260,6 +261,29 @@ public class InvestmentController {
             DELLAST.close();
         }
     }
+    
+    public void allInfo(){
+        ALLCODES = new String[INVESTIMENTS.size()][2];
+        ALLAMOUNTS = new String[INVESTIMENTS.size()];
+        TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
+        
+        for(int i = 0; i < INVESTIMENTS.size(); i++ ){
+            ALLCODES[i][0] = INVESTIMENTS.get(i).getCode();
+        }
+        
+        for(int i = 0; i < INVESTIMENTS.size(); i++){
+            ALLCODES[i][1] = INVESTIMENTS.get(i).getPrice();
+        }
+        
+        for(int i=0; i < INVESTIMENTS.size(); i++){
+            ALLAMOUNTS[i] = INVESTIMENTS.get(i).getAmount();
+        }
+        
+        for(int i=0; i < LASTPERFORMANCE.size(); i++){
+            TOUTLASTPERF[i] = LASTPERFORMANCE.get(i).getPerformance();
+        }
+
+    }    
        
     public LinkedList<String> readTickers() throws IOException{
         LinkedList<String> TICKERS = new LinkedList<String>();
@@ -273,5 +297,24 @@ public class InvestmentController {
         TEXTFILEPATH.close();
         
         return TICKERS;
+    }
+    
+    public LinkedList getLinkedListINVESTIMENTS() {
+        return INVESTIMENTS;
+    }
+    
+    public String[][] getAllCodes(){
+        allInfo();
+        return ALLCODES;
+    }
+    
+    public String[] getAllAmounts(){
+        allInfo();
+        return ALLAMOUNTS;
+    }    
+    
+    public String[] getToutLastPerf(){
+        allInfo();
+        return TOUTLASTPERF;
     }
 }

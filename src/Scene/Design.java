@@ -1,5 +1,6 @@
 package Scene;
      
+import com.intrinio.invoker.ApiException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -78,6 +79,8 @@ public class Design {
                 PORTPERF = new DesignPerf(MAINWINDOW);
             } catch (IOException ex) {
                 Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ApiException ex) {
+                Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
             }
             MAINWINDOW.setScene(PORTPERF.getScreen());
             MAINWINDOW.setTitle("Portfolio performance");
@@ -89,7 +92,11 @@ public class Design {
         BTN3.setMinWidth(200);
         BTN3.setOnAction((ActionEvent e) -> {
             try {
-                DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
+                try {
+                    DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
+                } catch (ApiException ex) {
+                    Logger.getLogger(Design.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (IOException ex) {
                 System.out.println("PROBLEMS");
             }

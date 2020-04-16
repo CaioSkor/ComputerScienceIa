@@ -1,6 +1,8 @@
 package Scene;
 
+import com.intrinio.invoker.ApiException;
 import controllers.InvestmentController;
+import controllers.PerformanceController;
 import controllers.ToolsUse;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -38,10 +40,12 @@ public class DesignPerf {
     
     private ToolsUse TOOLS;
     private InvestmentController INVESTCONTROL;
+    private PerformanceController PERF;
     private DesignPerfExtension EXTENSION;
     private DesignAdd DSADD;
     
-    DesignPerf(Stage MAINWINDOW) throws IOException {
+    DesignPerf(Stage MAINWINDOW) throws IOException, ApiException {
+        PERF = new PerformanceController();
         TOOLS = new ToolsUse();
         EXTENSION = new DesignPerfExtension();
         INVESTCONTROL = new InvestmentController();
@@ -167,6 +171,7 @@ public class DesignPerf {
         
         if(TOOLS.portfolioStart() > 0){
             BOTTOM2.getChildren().add(RESETBTN);
+            PERF.portTotalPerf();
         }else{
             MID.add(STARTPORT, 0, 0);
             MID.add(ADDINV, 0, 1);

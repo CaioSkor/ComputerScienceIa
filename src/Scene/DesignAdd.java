@@ -1,5 +1,6 @@
 package Scene;
 
+import com.intrinio.invoker.ApiException;
 import controllers.InvestmentController;
 import controllers.PerformanceController;
 import controllers.ToolsUse;
@@ -67,7 +68,7 @@ public class DesignAdd {
     private SimpleDateFormat DF;
     private String STRINGDATE;
     
-    public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException {
+    public DesignAdd(Stage MAINWINDOW,Boolean BOOL,Integer POS,String INVESTNAME, Boolean BOOL2) throws IOException, ApiException {
         MYFONT = new FontMeUp();
         CHOICE = 1;
         DSINV = new DesignInv(MAINWINDOW, CHOICE);
@@ -160,6 +161,8 @@ public class DesignAdd {
                     DSINV.continueInv(MAINWINDOW, BOOLE);
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ApiException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         
@@ -173,6 +176,8 @@ public class DesignAdd {
                 try {
                     DSINV.continueInv(MAINWINDOW, BOOLE);
                 } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ApiException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
@@ -195,6 +200,8 @@ public class DesignAdd {
                 try {
                     DSINV.continueInv(MAINWINDOW, BOOLE);
                 } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ApiException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
@@ -327,6 +334,8 @@ public class DesignAdd {
                             DSINV.backToAdd(MAINWINDOW);
                         } catch (IOException ex) {
                             Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ApiException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
                 }         
@@ -453,6 +462,8 @@ public class DesignAdd {
                         DSINV.posRecoveryInv(MAINWINDOW, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
                     } catch (IOException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ApiException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
                 DELAY.play();
@@ -530,6 +541,8 @@ public class DesignAdd {
                             DSINV.continueInv(MAINWINDOW, BOOLE);
                         } catch (IOException ex) {
                             Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ApiException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
                   
@@ -544,6 +557,8 @@ public class DesignAdd {
                     try {
                         DSINV.continueInv(MAINWINDOW, BOOLE);
                     } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ApiException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
