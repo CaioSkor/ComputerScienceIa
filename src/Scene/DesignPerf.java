@@ -26,14 +26,14 @@ import javafx.stage.Stage;
  * @author Caio Skornicki
  */
 public class DesignPerf {
-    HBox Bottom, OVERRAL, SHARES;
+    HBox Bottom, OVERRAL, SHARES, PROFIT;
     VBox BOTTOM2, BOTTOM3;
     GridPane TOP,MID;
     BorderPane layout;
     Scene ENTRANCE;
     Button backBTN, RESETBTN, RESETBTN2, ADDINV;
     Design MAIN;
-    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE, STARTPORT, GAINSTOCKSTXT, GAINOVERRALTXT, GAINSTOCKS, GAINSTOCKSPERC, GAINOVERRAL, GAINOVERRALPERC;
+    Text mainTXT, verb, gainTXT, lossTXT, perfTXT, TITLE, STARTPORT, GAINSTOCKSTXT, GAINOVERRALTXT, GAINSTOCKS, GAINSTOCKSPERC, GAINOVERRAL, GAINOVERRALPERC, REALGAINTXT, REALGAIN, REALGAINPERC;
     TextFlow Sentence;
     FontMeUp MYFONT;
     double performance;
@@ -144,7 +144,7 @@ public class DesignPerf {
        
         if(TOOLS.portfolioStart() > 0){
             GAINSTOCKSTXT = new Text();
-            GAINSTOCKSTXT.setText("Your balance from current stocks:");
+            GAINSTOCKSTXT.setText("Balance current stocks:");
             GAINSTOCKSTXT.setFont(MYFONT.getOswaldRegular());
             GAINSTOCKSTXT.setFill(Color.GRAY);
             
@@ -155,7 +155,7 @@ public class DesignPerf {
             GAINSTOCKSPERC.setFont(MYFONT.getOswaldRegular());
             
             GAINOVERRALTXT = new Text();
-            GAINOVERRALTXT.setText("Your balance from current and sold stocks:");
+            GAINOVERRALTXT.setText("Balance current and sold stocks:");
             GAINOVERRALTXT.setFont(MYFONT.getOswaldRegular());
             GAINOVERRALTXT.setFill(Color.GRAY);
             
@@ -165,34 +165,57 @@ public class DesignPerf {
             GAINOVERRALPERC = new Text();
             GAINOVERRALPERC.setFont(MYFONT.getOswaldRegular());
             
+            REALGAINTXT = new Text();
+            REALGAINTXT.setFont(MYFONT.getOswaldRegular());
+            REALGAINTXT.setFill(Color.GRAY);
+            
+            REALGAIN = new Text();
+            REALGAIN.setFont(MYFONT.getOswaldRegular());
+            
             if(PERF.getTotalPerformanceShare() > 0){
                 String MESSAGE1 = String.valueOf(PERF.getTotalPerformanceShare());
-                GAINSTOCKS.setText(MESSAGE1 + " USD   ");
+                GAINSTOCKS.setText("+ "+MESSAGE1 + " USD   ");
                 GAINSTOCKS.setFill(Color.CHARTREUSE);
                 String MESSAGE2 = String.valueOf(PERF.getTotalPerformancePerc());
-                GAINSTOCKSPERC.setText(MESSAGE2 + " %   ");
+                GAINSTOCKSPERC.setText("+ "+MESSAGE2 + " %   ");
                 GAINSTOCKSPERC.setFill(Color.CHARTREUSE);
-                
-                String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
-                GAINOVERRAL.setText(MESSAGE3 + " USD   ");
-                GAINOVERRAL.setFill(Color.CHARTREUSE);
-                String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
-                GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
-                GAINOVERRALPERC.setFill(Color.CHARTREUSE);
             }else{
                 String MESSAGE1 = String.valueOf(PERF.getTotalPerformanceShare());
-                GAINSTOCKS.setText("- "+ MESSAGE1 + " USD   ");
+                GAINSTOCKS.setText(MESSAGE1 + " USD   ");
                 GAINSTOCKS.setFill(MYFONT.getTitleColor());
                 String MESSAGE2 = String.valueOf(PERF.getTotalPerformancePerc());
-                GAINSTOCKSPERC.setText("- "+ MESSAGE2 + " %   ");
+                GAINSTOCKSPERC.setText(MESSAGE2 + " %   ");
                 GAINSTOCKSPERC.setFill(MYFONT.getTitleColor());
                 
+            }
+            
+            if(PERF.getTotalPerformanceAll() > 0){
                 String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
-                GAINOVERRAL.setText("- "+ MESSAGE3 + " USD   ");
+                GAINOVERRAL.setText("+ "+MESSAGE3 + " USD   ");
+                GAINOVERRAL.setFill(Color.CHARTREUSE);
+                String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
+                GAINOVERRALPERC.setText("+ "+MESSAGE4 + " %   ");
+                GAINOVERRALPERC.setFill(Color.CHARTREUSE);
+                
+            }else{
+                String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
+                GAINOVERRAL.setText(MESSAGE3 + " USD   ");
                 GAINOVERRAL.setFill(MYFONT.getTitleColor());
                 String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
-                GAINOVERRALPERC.setText("- "+ MESSAGE4 + " %   ");
+                GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
                 GAINOVERRALPERC.setFill(MYFONT.getTitleColor());
+                
+            }
+            
+            REALGAINTXT.setText("Resume sold stocks");
+            if(PERF.getTotalProfit() > 0){
+                String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                REALGAIN.setText("+ "+MESSAGE5 + " USD   ");
+                REALGAIN.setFill(Color.CHARTREUSE);
+            }else{
+                String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                REALGAIN.setText(MESSAGE5 + " USD   ");
+                REALGAIN.setFill(MYFONT.getTitleColor());
             }
             SHARES = new HBox();
             SHARES.getChildren().add(GAINSTOCKS);
@@ -205,6 +228,11 @@ public class DesignPerf {
             OVERRAL.getChildren().add(GAINOVERRALPERC);
             OVERRAL.setPadding(new Insets(10,10,10,15));
             OVERRAL.setAlignment(Pos.CENTER);
+            
+            PROFIT = new HBox();
+            PROFIT.getChildren().add(REALGAIN);
+            PROFIT.setPadding(new Insets(10,10,10,15));
+            PROFIT.setAlignment(Pos.CENTER);
         }
         
         /* Pane management */
@@ -239,6 +267,8 @@ public class DesignPerf {
             MID.add(SHARES, 0, 1);
             MID.add(GAINOVERRALTXT, 0, 2);
             MID.add(OVERRAL, 0, 3);
+            MID.add(REALGAINTXT, 0, 4);
+            MID.add(PROFIT, 0, 5);
         }else{
             MID.add(STARTPORT, 0, 0);
             MID.add(ADDINV, 0, 1);

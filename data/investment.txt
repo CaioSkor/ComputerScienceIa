@@ -1,3 +1,4 @@
 AAPL,220.0,20,fghj,ghjm,16.04
 ABTX,10,10,fdghj,vbn,000000
 GOOGL,380,20,vbnm,bnm,000000
+AMZN,1000,123,123,gfds,16.04

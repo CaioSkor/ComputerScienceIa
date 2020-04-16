@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class PerformanceController {
     private String PERFORMANCESTRING, TOTALPERFSTRING, PERCENTAGESTRING; 
     private URLConnection CON;
-    private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE;
+    private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE,  TOTALPROFIT, TOTALPROFITPERC;
     
     private InvestmentController INVESTCONTROL;
     
@@ -106,11 +106,14 @@ public class PerformanceController {
         TOTALPERFORMANCEPERC = Double.valueOf(df.format(TOTALPERFORMANCEPERC));
         System.out.println(TOTALPERFORMANCEUNIT);
         
+        TOTALPROFIT = 0;
         TOTALPERFORMANCEALL = TOTALPERFORMANCEUNIT;
         for(int i=0; i<INVESTCONTROL.getToutLastPerf().length; i++){
             TOTALPERFORMANCEALL = TOTALPERFORMANCEALL + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
+            TOTALPROFIT = TOTALPROFIT + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
         }
         TOTALPERFORMANCEALL = Double.valueOf(df.format(TOTALPERFORMANCEALL));
+        TOTALPROFIT = Double.valueOf(df.format(TOTALPROFIT));
         
         TOTALGAINPERCENTAGE = TOTALPERFORMANCEALL/TOTALPRICES*100;
         System.out.println(TOTALPERFORMANCEALL);
@@ -141,6 +144,11 @@ public class PerformanceController {
     public double getTotalGainPercentage() throws IOException, ApiException{
         portTotalPerf();
         return TOTALGAINPERCENTAGE;
+    }
+    
+    public double getTotalProfit() throws IOException, ApiException{
+        portTotalPerf();
+        return TOTALPROFIT;
     }
     
 }
