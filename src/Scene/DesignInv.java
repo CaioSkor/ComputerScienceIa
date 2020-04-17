@@ -207,7 +207,6 @@ public class DesignInv {
             BOTTOM.add(MORESTOCKS, 33, 2);
         }
         
-
         LAYOUT = new BorderPane();
         LAYOUT.setTop(TOP);
         LAYOUT.setCenter(MID);
@@ -237,9 +236,17 @@ public class DesignInv {
     }
     
     public void posAddContinueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException, ApiException{
-        BOOL2 = false;
+        BOOL2 = true;
         BOOL = false;
         DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV",BOOL2);
+        MAINWINDOW.setScene(DSADD.getScreen());
+        MAINWINDOW.setTitle("Investments");
+    }
+    
+    public void posDeleteBtn(Stage MAINWINDOW, String CODE) throws IOException, ApiException{
+        BOOL = true;
+        BOOL2 = true;
+        DSADD = new DesignAdd(MAINWINDOW, BOOL,18,CODE,BOOL2);
         MAINWINDOW.setScene(DSADD.getScreen());
         MAINWINDOW.setTitle("Investments");
     }

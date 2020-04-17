@@ -51,8 +51,8 @@ public class DesignAdd {
     private final BorderPane LAYOUT;
     private final Scene ENTRANCE;
     private Scene ENTRANCE2;
-    private RadioButton RADBTN1, RADBTN2, RADBTN3, RADBTN4, RADBTN5, RADBTN6;
-    private ToggleGroup GROUP, GROUP2, GROUP3;
+    private RadioButton RADBTN1, RADBTN2, RADBTN3, RADBTN4, RADBTN5, RADBTN6, NYSE, NASDAQ;
+    private ToggleGroup GROUP, GROUP2, GROUP3, EXCHANGES;
     private Boolean BOOLE, CASE, BOOL2;
     private double PRCDOUBLE;
     
@@ -74,6 +74,8 @@ public class DesignAdd {
         DSINV = new DesignInv(MAINWINDOW, CHOICE);
         
         BOTTOM = new HBox(30);
+        
+        MID = new GridPane();
         
         TITLE = new Text();
         BCKBTN = new Button();
@@ -134,7 +136,48 @@ public class DesignAdd {
         
         ComboBox comboBox = new ComboBox();
         INVESTCONTROL = new InvestmentController();
-        comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readTickers()));
+        
+        EXCHANGES = new ToggleGroup();
+        if(!BOOL){
+            HBox EXCHG = new HBox();
+            
+            NYSE = new RadioButton();
+            NYSE.setText("NYSE  ");
+            NYSE.setFont(MYFONT.getOswaldButton());
+            NYSE.setTextFill(Color.GRAY);
+            NYSE.setOnAction(eventa ->{
+                try {
+                    comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readNyseTickers()));
+                    EXCHG.getChildren().clear();
+                    MID.add(comboBox, 1, 1);
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
+            NASDAQ = new RadioButton();
+            NASDAQ.setText("NASDAQ");
+            NASDAQ.setFont(MYFONT.getOswaldButton());
+            NASDAQ.setTextFill(Color.GRAY);
+            NASDAQ.setOnAction(eventa ->{
+                try {
+                    comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readNasdaqTickers()));
+                    EXCHG.getChildren().clear();
+                    MID.add(comboBox, 1, 1);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
+            EXCHG.getChildren().add(NYSE);
+            EXCHG.getChildren().add(NASDAQ);
+            EXCHG.setPadding(new Insets(10,10,10,15));
+            EXCHG.setAlignment(Pos.CENTER);
+            
+            MID.add(EXCHG, 1, 1);
+
+        }
         
         /* All TextFields */
         if (!BOOL){
@@ -544,7 +587,7 @@ public class DesignAdd {
                     BCKBTN.setOnAction((ActionEvent a) -> {
                         BOOLE = false;
                         try {
-                            DSINV.continueInv(MAINWINDOW, BOOLE);
+                            DSINV.posDeleteBtn(MAINWINDOW, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
                         } catch (IOException ex) {
                             Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ApiException ex) {
@@ -605,13 +648,9 @@ public class DesignAdd {
         TOP.setAlignment(Pos.TOP_LEFT);
         TOP.add(TITLE, 1, 2);
         
-        MID = new GridPane();
         MID.setHgap(15);
         MID.setVgap(10);
         MID.setAlignment(Pos.CENTER);
-        if (!BOOL){
-            MID.add(comboBox, 1, 1);
-        }
         
         if (!BOOL){
             MID.add(PRC, 1, 2 );
@@ -642,6 +681,18 @@ public class DesignAdd {
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
         }else{
+            if(POS==18){
+                BCKBTN.setOnAction(eventa ->{
+                    try {
+                        DSINV = new DesignInv(MAINWINDOW, 1);
+                        MAINWINDOW.setScene(DSINV.getScreen());
+                        MAINWINDOW.setTitle("Investments");
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+            
             if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 if(TOOLS.CheckSoldInvestments(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]) == 1){
                     PERFTOTALTXT.setText("Total performance");
@@ -701,6 +752,8 @@ public class DesignAdd {
                 MID.add(INDIVPERFTXT, 0, 7);
                 MID.add(PERFTOTALTXT, 0, 8);
                 MID.add(PERCENTAGEPERFTXT, 0, 9);
+                
+                
             }
         }
         
