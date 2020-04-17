@@ -37,7 +37,7 @@ public class DesignAdd {
     private final Text DATETXT;
     private final Text REATXT;
     private final Text TITLE;
-    private Text NEWPRCTXT;
+    private Text NEWPRCTXT, CORRECTPRCTXT;
     private Text NAMEINVEST, PERFTXT, INDIVPERFTXT, PERCENTAGEPERFTXT, PERFTOTALTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, OPTPERCENTAGEPERF, OPTTOTALPERF, DELTXT;
     private TextField STKCODE, PRC, AMNT, MYDATE, REASON, NEWPRC, EDITPRC;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
@@ -293,6 +293,7 @@ public class DesignAdd {
                                                 INVESTCONTROL.recoverDeletedInvestment(CODE,TOOLS.TextBoxFiller("data/investment.txt", CODE)[1] , TOOLS.TextBoxFiller("data/investment.txt", CODE)[2], TOOLS.TextBoxFiller("data/investment.txt", CODE)[3],TOOLS.TextBoxFiller("data/investment.txt", CODE)[4], TOOLS.TextBoxFiller("data/investment.txt", CODE)[5], INFO[1], INFO[2], INFO[3], INFO[4]);
                                                 DSINV = new DesignInv(MAINWINDOW, 1);
                                                 MAINWINDOW.setScene(DSINV.getScreen());
+                                                MAINWINDOW.setTitle("Investments");
                                             } catch (IOException ex) {
                                                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                                             }
@@ -378,6 +379,7 @@ public class DesignAdd {
                         try {
                             DSINV=new DesignInv(MAINWINDOW, 1);
                             MAINWINDOW.setScene(DSINV.getScreen());
+                            MAINWINDOW.setTitle("Investments");
                         } catch (IOException ex) {
                             Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -656,6 +658,11 @@ public class DesignAdd {
                         OPTTOTALPERF.setFill(MYFONT.getTitleColor());
                         PERFTOTALTXT.setFill(MYFONT.getTitleColor());
                     }
+                    CORRECTPRCTXT = new Text();
+                    CORRECTPRCTXT.setText("Insert actual sold price");
+                    CORRECTPRCTXT.setFont(MYFONT.getOswaldRegular());
+                    CORRECTPRCTXT.setFill(Color.GRAY);
+                    
                     EDITPRC = new TextField();
                     
                     EDITBTN = new Button();
@@ -666,6 +673,9 @@ public class DesignAdd {
                             MID.getChildren().clear();
                             String CODE =TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[0];
                             INVESTCONTROL.updateLastPerformance(CODE, INVESTCONTROL.getNewLastPerformance(CODE, EDITPRC.getText()));
+                            DSINV = new DesignInv(MAINWINDOW, 0);
+                            MAINWINDOW.setScene(DSINV.getScreen());
+                            MAINWINDOW.setTitle("Deleted Investments");
                         } catch (IOException ex) {
                             Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -676,7 +686,8 @@ public class DesignAdd {
                     EDTBTN.setFont(MYFONT.getOswaldButton());
                     EDTBTN.setOnAction(eventa ->{
                         MID.getChildren().clear();
-                        MID.add(EDITPRC, 0, 0);
+                        MID.add(CORRECTPRCTXT, 0, 0);
+                        MID.add(EDITPRC, 1, 0);
                         MID.add(EDITBTN, 0, 1);
                     });
                     

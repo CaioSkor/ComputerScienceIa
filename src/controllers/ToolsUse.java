@@ -93,13 +93,14 @@ public class ToolsUse {
         INDEX = 0;
         DSINV = new DesignInv(MAINWINDOW, INDEX);   
         MAINWINDOW.setScene(DSINV.getScreen());
+        MAINWINDOW.setTitle("Deleted Investments");
      }
 
      public void BackDeletedWindow(Stage MAINWINDOW) throws IOException{
         INDEX = 1;
         DSINV = new DesignInv(MAINWINDOW, INDEX);   
         MAINWINDOW.setScene(DSINV.getScreen());
-        MAINWINDOW.setTitle("Deleted Investments");
+        MAINWINDOW.setTitle("Investments");
      }
      
     public Integer CheckSoldInvestments(String code) throws FileNotFoundException{

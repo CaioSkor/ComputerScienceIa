@@ -226,11 +226,13 @@ public class DesignInv {
         if(!BOOLE){
             BOOL = true;
             DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
-            MAINWINDOW.setScene(DSADD.getScreen());                
+            MAINWINDOW.setScene(DSADD.getScreen());   
+            MAINWINDOW.setTitle("Investment:" + CODENAME);
         }else{
             BOOL = false;
             DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"aa", BOOL2);
             MAINWINDOW.setScene(DSADD.getScreen());
+            MAINWINDOW.setTitle("Investments");
         }
     }
     
@@ -239,6 +241,7 @@ public class DesignInv {
         BOOL = false;
         DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV",BOOL2);
         MAINWINDOW.setScene(DSADD.getScreen());
+        MAINWINDOW.setTitle("Investments");
     }
     
     
@@ -247,11 +250,13 @@ public class DesignInv {
         BOOL2 = true;
         DSADD = new DesignAdd(MAINWINDOW,BOOL,1,CODE,BOOL2);
         MAINWINDOW.setScene(DSADD.getScreen());
+        MAINWINDOW.setTitle("Investment:" + CODE);
     }
     
     public void backToAdd(Stage MAINWINDOW) throws IOException, ApiException{
         DSADD = new DesignAdd(MAINWINDOW,BOOL,-1,"", BOOL);
         MAINWINDOW.setScene(DSADD.getScreen());
+        MAINWINDOW.setTitle("Add investment");
     }
     
     public void PopulateMe(Stage MAINWINDOW, Integer RESTE, Integer CHOICE) throws IOException{
