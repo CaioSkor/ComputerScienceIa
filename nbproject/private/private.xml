@@ -4,15 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/controllers/PerformanceController.java</file>
+            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/controllers/GetTicker.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignAdd.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/FontMeUp.java</file>
-            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignInv.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/Design.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignPerfExtension.java</file>
-            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignPerf.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/controllers/InvestmentController.java</file>
-            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignAddExtension.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/modules/Investment.java</file>
+            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignInv.java</file>
+            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignPerf.java</file>
+            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/Scene/DesignAddExtension.java</file>
+            <file>file:/Users/caio/Desktop/ComputerScienceIa/src/modules/LastPerformance.java</file>
             <file>file:/Users/caio/Desktop/ComputerScienceIa/src/controllers/ToolsUse.java</file>
         </group>
     </open-files>

@@ -170,7 +170,7 @@ public class DesignInv {
                 DSADDBUTTON.setFont(MYFONT.getOswaldButton());
                 DSADDBUTTON.setOnAction((ActionEvent e) -> {
                     try {
-                        DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV", BOOL);
+                        DSADD = new DesignAdd(MAINWINDOW,BOOL,17,"NOINV", BOOL);
                     } catch (IOException ex) {
                         Logger.getLogger(DesignInv.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ApiException ex) {
@@ -229,10 +229,18 @@ public class DesignInv {
             MAINWINDOW.setScene(DSADD.getScreen());                
         }else{
             BOOL = false;
-            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV", BOOL2);
+            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"aa", BOOL2);
             MAINWINDOW.setScene(DSADD.getScreen());
         }
     }
+    
+    public void posAddContinueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException, ApiException{
+        BOOL2 = false;
+        BOOL = false;
+        DSADD = new DesignAdd(MAINWINDOW,BOOL,0,"NOINV",BOOL2);
+        MAINWINDOW.setScene(DSADD.getScreen());
+    }
+    
     
     public void posRecoveryInv(Stage MAINWINDOW, String CODE) throws IOException, ApiException{
         BOOL = true;

@@ -215,14 +215,32 @@ public class InvestmentController {
         PERF = (Double.parseDouble(sellprice) - Double.parseDouble(price))* Integer.parseInt(amount);
         PERF = Double.valueOf(df.format(PERF));
         String performance = String.valueOf(PERF);
-        String fileContent;
-        fileContent = code + "," + String.valueOf(PERF);
 
         LAST = new LastPerformance(code, performance);
         LASTPERFORMANCE.add(LAST);
         FILEWRITER.write(LAST.getCode()+","+LAST.getPerformance());
         FILEWRITER.write(System.lineSeparator());
         FILEWRITER.close();
+    }
+    
+    public void updateLastPerformance(String code, String price) throws IOException{
+        FileWriter FILEWRITER;
+        FILEWRITER = new FileWriter("data/lastperformance.txt");
+        FILEWRITER.flush();
+        Integer CHECK = 0;
+        for(int i=0; i < LASTPERFORMANCE.size(); i++){
+            if(LASTPERFORMANCE.get(i).getCode().equals(code)){
+                CHECK = 1;
+            }
+            if(CHECK == 1){
+                LASTPERFORMANCE.get(i).setPerformance(price);
+            }
+            
+            FILEWRITER.write(LASTPERFORMANCE.get(i).getCode()+","+LASTPERFORMANCE.get(i).getPerformance());
+            FILEWRITER.write(System.lineSeparator());
+        }
+        FILEWRITER.close();
+        System.out.println("Deleted investment "+code+" edited");
     }
     
     public void deleteAll() throws IOException{
@@ -270,24 +288,31 @@ public class InvestmentController {
             }
         }
         
-        ALLCODES = new String[POS][2];
-        ALLAMOUNTS = new String[POS];
-        TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
-        
-        Integer INDEX = 0;
-        for(int i = 0; i < INVESTIMENTS.size(); i++ ){
-            if(INVESTIMENTS.get(i).getDeletionDate().equals("000000")){
-                ALLCODES[INDEX][0] = INVESTIMENTS.get(i).getCode();     
-                ALLCODES[INDEX][1] = INVESTIMENTS.get(i).getPrice();
-                ALLAMOUNTS[INDEX] = INVESTIMENTS.get(i).getAmount();
-                INDEX++;
+        if(POS==0){
+            ALLCODES = new String[1][1];
+            ALLAMOUNTS = new String[1];
+            
+            ALLCODES[0][0] = "NULL";
+            ALLAMOUNTS[0] = "NULL";
+        }else{
+            ALLCODES = new String[POS][2];
+            ALLAMOUNTS = new String[POS];
+            Integer INDEX = 0;
+            for(int i = 0; i < INVESTIMENTS.size(); i++ ){
+                if(INVESTIMENTS.get(i).getDeletionDate().equals("000000")){
+                    ALLCODES[INDEX][0] = INVESTIMENTS.get(i).getCode();     
+                    ALLCODES[INDEX][1] = INVESTIMENTS.get(i).getPrice();
+                    ALLAMOUNTS[INDEX] = INVESTIMENTS.get(i).getAmount();
+                    INDEX++;
+                }
             }
         }
+        TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
+        
         
         for(int i=0; i < LASTPERFORMANCE.size(); i++){
             TOUTLASTPERF[i] = LASTPERFORMANCE.get(i).getPerformance();
         }
-
     }    
        
     public LinkedList<String> readTickers() throws IOException{
@@ -322,4 +347,24 @@ public class InvestmentController {
         allInfo();
         return TOUTLASTPERF;
     }
+    
+    public String getNewLastPerformance(String code, String price){
+        String NEWLASTPERF = "";
+        String PRICE = "";
+        String AMOUNT = "";
+        for(int i = 0; i < INVESTIMENTS.size(); i++){
+            if(INVESTIMENTS.get(i).getCode().equals(code)){
+                PRICE = INVESTIMENTS.get(i).getPrice();
+                AMOUNT = INVESTIMENTS.get(i).getAmount();
+                double NEWPRICE = Double.parseDouble(price);
+                double OLDPRICE = Double.parseDouble(PRICE);
+                double QUANTITY = Double.parseDouble(AMOUNT);
+                double LASTPERF = (NEWPRICE - OLDPRICE)*QUANTITY;
+                NEWLASTPERF = String.valueOf(LASTPERF);
+                System.out.println(NEWLASTPERF);
+            }
+        }
+        return NEWLASTPERF;
+    }
+    
 }

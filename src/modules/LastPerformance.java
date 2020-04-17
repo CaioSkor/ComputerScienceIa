@@ -31,6 +31,6 @@ public class LastPerformance {
     }
     
     public void setPerformance(String p){
-        this.code = p;
+        this.performance = p;
     }
 }

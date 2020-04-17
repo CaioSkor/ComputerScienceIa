@@ -39,10 +39,10 @@ public class DesignAdd {
     private final Text TITLE;
     private Text NEWPRCTXT;
     private Text NAMEINVEST, PERFTXT, INDIVPERFTXT, PERCENTAGEPERFTXT, PERFTOTALTXT ,OPTCODE,OPT0,OPT1,OPT2,OPT3, OPT4,OPTPERF, OPTPERCENTAGEPERF, OPTTOTALPERF, DELTXT;
-    private TextField STKCODE, PRC, AMNT, MYDATE, REASON, NEWPRC;
+    private TextField STKCODE, PRC, AMNT, MYDATE, REASON, NEWPRC, EDITPRC;
     private String[] MSG, TXTFIELDS, INFO, FORMATMSG;
     private Integer INDEX, INDEXA, CHECK, AMNTINT, CHECK2, CHECK3, CHOICE;
-    private Button SUBBTN;
+    private Button SUBBTN, EDITBTN, EDTBTN;
     private final Button BCKBTN;
     private Button DELETEBTN;
     private final HBox BOTTOM;
@@ -174,7 +174,11 @@ public class DesignAdd {
             RADBTN2.setOnAction(e -> {
                 BOOLE = true;
                 try {
-                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                    if(POS != 17){
+                        DSINV.continueInv(MAINWINDOW, BOOLE);
+                    }else{
+                        DSINV.posAddContinueInv(MAINWINDOW, BOOLE);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ApiException ex) {
@@ -429,7 +433,19 @@ public class DesignAdd {
                                 MID.getChildren().clear();
                                 EXTENSION = new DesignAddExtension();
                                 EXTENSION.DesignAddExtension(MAINWINDOW, MID, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]); 
-                  
+                                
+                                PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
+                                DELAY.setOnFinished(event ->{
+                                    BOOLE = false;
+                                    try {
+                                        DSINV.posRecoveryInv(MAINWINDOW, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (ApiException ex) {
+                                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                });
+                                DELAY.play();
                             } catch (IOException ex) {
                                 Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -455,18 +471,6 @@ public class DesignAdd {
                 });
                 
                 BOTTOM.getChildren().clear();
-                PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
-                DELAY.setOnFinished(event ->{
-                    BOOLE = false;
-                    try {
-                        DSINV.posRecoveryInv(MAINWINDOW, TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]);
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ApiException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-                DELAY.play();
             });
             
             PERF = new PerformanceController();
@@ -652,7 +656,33 @@ public class DesignAdd {
                         OPTTOTALPERF.setFill(MYFONT.getTitleColor());
                         PERFTOTALTXT.setFill(MYFONT.getTitleColor());
                     }
+                    EDITPRC = new TextField();
+                    
+                    EDITBTN = new Button();
+                    EDITBTN.setText("CONFIRM");
+                    EDITBTN.setFont(MYFONT.getOswaldButton());
+                    EDITBTN.setOnAction(eventa ->{
+                        try {
+                            MID.getChildren().clear();
+                            String CODE =TOOLS.TextBoxFiller("data/investment.txt", INVESTNAME)[0];
+                            INVESTCONTROL.updateLastPerformance(CODE, INVESTCONTROL.getNewLastPerformance(CODE, EDITPRC.getText()));
+                        } catch (IOException ex) {
+                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    
+                    EDTBTN = new Button();
+                    EDTBTN.setText("EDIT");
+                    EDTBTN.setFont(MYFONT.getOswaldButton());
+                    EDTBTN.setOnAction(eventa ->{
+                        MID.getChildren().clear();
+                        MID.add(EDITPRC, 0, 0);
+                        MID.add(EDITBTN, 0, 1);
+                    });
+                    
                     MID.add(OPTTOTALPERF, 3, 7);
+                    MID.add(EDTBTN, 5, 7);
+
                 }
                 MID.add(DELTXT, 0, 6);
             }else{
