@@ -110,7 +110,7 @@ public class DesignAdd {
         TITLE.setFill(MYFONT.getTitleColor());
         
         CODETXT = new Text();
-        CODETXT.setText("Code");
+        CODETXT.setText("Exchanges");
         CODETXT.setFont(MYFONT.getOswaldRegular());
         CODETXT.setFill(Color.GRAY);
         
@@ -150,6 +150,7 @@ public class DesignAdd {
                     comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readNyseTickers()));
                     EXCHG.getChildren().clear();
                     MID.add(comboBox, 1, 1);
+                    CODETXT.setText("Code");
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -164,7 +165,7 @@ public class DesignAdd {
                     comboBox.setItems(FXCollections.observableList(INVESTCONTROL.readNasdaqTickers()));
                     EXCHG.getChildren().clear();
                     MID.add(comboBox, 1, 1);
-
+                    CODETXT.setText("Code");
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -577,7 +578,7 @@ public class DesignAdd {
             }
             
             DELETEBTN = new Button();
-            DELETEBTN.setText("Delete");
+            DELETEBTN.setText("Delete/Sell");
             DELETEBTN.setOnAction(e ->{
                 try {
                     MID.getChildren().clear();
@@ -672,6 +673,9 @@ public class DesignAdd {
                 MID.add(DELETEBTN, 5, 10);
             }
         }
+        if(BOOL){
+            CODETXT.setText("Code");
+        }
         
         MID.add(CODETXT, 0, 1);
         MID.add(PRCTXT, 0, 2);
@@ -751,9 +755,7 @@ public class DesignAdd {
                 MID.add(PERFTXT, 2, 6);
                 MID.add(INDIVPERFTXT, 0, 7);
                 MID.add(PERFTOTALTXT, 0, 8);
-                MID.add(PERCENTAGEPERFTXT, 0, 9);
-                
-                
+                MID.add(PERCENTAGEPERFTXT, 0, 9);                
             }
         }
         

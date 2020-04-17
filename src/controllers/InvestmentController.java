@@ -336,7 +336,16 @@ public class InvestmentController {
         Scanner TEXTFILE = new Scanner(TEXTFILEPATH);
         while(TEXTFILE.hasNext()){
             String[] DATA = TEXTFILE.nextLine().split(",");
-            TICKERS.add(DATA[0]);
+            String[] CHARACT = DATA[0].split("");
+            if(CHARACT.length >= 3){
+                int check = CHARACT.length - 2;
+                if(CHARACT[check].equals("$") || CHARACT[check].equals(".") || CHARACT[(CHARACT.length - 1)].equals("$")){
+                }else{
+                    TICKERS.add(DATA[0]);
+                }
+            }else{
+                TICKERS.add(DATA[0]);
+            }
         }
         TEXTFILE.close();
         TEXTFILEPATH.close();
