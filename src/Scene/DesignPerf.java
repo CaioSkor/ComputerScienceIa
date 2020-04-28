@@ -107,6 +107,14 @@ public class DesignPerf {
         });
        
         if(TOOLS.portfolioStart() > 0){
+            REALGAINTXT = new Text();
+            REALGAINTXT.setFont(MYFONT.getOswaldRegular());
+            REALGAINTXT.setFill(Color.GRAY);
+            REALGAINTXT.setText("Resume sold stocks");
+            
+            REALGAIN = new Text();
+            REALGAIN.setFont(MYFONT.getOswaldRegular());
+            
             if(!INVESTCONTROL.getAllCodes()[0][0].equals("NULL")){
                 GAINSTOCKSTXT = new Text();
                 GAINSTOCKSTXT.setText("Balance current stocks:");
@@ -130,13 +138,6 @@ public class DesignPerf {
                 GAINOVERRALPERC = new Text();
                 GAINOVERRALPERC.setFont(MYFONT.getOswaldRegular());
 
-                REALGAINTXT = new Text();
-                REALGAINTXT.setFont(MYFONT.getOswaldRegular());
-                REALGAINTXT.setFill(Color.GRAY);
-
-                REALGAIN = new Text();
-                REALGAIN.setFont(MYFONT.getOswaldRegular());
-
                 if(PERF.getTotalPerformanceShare() > 0){
                     String MESSAGE1 = String.valueOf(PERF.getTotalPerformanceShare());
                     GAINSTOCKS.setText("+ "+MESSAGE1 + " USD   ");
@@ -152,33 +153,56 @@ public class DesignPerf {
                     GAINSTOCKSPERC.setText(MESSAGE2 + " %   ");
                     GAINSTOCKSPERC.setFill(MYFONT.getTitleColor());
                 }
-
-                if(PERF.getTotalPerformanceAll() > 0){
-                    String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
-                    GAINOVERRAL.setText("+ "+MESSAGE3 + " USD   ");
-                    GAINOVERRAL.setFill(Color.CHARTREUSE);
-                    String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
-                    GAINOVERRALPERC.setText("+ "+MESSAGE4 + " %   ");
-                    GAINOVERRALPERC.setFill(Color.CHARTREUSE);  
+             
+                if(INVESTCONTROL.getToutLastPerf()[0].equals("NULL")){
+                    REALGAIN.setText("No sold stocks");
+                    if(PERF.getTotalPerformanceShare() > 0){
+                        String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceShare());
+                        GAINOVERRAL.setText("+ "+MESSAGE3 + " USD   ");
+                        GAINOVERRAL.setFill(Color.CHARTREUSE);
+                        String MESSAGE4 = String.valueOf(PERF.getTotalPerformancePerc());
+                        GAINOVERRALPERC.setText("+ "+MESSAGE4 + " %   ");
+                        GAINOVERRALPERC.setFill(Color.CHARTREUSE);  
+                    }else{
+                        String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceShare());
+                        GAINOVERRAL.setText(MESSAGE3 + " USD   ");
+                        GAINOVERRAL.setFill(MYFONT.getTitleColor());
+                        String MESSAGE4 = String.valueOf(PERF.getTotalPerformancePerc());
+                        GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
+                        GAINOVERRALPERC.setFill(MYFONT.getTitleColor()); 
+                    }
                 }else{
-                    String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
-                    GAINOVERRAL.setText(MESSAGE3 + " USD   ");
-                    GAINOVERRAL.setFill(MYFONT.getTitleColor());
-                    String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
-                    GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
-                    GAINOVERRALPERC.setFill(MYFONT.getTitleColor()); 
+                    if(PERF.getTotalProfit() > 0){
+                        String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                        REALGAIN.setText("+ "+MESSAGE5 + " USD   ");
+                        REALGAIN.setFill(Color.CHARTREUSE);
+                    }else{
+                        String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                        REALGAIN.setText(MESSAGE5 + " USD   ");
+                        REALGAIN.setFill(MYFONT.getTitleColor());
+                    }
+                    if(PERF.getTotalPerformanceAll() > 0){
+                        String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
+                        GAINOVERRAL.setText("+ "+MESSAGE3 + " USD   ");
+                        GAINOVERRAL.setFill(Color.CHARTREUSE);
+                        String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
+                        GAINOVERRALPERC.setText("+ "+MESSAGE4 + " %   ");
+                        GAINOVERRALPERC.setFill(Color.CHARTREUSE);  
+                    }else{
+                        String MESSAGE3 = String.valueOf(PERF.getTotalPerformanceAll());
+                        GAINOVERRAL.setText(MESSAGE3 + " USD   ");
+                        GAINOVERRAL.setFill(MYFONT.getTitleColor());
+                        String MESSAGE4 = String.valueOf(PERF.getTotalGainPercentage());
+                        GAINOVERRALPERC.setText(MESSAGE4 + " %   ");
+                        GAINOVERRALPERC.setFill(MYFONT.getTitleColor()); 
+                    }
                 }
-
-                REALGAINTXT.setText("Resume sold stocks");
-                if(PERF.getTotalProfit() > 0){
-                    String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
-                    REALGAIN.setText("+ "+MESSAGE5 + " USD   ");
-                    REALGAIN.setFill(Color.CHARTREUSE);
-                }else{
-                    String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
-                    REALGAIN.setText(MESSAGE5 + " USD   ");
-                    REALGAIN.setFill(MYFONT.getTitleColor());
-                }
+                
+                PROFIT = new HBox();
+                PROFIT.getChildren().add(REALGAIN);
+                PROFIT.setPadding(new Insets(10,10,10,15));
+                PROFIT.setAlignment(Pos.CENTER);
+                
                 SHARES = new HBox();
                 SHARES.getChildren().add(GAINSTOCKS);
                 SHARES.getChildren().add(GAINSTOCKSPERC);
@@ -190,7 +214,18 @@ public class DesignPerf {
                 OVERRAL.getChildren().add(GAINOVERRALPERC);
                 OVERRAL.setPadding(new Insets(10,10,10,15));
                 OVERRAL.setAlignment(Pos.CENTER);
-
+                
+            }else if(!INVESTCONTROL.getToutLastPerf()[0].equals("NULL")){
+                if(PERF.getTotalProfit() > 0){
+                    String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                    REALGAIN.setText("+ "+MESSAGE5 + " USD   ");
+                    REALGAIN.setFill(Color.CHARTREUSE);
+                }else{
+                    String MESSAGE5 = String.valueOf(PERF.getTotalProfit());
+                    REALGAIN.setText(MESSAGE5 + " USD   ");
+                    REALGAIN.setFill(MYFONT.getTitleColor());
+                }
+                
                 PROFIT = new HBox();
                 PROFIT.getChildren().add(REALGAIN);
                 PROFIT.setPadding(new Insets(10,10,10,15));
@@ -238,9 +273,14 @@ public class DesignPerf {
                 MID.add(REALGAINTXT, 0, 4);
                 MID.add(PROFIT, 0, 5);
             }else{
-                BOTTOM2.getChildren().add(RESETBTN);
-                MID.add(GAINOVERRALTXT, 0, 0);
-                MID.add(ADDINV, 0, 1);
+                if(!INVESTCONTROL.getToutLastPerf()[0].equals("NULL")){
+                    MID.add(REALGAINTXT, 0, 0);
+                    MID.add(PROFIT, 0, 1);
+                }else{
+                    BOTTOM2.getChildren().add(RESETBTN);
+                    MID.add(GAINOVERRALTXT, 0, 0);
+                    MID.add(ADDINV, 0, 1);
+                }
             }
         }else{
             MID.add(STARTPORT, 0, 0);

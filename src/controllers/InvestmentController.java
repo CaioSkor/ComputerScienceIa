@@ -308,12 +308,15 @@ public class InvestmentController {
                 }
             }
         }
-        TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
-        
-        
-        for(int i=0; i < LASTPERFORMANCE.size(); i++){
-            TOUTLASTPERF[i] = LASTPERFORMANCE.get(i).getPerformance();
-        }
+        if(LASTPERFORMANCE.size() == 0){
+            TOUTLASTPERF = new String[1];
+            TOUTLASTPERF[0] = "NULL";
+        }else{
+            TOUTLASTPERF = new String[LASTPERFORMANCE.size()];
+            for(int i=0; i < LASTPERFORMANCE.size(); i++){
+                TOUTLASTPERF[i] = LASTPERFORMANCE.get(i).getPerformance();
+            }
+        }   
     }    
        
     public LinkedList<String> readNasdaqTickers() throws IOException{

@@ -113,18 +113,20 @@ public class PerformanceController {
             TOTALPERFORMANCEPERC = Double.valueOf(df.format(TOTALPERFORMANCEPERC));
             System.out.println(TOTALPERFORMANCEUNIT);
 
-            TOTALPROFIT = 0;
-            TOTALPERFORMANCEALL = TOTALPERFORMANCEUNIT;
-            for(int i=0; i<INVESTCONTROL.getToutLastPerf().length; i++){
-                TOTALPERFORMANCEALL = TOTALPERFORMANCEALL + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
-                TOTALPROFIT = TOTALPROFIT + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
-            }
-            TOTALPERFORMANCEALL = Double.valueOf(df.format(TOTALPERFORMANCEALL));
-            TOTALPROFIT = Double.valueOf(df.format(TOTALPROFIT));
+            if(!INVESTCONTROL.getToutLastPerf()[0].equals("NULL")){
+                TOTALPROFIT = 0;
+                TOTALPERFORMANCEALL = TOTALPERFORMANCEUNIT;
+                for(int i=0; i<INVESTCONTROL.getToutLastPerf().length; i++){
+                    TOTALPERFORMANCEALL = TOTALPERFORMANCEALL + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
+                    TOTALPROFIT = TOTALPROFIT + Double.parseDouble(INVESTCONTROL.getToutLastPerf()[i]);
+                }
+                TOTALPERFORMANCEALL = Double.valueOf(df.format(TOTALPERFORMANCEALL));
+                TOTALPROFIT = Double.valueOf(df.format(TOTALPROFIT));
 
-            TOTALGAINPERCENTAGE = TOTALPERFORMANCEALL/TOTALPRICES*100;
-            System.out.println(TOTALPERFORMANCEALL);
-            TOTALGAINPERCENTAGE = Double.valueOf(df.format(TOTALGAINPERCENTAGE));
+                TOTALGAINPERCENTAGE = TOTALPERFORMANCEALL/TOTALPRICES*100;
+                System.out.println(TOTALPERFORMANCEALL);
+                TOTALGAINPERCENTAGE = Double.valueOf(df.format(TOTALGAINPERCENTAGE));
+            }
         }
     }
     
