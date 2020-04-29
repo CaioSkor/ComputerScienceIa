@@ -10,10 +10,15 @@ import com.intrinio.invoker.ApiClient;
 import com.intrinio.invoker.ApiException;
 import com.intrinio.invoker.Configuration;
 import com.intrinio.invoker.auth.ApiKeyAuth;
+import com.intrinio.models.ApiResponseSecurityStockPrices;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
+import java.util.Scanner;
+import org.threeten.bp.LocalDate;
 
 
 /**
@@ -24,6 +29,12 @@ public class PerformanceController {
     private String PERFORMANCESTRING, TOTALPERFSTRING, PERCENTAGESTRING; 
     private URLConnection CON;
     private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE,  TOTALPROFIT, TOTALPROFITPERC;
+    String LINE, URLSTRING;
+    String[] EXTRAMINILINE;
+    String[][] MINILINE;
+    URL URL;
+    Scanner SCANNER;
+    private Integer COUNT;
     
     private InvestmentController INVESTCONTROL;
     
@@ -45,6 +56,33 @@ public class PerformanceController {
         } catch (ApiException e) {
             System.err.println("Exception when calling SecurityApi#getSecurityStockPrices");
         }
+    }
+    
+    public void getHistoricalPrices(String code, String freq) throws MalformedURLException, IOException{   
+        URLSTRING = "https://api.intrinio.com/prices.csv?identifier="+code+"&start_date=2000-01-01&frequency="+freq+"&sort_order=desc&page_size=90&api_key=OjExODcwODU1MGNkODYwY2Y4MWViZjQxM2FjZTMzY2Iw";
+        URL = new URL(URLSTRING);
+        
+        MINILINE = new String[90][2];
+        COUNT = 0;
+        SCANNER = new Scanner(URL.openStream());
+  
+        System.out.println(COUNT);
+        LINE = "";
+        while (SCANNER.hasNext()) {
+            LINE = SCANNER.nextLine();
+            EXTRAMINILINE = LINE.split(",");
+            try{
+                Double.parseDouble(EXTRAMINILINE[2]);
+                MINILINE[89-COUNT][0] = EXTRAMINILINE[0];
+                MINILINE[89-COUNT][1] = EXTRAMINILINE[4];
+                COUNT++;
+            }catch(NumberFormatException er){
+                System.out.println("PROBLEMS");
+            }
+        }
+        System.out.println(COUNT);
+        SCANNER.close();
+        System.out.println(LINE);
     }
     
     public String PerformanceCalc(String code, String price) throws IOException, ApiException{
@@ -157,6 +195,16 @@ public class PerformanceController {
     public double getTotalProfit() throws IOException, ApiException{
         portTotalPerf();
         return TOTALPROFIT;
+    }
+    
+    public String[][] getHistPrices(String code, String freq) throws IOException{
+        getHistoricalPrices(code, freq);
+        return MINILINE;
+    }
+    
+    public Integer getCount(String code, String freq) throws IOException{
+        getHistoricalPrices(code, freq);
+        return COUNT;
     }
     
 }

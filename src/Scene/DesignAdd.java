@@ -44,7 +44,7 @@ public class DesignAdd {
     private Integer INDEX, INDEXA, CHECK, AMNTINT, CHECK2, CHECK3, CHOICE;
     private Button SUBBTN, EDITBTN, EDTBTN;
     private final Button BCKBTN;
-    private Button DELETEBTN;
+    private Button DELETEBTN, GRAPHBUTTON;
     private final HBox BOTTOM;
     private GridPane MID;
     private final GridPane TOP;
@@ -62,7 +62,8 @@ public class DesignAdd {
     private InvestmentController INVESTCONTROL; 
     private ToolsUse TOOLS;
     private PerformanceController PERF;
-    
+    private DesignGraph GRAPH;
+   
     private final FontMeUp MYFONT;
     private Date DATENOW;
     private SimpleDateFormat DF;
@@ -390,6 +391,16 @@ public class DesignAdd {
                 }         
             });
         }else{
+            GRAPH = new DesignGraph(MAINWINDOW, BOOL, POS, INVESTNAME, BOOL2);
+            
+            GRAPHBUTTON = new Button();
+            GRAPHBUTTON.setText("GRAPHS");
+            GRAPHBUTTON.setFont(MYFONT.getOswaldButton());
+            GRAPHBUTTON.setOnAction(event ->{
+                MAINWINDOW.setScene(GRAPH.getScreen());
+                MAINWINDOW.setTitle("Graphs: "+ INVESTNAME);
+            });
+            
             EXTENSION = new DesignAddExtension();
             GROUP2 = new ToggleGroup();
             
@@ -520,6 +531,7 @@ public class DesignAdd {
             });
             
             PERF = new PerformanceController();
+            //PERF.getHistoricalPrices(INVESTNAME, "weekly");
             
             PERFTXT = new Text();
             PERFTXT.setText("Performance");
@@ -671,6 +683,7 @@ public class DesignAdd {
                 MID.add(OPTTOTALPERF, 3, 8);
                 MID.add(OPTPERCENTAGEPERF, 3, 9);
                 MID.add(DELETEBTN, 5, 10);
+                MID.add(GRAPHBUTTON, 0, 10);
             }
         }
         if(BOOL){
