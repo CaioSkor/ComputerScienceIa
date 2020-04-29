@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -25,6 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -33,9 +35,9 @@ import javafx.stage.Stage;
  * @author caio
  */
 public class DesignGraph {
-    Text TITLE;
-    HBox BOTTOM;
-    GridPane MID, TOP;
+    Text TITLE, CHOICE;
+    HBox BOTTOM, MID;
+    GridPane MIDCHOICE, MIDGRAPH, TOP;
     Button BACKBTN;
     ComboBox FREQUENCY;
     CategoryAxis XAXIS;
@@ -55,12 +57,26 @@ public class DesignGraph {
         MYFONT = new FontMeUp();
         PERF = new PerformanceController();
         
-        MID = new GridPane();
-        MID.setHgap(15);
-        MID.setVgap(10);
-        MID.setAlignment(Pos.CENTER);
-        MID.setMinSize(200, 200);
-        MID.setPadding(new Insets(10, 10, 10, 10));
+        MIDCHOICE = new GridPane();
+        MIDCHOICE.setHgap(15);
+        MIDCHOICE.setVgap(10);
+        MIDCHOICE.setAlignment(Pos.CENTER);
+        MIDCHOICE.setMinSize(200, 200);
+        MIDCHOICE.setPadding(new Insets(10, 10, 10, 10));
+        
+        MIDGRAPH = new GridPane();
+        MIDGRAPH.setHgap(15);
+        MIDGRAPH.setVgap(10);
+        MIDGRAPH.setAlignment(Pos.CENTER);
+        MIDGRAPH.setMinSize(200, 200);
+        MIDGRAPH.setPadding(new Insets(10, 10, 10, 10));
+        
+        CHOICE = new Text();
+        CHOICE.setText("Choose graph frequency");
+        CHOICE.setFont(MYFONT.getOswaldRegular());
+        CHOICE.setFill(Color.GRAY);
+        
+        MIDGRAPH.add(CHOICE, 0, 0);
         
         TITLE = new Text();
         TITLE.setText("Stock Graph");
@@ -72,18 +88,14 @@ public class DesignGraph {
         FREQUENCY.setItems(OPTIONS);
         FREQUENCY.setOnAction(event ->{
             
-            MID.getChildren().clear();
+            MIDGRAPH.getChildren().clear();
             try {
                 SERIES = new XYChart.Series();
                 SERIES.setName("line");
                 
                // HISTORICAL = new String[9998][2];
                 String freq = (String) FREQUENCY.getValue();
-                if(!freq.equals("yearly")){
                     HISTORICAL = PERF.getHistPrices(INVESTNAME, freq);
-                }else{
-                    HISTORICAL = PERF.getYearlyPrices(INVESTNAME, freq);
-                }
                 System.out.println(HISTORICAL[0][1]);
                 
                 // Setting upper and lower bounds
@@ -125,16 +137,16 @@ public class DesignGraph {
                 Integer LENGTH = HISTORICAL.length -1;
                 if((Double.valueOf(HISTORICAL[0][1]) - Double.valueOf(HISTORICAL[LENGTH][1])) > 0){
                     SERIES.getNode().setStyle("-fx-stroke: #cc0000ff;");
-                   // line.setStyle("-fx-stroke: #cc0000ff;");
                 }else{
                     SERIES.getNode().setStyle("-fx-stroke: #7fff00;");
                 }
-                
-                MID.add(LINECHART, 0, 0);   
+                MIDGRAPH.add(LINECHART, 0, 0);   
             } catch (IOException ex) {
                 Logger.getLogger(DesignGraph.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        MIDCHOICE.add(FREQUENCY, 0, 0);
         
         BACKBTN = new Button();
         BACKBTN.setText("BACK");
@@ -149,7 +161,6 @@ public class DesignGraph {
             MAINWINDOW.setScene(DSADD.getScreen());
             MAINWINDOW.setTitle("Investment: " + INVESTNAME);
         });
-        MID.add(FREQUENCY, 0, 0);
         
         TOP = new GridPane();
         TOP.setHgap(37);
@@ -161,6 +172,12 @@ public class DesignGraph {
         BOTTOM.getChildren().add(BACKBTN);
         BOTTOM.setAlignment(Pos.BOTTOM_LEFT);
         BOTTOM.setPadding(new Insets(10, 10, 10, 15));
+        
+        MID = new HBox();
+        MID.getChildren().add(MIDCHOICE);
+        MID.getChildren().add(MIDGRAPH);
+        MID.setAlignment(Pos.BOTTOM_LEFT);
+        MID.setPadding(new Insets(10, 10, 10, 15));
         
         LAYOUT = new BorderPane();
         LAYOUT.setTop(TOP);

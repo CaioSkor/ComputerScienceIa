@@ -31,7 +31,7 @@ public class PerformanceController {
     private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE,  TOTALPROFIT, TOTALPROFITPERC;
     String LINE, URLSTRING;
     String[] COMPONENTS;
-    String[][] HISTORICALINFO, YEARLYINFO;
+    private String[][] HISTORICALINFO, HISTORICAL;
     URL URL;
     Scanner SCANNER;
     private Integer COUNT;
@@ -75,25 +75,18 @@ public class PerformanceController {
                 HISTORICALINFO[89-COUNT][1] = COMPONENTS[4];
                 COUNT++;
             }catch(NumberFormatException er){
-                System.out.println("PROBLEMS");
+                System.out.println("NOT DATE");
             }
         }
-        
-        System.out.println(COUNT);
-        if(freq.equals("yearly")){
-            YEARLYINFO = new String[COUNT][2];
-            Integer CHECK = 0;
-            for(int i=1; i <= COUNT; i++){
-                YEARLYINFO[COUNT-i][0] = HISTORICALINFO[89-CHECK][0];
-                YEARLYINFO[COUNT-i][1] = HISTORICALINFO[89-CHECK][1];
-                CHECK++;
-            }
-         //   System.out.println(HISTORICALINFO[73][0]);
-            System.out.println(HISTORICALINFO[89][0]);
-            System.out.println(YEARLYINFO[1][0]);
-        }
-        
         SCANNER.close();
+        
+        HISTORICAL = new String[COUNT][2];
+        Integer CHECK = 0;
+        for(int i=1; i <= COUNT; i++){
+            HISTORICAL[COUNT-i][0] = HISTORICALINFO[89-CHECK][0];
+            HISTORICAL[COUNT-i][1] = HISTORICALINFO[89-CHECK][1];
+            CHECK++;
+        }     
     }
     
     public String PerformanceCalc(String code, String price) throws IOException, ApiException{
@@ -210,12 +203,7 @@ public class PerformanceController {
     
     public String[][] getHistPrices(String code, String freq) throws IOException{
         getHistoricalPrices(code, freq);
-        return HISTORICALINFO;
-    }
-    
-    public String[][] getYearlyPrices(String code, String freq) throws IOException{
-        getHistoricalPrices(code, freq);
-        return YEARLYINFO;
+        return HISTORICAL;
     }
     
     public Integer getCount(String code, String freq) throws IOException{
