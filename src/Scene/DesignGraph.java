@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -74,30 +75,38 @@ public class DesignGraph {
             MID.getChildren().clear();
             try {
                 SERIES = new XYChart.Series();
+                SERIES.setName("line");
                 
-                HISTORICAL = new String[9998][2];
+               // HISTORICAL = new String[9998][2];
                 String freq = (String) FREQUENCY.getValue();
-                HISTORICAL = PERF.getHistPrices(INVESTNAME, freq);
-                System.out.println(PERF.getHistPrices(INVESTNAME, freq)[0][0]);
+                if(!freq.equals("yearly")){
+                    HISTORICAL = PERF.getHistPrices(INVESTNAME, freq);
+                }else{
+                    HISTORICAL = PERF.getYearlyPrices(INVESTNAME, freq);
+                }
+                System.out.println(HISTORICAL[0][1]);
                 
                 // Setting upper and lower bounds
                 Integer i = 0;
                 Double UPPER = Double.valueOf(HISTORICAL[0][1]);
                 Double LOWER = Double.valueOf(HISTORICAL[0][1]);
-                while(i < 90){
+                while(i < HISTORICAL.length){
+                    // Find the maximum vlaue
                     if(UPPER < Double.valueOf(HISTORICAL[i][1])){
                         UPPER = Double.valueOf(HISTORICAL[i][1]);
                     }
+                    // Find the minimum value
                     else if(LOWER > Double.valueOf(HISTORICAL[i][1])){
                         LOWER = Double.valueOf(HISTORICAL[i][1]);
                     }
                     i++;
                 }
+                // Set maximum and minimum on graph
                 UPPER = UPPER + (UPPER*10/100);
                 LOWER = LOWER - (LOWER*15/100);
                 
                 Integer INDEX = 0;
-                while(INDEX < 90){
+                while(INDEX < HISTORICAL.length){
                     SERIES.getData().add(new XYChart.Data(HISTORICAL[INDEX][0],Double.parseDouble(HISTORICAL[INDEX][1])));
                     INDEX++;
                 }
@@ -110,11 +119,21 @@ public class DesignGraph {
                 LINECHART = new LineChart<String, Number>(XAXIS, YAXIS);
                 LINECHART.getData().add(SERIES);
                 LINECHART.setCreateSymbols(false);
+                LINECHART.setLegendVisible(false);
+                
+                Node line = SERIES.getNode().lookup(".SERIES-SERIES-area-line;");
+                Integer LENGTH = HISTORICAL.length -1;
+                if((Double.valueOf(HISTORICAL[0][1]) - Double.valueOf(HISTORICAL[LENGTH][1])) > 0){
+                    SERIES.getNode().setStyle("-fx-stroke: #cc0000ff;");
+                   // line.setStyle("-fx-stroke: #cc0000ff;");
+                }else{
+                    SERIES.getNode().setStyle("-fx-stroke: #7fff00;");
+                }
+                
                 MID.add(LINECHART, 0, 0);   
             } catch (IOException ex) {
                 Logger.getLogger(DesignGraph.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         });
         
         BACKBTN = new Button();

@@ -30,8 +30,8 @@ public class PerformanceController {
     private URLConnection CON;
     private double PERFORMANCE, PERCENTAGEPERF, CURRENTPRICE, TOTALPERF, TOTALPERFORMANCEUNIT, TOTALPRICES, TOTALPERFORMANCEPERC, TOTALPERFORMANCEALL, TOTALGAINPERCENTAGE,  TOTALPROFIT, TOTALPROFITPERC;
     String LINE, URLSTRING;
-    String[] EXTRAMINILINE;
-    String[][] MINILINE;
+    String[] COMPONENTS;
+    String[][] HISTORICALINFO, YEARLYINFO;
     URL URL;
     Scanner SCANNER;
     private Integer COUNT;
@@ -62,27 +62,38 @@ public class PerformanceController {
         URLSTRING = "https://api.intrinio.com/prices.csv?identifier="+code+"&start_date=2000-01-01&frequency="+freq+"&sort_order=desc&page_size=90&api_key=OjExODcwODU1MGNkODYwY2Y4MWViZjQxM2FjZTMzY2Iw";
         URL = new URL(URLSTRING);
         
-        MINILINE = new String[90][2];
+        HISTORICALINFO = new String[90][2];
         COUNT = 0;
         SCANNER = new Scanner(URL.openStream());
   
-        System.out.println(COUNT);
-        LINE = "";
         while (SCANNER.hasNext()) {
             LINE = SCANNER.nextLine();
-            EXTRAMINILINE = LINE.split(",");
+            COMPONENTS = LINE.split(",");
             try{
-                Double.parseDouble(EXTRAMINILINE[2]);
-                MINILINE[89-COUNT][0] = EXTRAMINILINE[0];
-                MINILINE[89-COUNT][1] = EXTRAMINILINE[4];
+                Double.parseDouble(COMPONENTS[2]);
+                HISTORICALINFO[89-COUNT][0] = COMPONENTS[0];
+                HISTORICALINFO[89-COUNT][1] = COMPONENTS[4];
                 COUNT++;
             }catch(NumberFormatException er){
                 System.out.println("PROBLEMS");
             }
         }
+        
         System.out.println(COUNT);
+        if(freq.equals("yearly")){
+            YEARLYINFO = new String[COUNT][2];
+            Integer CHECK = 0;
+            for(int i=1; i <= COUNT; i++){
+                YEARLYINFO[COUNT-i][0] = HISTORICALINFO[89-CHECK][0];
+                YEARLYINFO[COUNT-i][1] = HISTORICALINFO[89-CHECK][1];
+                CHECK++;
+            }
+         //   System.out.println(HISTORICALINFO[73][0]);
+            System.out.println(HISTORICALINFO[89][0]);
+            System.out.println(YEARLYINFO[1][0]);
+        }
+        
         SCANNER.close();
-        System.out.println(LINE);
     }
     
     public String PerformanceCalc(String code, String price) throws IOException, ApiException{
@@ -199,7 +210,12 @@ public class PerformanceController {
     
     public String[][] getHistPrices(String code, String freq) throws IOException{
         getHistoricalPrices(code, freq);
-        return MINILINE;
+        return HISTORICALINFO;
+    }
+    
+    public String[][] getYearlyPrices(String code, String freq) throws IOException{
+        getHistoricalPrices(code, freq);
+        return YEARLYINFO;
     }
     
     public Integer getCount(String code, String freq) throws IOException{
