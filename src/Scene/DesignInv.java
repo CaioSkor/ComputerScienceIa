@@ -220,11 +220,11 @@ public class DesignInv {
         CODENAME = code;
     }
         
-    public void continueInv(Stage MAINWINDOW, Boolean BOOLE) throws IOException, ApiException{
+    public void continueInv(Stage MAINWINDOW, Boolean BOOLE, String CODENAME) throws IOException, ApiException{
         BOOL2 = false;
         if(!BOOLE){
             BOOL = true;
-            DSADD = new DesignAdd(MAINWINDOW,BOOL,0,CODENAME, BOOL2);
+            DSADD = new DesignAdd(MAINWINDOW,BOOL,16,CODENAME, BOOL2);
             MAINWINDOW.setScene(DSADD.getScreen());   
             MAINWINDOW.setTitle("Investment:" + CODENAME);
         }else{
@@ -250,7 +250,6 @@ public class DesignInv {
         MAINWINDOW.setScene(DSADD.getScreen());
         MAINWINDOW.setTitle("Investments");
     }
-    
     
     public void posRecoveryInv(Stage MAINWINDOW, String CODE) throws IOException, ApiException{
         BOOL = true;

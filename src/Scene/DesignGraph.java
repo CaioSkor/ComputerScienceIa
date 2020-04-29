@@ -66,33 +66,51 @@ public class DesignGraph {
         TITLE.setFont(MYFONT.getOswaldBold());
         TITLE.setFill(MYFONT.getTitleColor());
         
-        XAXIS = new CategoryAxis();
-        YAXIS = new NumberAxis();
-        LINECHART = new LineChart<String, Number>(XAXIS, YAXIS);
-        LINECHART.setCreateSymbols(false);
-        SERIES = new XYChart.Series();
-        
-     
-       ObservableList<String> OPTIONS = FXCollections.observableArrayList("daily", "weekly", "monthly", "yearly");
+        ObservableList<String> OPTIONS = FXCollections.observableArrayList("daily", "weekly", "monthly", "yearly");
         FREQUENCY = new ComboBox();
         FREQUENCY.setItems(OPTIONS);
         FREQUENCY.setOnAction(event ->{
+            
             MID.getChildren().clear();
             try {
+                SERIES = new XYChart.Series();
+                
                 HISTORICAL = new String[9998][2];
                 String freq = (String) FREQUENCY.getValue();
                 HISTORICAL = PERF.getHistPrices(INVESTNAME, freq);
                 System.out.println(PERF.getHistPrices(INVESTNAME, freq)[0][0]);
                 
+                // Setting upper and lower bounds
+                Integer i = 0;
+                Double UPPER = Double.valueOf(HISTORICAL[0][1]);
+                Double LOWER = Double.valueOf(HISTORICAL[0][1]);
+                while(i < 90){
+                    if(UPPER < Double.valueOf(HISTORICAL[i][1])){
+                        UPPER = Double.valueOf(HISTORICAL[i][1]);
+                    }
+                    else if(LOWER > Double.valueOf(HISTORICAL[i][1])){
+                        LOWER = Double.valueOf(HISTORICAL[i][1]);
+                    }
+                    i++;
+                }
+                UPPER = UPPER + (UPPER*10/100);
+                LOWER = LOWER - (LOWER*15/100);
+                
                 Integer INDEX = 0;
                 while(INDEX < 90){
-                 //   DATE = HISTORICAL[INDEX][0].split("-");
                     SERIES.getData().add(new XYChart.Data(HISTORICAL[INDEX][0],Double.parseDouble(HISTORICAL[INDEX][1])));
                     INDEX++;
                 }
-                LINECHART.getData().add(SERIES);
-                MID.add(LINECHART, 0, 0);
+                XAXIS = new CategoryAxis();
+                YAXIS = new NumberAxis(LOWER, UPPER, 5);
+
+                YAXIS.setUpperBound(UPPER);
+                YAXIS.setLowerBound(LOWER);
                 
+                LINECHART = new LineChart<String, Number>(XAXIS, YAXIS);
+                LINECHART.getData().add(SERIES);
+                LINECHART.setCreateSymbols(false);
+                MID.add(LINECHART, 0, 0);   
             } catch (IOException ex) {
                 Logger.getLogger(DesignGraph.class.getName()).log(Level.SEVERE, null, ex);
             }

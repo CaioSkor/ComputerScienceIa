@@ -73,6 +73,7 @@ public class DesignAdd {
         MYFONT = new FontMeUp();
         CHOICE = 1;
         DSINV = new DesignInv(MAINWINDOW, CHOICE);
+        INVESTCONTROL = new InvestmentController();
         
         BOTTOM = new HBox(30);
         
@@ -136,7 +137,6 @@ public class DesignAdd {
         REATXT.setFill(Color.GRAY);
         
         ComboBox comboBox = new ComboBox();
-        INVESTCONTROL = new InvestmentController();
         
         EXCHANGES = new ToggleGroup();
         if(!BOOL){
@@ -203,7 +203,7 @@ public class DesignAdd {
             RADBTN1.setOnAction(e -> {
                 BOOLE = false;
                 try {
-                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                    DSINV.continueInv(MAINWINDOW, BOOLE, INVESTCONTROL.getLastInvestment());
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ApiException ex) {
@@ -220,7 +220,7 @@ public class DesignAdd {
                 BOOLE = true;
                 try {
                     if(POS != 17){
-                        DSINV.continueInv(MAINWINDOW, BOOLE);
+                        DSINV.continueInv(MAINWINDOW, BOOLE, INVESTNAME);
                     }else{
                         DSINV.posAddContinueInv(MAINWINDOW, BOOLE);
                     }
@@ -247,7 +247,7 @@ public class DesignAdd {
             RADBTN6.setOnAction(e -> {
                 BOOLE = true;
                 try {
-                    DSINV.continueInv(MAINWINDOW, BOOLE);
+                    DSINV.continueInv(MAINWINDOW, BOOLE, INVESTNAME);
                 } catch (IOException ex) {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ApiException ex) {
@@ -379,15 +379,6 @@ public class DesignAdd {
                             }
                         }
                     }
-                BCKBTN.setOnAction(event ->{
-                        try {
-                            DSINV.backToAdd(MAINWINDOW);
-                        } catch (IOException ex) {
-                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ApiException ex) {
-                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    });
                 }         
             });
         }else{
@@ -612,46 +603,6 @@ public class DesignAdd {
                     Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            
-            if(!BOOL2){
-                BOOLE = true;
-                BCKBTN.setOnAction((ActionEvent e) -> {   
-                    try {
-                        DSINV.continueInv(MAINWINDOW, BOOLE);
-                    } catch (IOException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ApiException ex) {
-                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            }else{
-                BCKBTN.setOnAction((ActionEvent e) -> {
-                    if(POS>0){
-                        try {
-                            DSINV2 = new DesignInv(MAINWINDOW, 0);
-                            MAINWINDOW.setScene(DSINV2.getScreen());
-                            MAINWINDOW.setTitle("Investments");
-                        } catch (IOException ex) {
-                            Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                        }    
-                    }else{
-                        if(POS==-3){
-                           MAIN = new Design(MAINWINDOW);
-                           MAINWINDOW.setScene(MAIN.getScreen());
-                           MAINWINDOW.setTitle("Stock Organizer Software");
-                        }else{
-                            try {
-                                DSINV2 = new DesignInv(MAINWINDOW, CHOICE);
-                                ENTRANCE2 = DSINV2.getScreen();
-                                MAINWINDOW.setScene(DSINV2.getScreen());
-                                MAINWINDOW.setTitle("Investments");
-                            } catch (IOException ex) {
-                                Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                });
-            }
         }
         
         /* Panes */
@@ -698,19 +649,16 @@ public class DesignAdd {
         if (!BOOL){
             MID.add(SUBBTN, 2, 5);            
         }else{
-            if(POS==18){
-                BCKBTN.setOnAction(eventa ->{
+            if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
+                BCKBTN.setOnAction(event ->{
                     try {
-                        DSINV = new DesignInv(MAINWINDOW, 1);
+                        DSINV = new DesignInv(MAINWINDOW, 0);
                         MAINWINDOW.setScene(DSINV.getScreen());
-                        MAINWINDOW.setTitle("Investments");
+                        MAINWINDOW.setTitle("Deleted Investments");
                     } catch (IOException ex) {
                         Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-            }
-            
-            if(!TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[5].equals("000000")){
                 if(TOOLS.CheckSoldInvestments(TOOLS.TextBoxFiller("data/investment.txt",INVESTNAME)[0]) == 1){
                     PERFTOTALTXT.setText("Total performance");
                     MID.add(PERFTOTALTXT, 0, 7);
@@ -765,10 +713,30 @@ public class DesignAdd {
                 }
                 MID.add(DELTXT, 0, 6);
             }else{
+                BCKBTN.setOnAction(event ->{
+                    try {
+                        DSINV = new DesignInv(MAINWINDOW, 1);
+                        MAINWINDOW.setScene(DSINV.getScreen());
+                        MAINWINDOW.setTitle("Investments");
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
                 MID.add(PERFTXT, 2, 6);
                 MID.add(INDIVPERFTXT, 0, 7);
                 MID.add(PERFTOTALTXT, 0, 8);
                 MID.add(PERCENTAGEPERFTXT, 0, 9);                
+            }
+            if(POS==18){
+                BCKBTN.setOnAction(eventa ->{
+                    try {
+                        DSINV = new DesignInv(MAINWINDOW, 1);
+                        MAINWINDOW.setScene(DSINV.getScreen());
+                        MAINWINDOW.setTitle("Investments");
+                    } catch (IOException ex) {
+                        Logger.getLogger(DesignAdd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
             }
         }
         
