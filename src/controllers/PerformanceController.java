@@ -10,7 +10,6 @@ import com.intrinio.invoker.ApiClient;
 import com.intrinio.invoker.ApiException;
 import com.intrinio.invoker.Configuration;
 import com.intrinio.invoker.auth.ApiKeyAuth;
-import com.intrinio.models.ApiResponseSecurityStockPrices;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -18,7 +17,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.Scanner;
-import org.threeten.bp.LocalDate;
 
 
 /**
